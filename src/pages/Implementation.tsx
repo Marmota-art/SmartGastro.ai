@@ -28,6 +28,22 @@ export default function Implementation() {
                 Unsere KI-Lösung revolutioniert Ihre Vorbereitung. Durch die Analyse historischer Daten, Wettervorhersagen und lokaler Events berechnet die <SmartGastroText withEngine className="text-lg" /> präzise Prognosen für Ihren Tag.
               </p>
               
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <div className="bg-hellgrau px-6 py-4 rounded-2xl border border-black/5">
+                  <p className="text-xs uppercase tracking-widest text-anthrazit/50 mb-1">Passwort</p>
+                  <p className="text-xl font-mono font-bold text-accent">admin-123</p>
+                </div>
+                <a
+                  href="https://gemini.google.com/share/bcf2f6bba4e2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit flex items-center space-x-2"
+                >
+                  <LogIn size={20} />
+                  <span>Zum Demo-Login</span>
+                </a>
+              </div>
+              
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="p-6 bg-hellgrau rounded-2xl">
                   <BarChart3 className="text-primary mb-4" size={24} />
@@ -48,6 +64,7 @@ export default function Implementation() {
                 src="/assets/img/dashboard_demo.png"
                 alt="SmartGastro Engine Dashboard"
                 className="relative rounded-[2rem] shadow-2xl border border-black/5 w-full"
+                referrerPolicy="no-referrer"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/dashboard/1200/800';
                 }}
@@ -67,7 +84,8 @@ export default function Implementation() {
               <img
                 src="/assets/img/wireframe_demo.png"
                 alt="Development Process"
-                className="rounded-[2rem] shadow-xl w-full"
+                className="rounded-[2rem] shadow-xl w-full border border-black/5"
+                referrerPolicy="no-referrer"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/wireframe/1200/800';
                 }}

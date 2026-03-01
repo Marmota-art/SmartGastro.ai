@@ -34,22 +34,6 @@ export default function Services() {
                 Wir integrieren modernste KI-Modelle wie <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Google Gemini</a> und <a href="https://www.genspark.ai/invite_member?invite_code=NzRiNDY0NWFMY2Q4M0wwNDgwTDgxZTRMNzliZDRlOTU0Zjk3" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Genspark</a> für präzise Nachfrageprognosen und Prozessoptimierung.
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-6 mb-16">
-                <div className="bg-white/10 px-6 py-4 rounded-2xl border border-white/20">
-                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Passwort</p>
-                  <p className="text-xl font-mono font-bold text-accent">admin-123</p>
-                </div>
-                <a
-                  href="https://gemini.google.com/share/bcf2f6bba4e2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit flex items-center space-x-2"
-                >
-                  <LogIn size={20} />
-                  <span>Zum Demo-Login</span>
-                </a>
-              </div>
-              
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {AI_FEATURES.map((feature, idx) => (
                   <motion.div
