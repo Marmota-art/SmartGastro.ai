@@ -1,0 +1,11 @@
+This directory should contain the following images:
+- Bild_flambieren.jpeg
+- Bild_Kellner.jpeg
+- Bild_Koch_Tech.jpg
+- Bild_Rest_Tech.jpg
+- Bild_Rezeptionist.jpeg
+- Bild_SmarteSpeisekarte.jpeg
+- Bild_Zahlung.jpeg
+- Screenshot Titelseite.jpg
+- thomas-ballinari.jpg
+- Speisekarte_Solitüde_Testversion.png

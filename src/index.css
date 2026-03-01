@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  
+  --color-primary: #0B8F3E;
+  --color-accent: #FFD21E;
+  --color-anthrazit: #333333;
+  --color-hellgrau: #F7F7F7;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-anthrazit bg-white;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold;
+  }
+}
+
+.btn-xl {
+  @apply rounded-[2rem] px-8 py-3 transition-all duration-300 shadow-sm hover:shadow-md;
+}
+
+.card-shadow {
+  @apply shadow-[0_4px_20px_rgba(0,0,0,0.05)];
+}
+
+.bg-overlay {
+  @apply relative;
+}
+
+.bg-overlay::before {
+  content: "";
+  @apply absolute inset-0 bg-black/45 z-0;
+}
