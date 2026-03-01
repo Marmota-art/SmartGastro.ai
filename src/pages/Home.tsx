@@ -40,14 +40,6 @@ export default function Home() {
           >
             KI in der Gastronomie – Digitale Lösungen für smarte Gastgeber:innen
           </motion.h1>
-          <motion.p
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl font-medium mb-10"
-          >
-            Wir bereiten etwas Großartiges für Sie vor
-          </motion.p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <motion.button
               initial={{ y: 30, opacity: 0 }}
