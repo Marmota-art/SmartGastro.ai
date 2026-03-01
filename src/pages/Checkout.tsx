@@ -9,7 +9,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripePaymentForm from '../components/StripePaymentForm';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY 
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+  : Promise.resolve(null);
 
 type PaymentMethod = 'card' | 'paypal' | 'bank';
 
