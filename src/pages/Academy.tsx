@@ -35,9 +35,12 @@ export default function Academy() {
     <div className="py-24 bg-hellgrau">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-24">
-          <h1 className="text-4xl md:text-5xl mb-6">
+          <h1 className="text-4xl md:text-5xl mb-4">
             <SmartGastroText withAcademy />
           </h1>
+          <div className="inline-block px-6 py-2 bg-accent text-anthrazit text-sm font-bold rounded-full mb-8 tracking-[0.2em] uppercase shadow-sm">
+            Coming Soon
+          </div>
           <p className="text-xl text-anthrazit/70 max-w-3xl mx-auto leading-relaxed">
             Wählen Sie aus unseren spezialisierten Modulen. Kaufen Sie einzelne Lektionen nach Bedarf oder das Komplett-Paket zum Vorzugspreis.
           </p>
