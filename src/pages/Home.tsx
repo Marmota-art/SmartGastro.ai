@@ -20,15 +20,17 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative h-[85vh] flex items-center justify-center bg-overlay overflow-hidden">
+      <section className="relative h-[85vh] flex items-center justify-center bg-anthrazit overflow-hidden">
         <img
           src="/assets/img/Bild_Rest_Tech.jpg"
           alt="Smart Gastro Technology"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          referrerPolicy="no-referrer"
           onError={(e) => {
             (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/restaurant-tech/1920/1080?blur=2';
           }}
         />
+        <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
@@ -42,7 +44,7 @@ export default function Home() {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl font-medium mb-10 opacity-90"
+            className="text-xl md:text-2xl font-medium mb-10"
           >
             Wir bereiten etwas Großartiges für Sie vor
           </motion.p>
