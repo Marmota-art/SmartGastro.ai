@@ -92,29 +92,6 @@ export default function Implementation() {
           </div>
         </section>
 
-        {/* Demo Login CTA */}
-        <section className="mt-24 p-12 bg-anthrazit rounded-[3rem] text-white text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-primary/10 pointer-events-none"></div>
-          <h2 className="text-3xl font-display font-bold mb-6">Testen Sie unser Demo-Tool</h2>
-          <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">
-            Überzeugen Sie sich selbst von der Leistungsfähigkeit unserer Engine. Nutzen Sie den Demo-Zugang für einen ersten Einblick.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <div className="bg-white/10 px-6 py-4 rounded-2xl border border-white/20">
-              <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Passwort</p>
-              <p className="text-xl font-mono font-bold text-accent">admin-123</p>
-            </div>
-            <a
-              href="https://gemini.google.com/share/bcf2f6bba4e2"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit flex items-center space-x-2"
-            >
-              <LogIn size={20} />
-              <span>Zum Demo-Login</span>
-            </a>
-          </div>
-        </section>
       </div>
     </div>
   );
