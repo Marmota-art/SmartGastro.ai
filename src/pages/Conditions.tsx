@@ -1,8 +1,9 @@
 import { motion } from 'motion/react';
-import { CheckCircle2, ShieldCheck, Clock, UserCheck } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, Clock, UserCheck, CreditCard } from 'lucide-react';
 
 const CONDITIONS = [
   { title: 'Transparente Preise', icon: <CheckCircle2 size={28} />, desc: 'Keine versteckten Kosten. Alle Preise verstehen sich exkl. MwSt.' },
+  { title: 'Zahlungsarten', icon: <CreditCard size={28} />, desc: 'Wir akzeptieren alle gängigen Kreditkarten, TWINT und Banküberweisung.' },
   { title: 'Datenschutz & Sicherheit', icon: <ShieldCheck size={28} />, desc: 'Ihre Daten sind bei uns sicher. Wir halten uns an Schweizer Standards.' },
   { title: 'Flexibilität', icon: <Clock size={28} />, desc: 'Wir passen unsere Lösungen an Ihre individuellen Bedürfnisse an.' },
   { title: 'Persönlicher Support', icon: <UserCheck size={28} />, desc: 'Wir sind für Sie da, wenn Sie uns brauchen – vor Ort oder digital.' },

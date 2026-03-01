@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, ArrowRight, Sparkles, LayoutDashboard, Users, CreditCard, ClipboardList, Calendar } from 'lucide-react';
+import { CheckCircle, ArrowRight, Sparkles, LayoutDashboard, Users, CreditCard, ClipboardList, Calendar, Brain, LogIn } from 'lucide-react';
 import SmartGastroText from '../components/SmartGastroText';
 
 const CARDS = [
@@ -119,6 +119,64 @@ export default function Home() {
                 </Link>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Demo Section */}
+      <section className="py-24 bg-anthrazit text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center space-x-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-bold mb-8">
+                <Brain size={18} />
+                <span>KI-Lösung: <SmartGastroText withEngine dark /></span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-display font-bold mb-8 leading-tight">
+                Mise en place & <br />
+                <span className="text-accent text-3xl md:text-4xl">Vorhersageprognose</span>
+              </h2>
+              <p className="text-xl text-white/70 mb-12 leading-relaxed max-w-xl">
+                Unsere KI revolutioniert Ihre Vorbereitung. Durch Analyse von Wetter, Events und historischen Daten berechnet die <SmartGastroText withEngine className="text-lg" /> präzise Prognosen für Ihren Tag.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-6 mb-12">
+                <div className="bg-white/10 px-6 py-4 rounded-2xl border border-white/20 w-full sm:w-auto">
+                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Passwort</p>
+                  <p className="text-xl font-mono font-bold text-accent">admin-123</p>
+                </div>
+                <a
+                  href="https://gemini.google.com/share/bcf2f6bba4e2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit flex items-center justify-center space-x-2 w-full sm:w-auto"
+                >
+                  <LogIn size={20} />
+                  <span>Zum Demo-Login</span>
+                </a>
+              </div>
+              
+              <Link
+                to="/implementierung"
+                className="inline-flex items-center space-x-2 text-accent font-bold hover:underline group"
+              >
+                <span>Mehr zur Implementierung</span>
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute -inset-4 bg-white/5 rounded-[3rem] rotate-2"></div>
+              <img
+                src="/assets/img/dashboard_demo.png"
+                alt="SmartGastro Engine Dashboard"
+                className="relative rounded-[2rem] shadow-2xl border border-white/10 w-full"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/dashboard/1200/800';
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>

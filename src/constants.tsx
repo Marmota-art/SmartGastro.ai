@@ -13,6 +13,7 @@ export const NAV_LINKS = [
   { name: 'Über', href: '/ueber' },
   { name: 'Preise', href: '/preise' },
   { name: 'Leistungen', href: '/leistungen' },
+  { name: 'Implementierung', href: '/implementierung' },
   { name: 'Projektablauf', href: '/projektablauf' },
   { name: 'Konditionen', href: '/konditionen' },
   { name: 'Nächste Schritte', href: '/naechste-schritte' },
