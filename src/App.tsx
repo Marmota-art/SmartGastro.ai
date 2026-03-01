@@ -38,6 +38,7 @@ function ScrollToTop() {
   return null;
 }
 
+// Main application component with routing
 export default function App() {
   return (
     <ShopProvider>
