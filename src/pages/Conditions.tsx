@@ -41,12 +41,7 @@ export default function Conditions() {
           ))}
         </div>
 
-        <div className="mt-24 p-12 bg-primary rounded-[3rem] text-white text-center">
-          <h2 className="text-3xl font-display font-bold mb-6">Stundensatz KI-Spezialist</h2>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Für individuelle KI-Entwicklungen und Beratungen berechnen wir einen professionellen Stundensatz von CHF 180.– (exkl. MwSt.).
-          </p>
-        </div>
+
       </div>
     </div>
   );

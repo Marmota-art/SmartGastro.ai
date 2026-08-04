@@ -31,7 +31,7 @@ export default function Services() {
                 <h2 className="text-3xl md:text-4xl font-display font-bold">Erweiterungen mit KI-Technologien</h2>
               </div>
               <p className="text-xl text-white/70 mb-16 max-w-2xl leading-relaxed">
-                Wir integrieren modernste KI-Modelle wie <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Google Gemini</a> und <a href="https://www.genspark.ai/invite_member?invite_code=NzRiNDY0NWFMY2Q4M0wwNDgwTDgxZTRMNzliZDRlOTU0Zjk3" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Genspark</a> für präzise Nachfrageprognosen und Prozessoptimierung.
+                Wir integrieren modernste KI-Modelle wie <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Google Gemini</a> und <a href="https://www.genspark.ai/invite_member?invite_code=NzRiNDY0NWFMY2Q4M0wwNDgwTDgxZTRMNzliZDRlOTU0Zjk3" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Genspark</a> für präzise Nachfrageprognosen und Prozessoptimierung.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
