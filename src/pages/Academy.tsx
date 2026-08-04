@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PlayCircle, BookOpen, Award, CheckCircle, ArrowRight, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { PlayCircle, BookOpen, CheckCircle, ArrowRight, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SmartGastroText from '../components/SmartGastroText';
 import { useShop } from '../context/ShopContext';
@@ -176,8 +176,14 @@ export default function Academy() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-video bg-hellgrau rounded-3xl flex items-center justify-center overflow-hidden shadow-inner">
-                <Award size={120} className="text-primary/20" />
+              <div className="aspect-video bg-hellgrau rounded-3xl overflow-hidden shadow-inner">
+                <iframe
+                  src="https://www.youtube.com/embed/xEAaUUx6iMw"
+                  title="Datenbereinigung in der Gastronomie"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-accent p-8 rounded-3xl shadow-xl">
                 <p className="text-3xl font-display font-bold text-anthrazit">100%</p>
