@@ -38,7 +38,9 @@ export default function About() {
             <div className="relative">
               <div className="absolute -inset-4 bg-accent/20 rounded-[3rem] -rotate-3"></div>
               <img
-                src="/assets/img/Thomas_Ballinari.jpg"
+                src="/assets/img/Thomas_Ballinari_2026.webp"
+                width={800}
+                height={1000}
                 alt="Thomas Ballinari"
                 className="relative rounded-[3rem] shadow-2xl w-full object-cover aspect-[4/5]"
                 onError={(e) => {
