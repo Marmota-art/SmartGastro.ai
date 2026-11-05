@@ -9,31 +9,73 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import StripePaymentForm from '../components/StripePaymentForm';
 
-const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY 
-  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
-  : Promise.resolve(null);
+const STRIPE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string | undefined;
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID as string | undefined;
+const stripePromise = STRIPE_KEY ? loadStripe(STRIPE_KEY) : Promise.resolve(null);
+
+const encodeForm = (data: Record<string, string>) => new URLSearchParams(data).toString();
 
 type PaymentMethod = 'card' | 'paypal' | 'bank';
 
 export default function Checkout() {
   const { cart, cartTotal, cartCount, clearCart } = useShop();
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(STRIPE_KEY ? 'card' : 'bank');
   const [isProcessing, setIsProcessing] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
+  const [stripeError, setStripeError] = useState<string | null>(null);
+  const [customer, setCustomer] = useState({ name: '', email: '', firma: '' });
+  const [orderRef] = useState(() => `SG-${Date.now().toString(36).toUpperCase()}`);
+  const [orderError, setOrderError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (paymentMethod === 'card' && cartTotal > 0) {
+    if (paymentMethod === 'card' && STRIPE_KEY && cart.length > 0) {
+      setStripeClientSecret(null);
+      setStripeError(null);
       fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: cartTotal }),
+        body: JSON.stringify({ items: cart.map(({ id, quantity }) => ({ id, quantity })) }),
       })
-        .then((res) => res.json())
-        .then((data) => setStripeClientSecret(data.clientSecret))
-        .catch((err) => console.error('Error fetching Stripe secret:', err));
+        .then(async (res) => {
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Kartenzahlung ist derzeit nicht verfügbar.');
+          setStripeClientSecret(data.clientSecret);
+        })
+        .catch((err: Error) => setStripeError(err.message));
     }
-  }, [paymentMethod, cartTotal]);
+  }, [paymentMethod, cart]);
+
+  const submitBankOrder = async () => {
+    setOrderError(null);
+    if (!customer.name.trim() || !/^\S+@\S+\.\S+$/.test(customer.email)) {
+      setOrderError('Bitte Name und eine gültige E-Mail-Adresse angeben.');
+      return;
+    }
+    setIsProcessing(true);
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeForm({
+          'form-name': 'bestellung',
+          name: customer.name,
+          email: customer.email,
+          firma: customer.firma,
+          zahlungsart: 'Banküberweisung',
+          referenz: orderRef,
+          total: `CHF ${cartTotal.toFixed(2)}`,
+          positionen: cart.map((i) => `${i.quantity}x ${i.title} (CHF ${(i.price * i.quantity).toFixed(2)})`).join('\n'),
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      clearCart();
+      navigate('/thanks');
+    } catch {
+      setOrderError(`Die Bestellung konnte nicht übermittelt werden. Bitte schreiben Sie uns an ${BRAND.email}.`);
+      setIsProcessing(false);
+    }
+  };
 
   const handlePaymentSuccess = () => {
     setIsProcessing(true);
@@ -46,9 +88,6 @@ export default function Checkout() {
 
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (paymentMethod === 'bank') {
-      handlePaymentSuccess();
-    }
   };
 
   if (cartCount === 0) {
@@ -97,16 +136,18 @@ export default function Checkout() {
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button
+                {STRIPE_KEY && <button
+                  type="button"
                   onClick={() => setPaymentMethod('card')}
                   className={`p-6 rounded-2xl border-2 transition-all flex flex-col items-center text-center space-y-3 ${
                     paymentMethod === 'card' ? 'border-primary bg-primary/5' : 'border-black/5 hover:border-primary/30'
                   }`}
                 >
                   <CreditCard size={32} className={paymentMethod === 'card' ? 'text-primary' : 'text-anthrazit/40'} />
-                  <span className="font-bold">Kreditkarte</span>
-                </button>
-                <button
+                  <span className="font-bold">Kreditkarte / TWINT</span>
+                </button>}
+                {PAYPAL_CLIENT_ID && <button
+                  type="button"
                   onClick={() => setPaymentMethod('paypal')}
                   className={`p-6 rounded-2xl border-2 transition-all flex flex-col items-center text-center space-y-3 ${
                     paymentMethod === 'paypal' ? 'border-primary bg-primary/5' : 'border-black/5 hover:border-primary/30'
@@ -114,8 +155,9 @@ export default function Checkout() {
                 >
                   <Wallet size={32} className={paymentMethod === 'paypal' ? 'text-primary' : 'text-anthrazit/40'} />
                   <span className="font-bold">PayPal</span>
-                </button>
+                </button>}
                 <button
+                  type="button"
                   onClick={() => setPaymentMethod('bank')}
                   className={`p-6 rounded-2xl border-2 transition-all flex flex-col items-center text-center space-y-3 ${
                     paymentMethod === 'bank' ? 'border-primary bg-primary/5' : 'border-black/5 hover:border-primary/30'
@@ -144,7 +186,11 @@ export default function Checkout() {
                       exit={{ opacity: 0, y: -10 }}
                       className="space-y-4"
                     >
-                      {stripeClientSecret ? (
+                      {stripeError ? (
+                        <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium border border-red-100">
+                          {stripeError} Bitte wählen Sie Banküberweisung.
+                        </div>
+                      ) : stripeClientSecret ? (
                         <Elements stripe={stripePromise} options={{ clientSecret: stripeClientSecret }}>
                           <StripePaymentForm onSuccess={handlePaymentSuccess} amount={cartTotal} />
                         </Elements>
@@ -157,7 +203,7 @@ export default function Checkout() {
                     </motion.div>
                   )}
 
-                  {paymentMethod === 'paypal' && (
+                  {paymentMethod === 'paypal' && PAYPAL_CLIENT_ID && (
                     <motion.div
                       key="paypal"
                       initial={{ opacity: 0, y: 10 }}
@@ -165,7 +211,7 @@ export default function Checkout() {
                       exit={{ opacity: 0, y: -10 }}
                       className="text-center py-4"
                     >
-                      <PayPalScriptProvider options={{ "clientId": import.meta.env.VITE_PAYPAL_CLIENT_ID || "test" }}>
+                      <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "CHF" }}>
                         <PayPalButtons 
                           style={{ layout: "vertical", shape: "pill" }}
                           createOrder={(data, actions) => {
@@ -226,21 +272,45 @@ export default function Checkout() {
                           </div>
                           <div>
                             <span className="block text-[10px] font-bold text-anthrazit/40 uppercase tracking-widest mb-1">Verwendungszweck</span>
-                            <span className="font-bold">Bestellung #{Math.floor(Math.random() * 100000)}</span>
+                            <span className="font-bold">{orderRef}</span>
                           </div>
                         </div>
                         
                         <div className="flex items-center space-x-2 text-xs text-anthrazit/40 bg-white/50 p-3 rounded-xl italic">
                           <CheckCircle size={14} />
-                          <span>Ihr Zugang wird sofort nach Zahlungseingang freigeschaltet.</span>
+                          <span>Sie erhalten eine Bestätigung per E-Mail. Ihr Zugang wird nach Zahlungseingang freigeschaltet.</span>
                         </div>
                       </div>
 
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {([
+                          ['name', 'Name *', 'text'],
+                          ['email', 'E-Mail *', 'email'],
+                          ['firma', 'Firma / Betrieb (optional)', 'text'],
+                        ] as const).map(([key, label, type]) => (
+                          <label key={key} className={`space-y-2 block ${key === 'firma' ? 'md:col-span-2' : ''}`}>
+                            <span className="block text-sm font-bold uppercase tracking-wider text-anthrazit/60">{label}</span>
+                            <input
+                              type={type}
+                              value={customer[key]}
+                              onChange={(e) => setCustomer({ ...customer, [key]: e.target.value })}
+                              className="w-full px-6 py-4 bg-hellgrau rounded-2xl border-transparent focus:border-primary focus:bg-white focus:ring-0 transition-all outline-none"
+                            />
+                          </label>
+                        ))}
+                      </div>
+
+                      {orderError && (
+                        <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium border border-red-100">{orderError}</div>
+                      )}
+
                       <button
-                        onClick={handlePaymentSuccess}
-                        className="w-full py-6 rounded-2xl font-bold flex items-center justify-center space-x-3 transition-all shadow-xl bg-primary text-white hover:bg-accent hover:text-anthrazit shadow-primary/20"
+                        type="button"
+                        onClick={submitBankOrder}
+                        disabled={isProcessing}
+                        className="w-full py-6 rounded-2xl font-bold flex items-center justify-center space-x-3 transition-all shadow-xl bg-primary text-white hover:bg-accent hover:text-anthrazit shadow-primary/20 disabled:opacity-50"
                       >
-                        <span>Bestellung abschliessen</span>
+                        <span>{isProcessing ? 'Wird übermittelt…' : 'Bestellung verbindlich abschliessen'}</span>
                         <ArrowRight size={20} />
                       </button>
                     </motion.div>

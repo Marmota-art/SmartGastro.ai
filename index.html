@@ -1,13 +1,47 @@
 <!doctype html>
-<html lang="en">
+<html lang="de-CH">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartGastro.ai</title>
+    <title>SmartGastro.ai – KI für Gastronomie & Hotellerie in der Schweiz</title>
+    <meta name="description" content="SmartGastro.ai verbindet Ihre Kasse (z. B. WaiterOne) mit KI: Umsatzprognosen, Bestelloptimierung, Personalplanung, Menüanalyse und Anomalie-Erkennung – plus Websites und Schulungen für Gastronomie und Hotellerie." />
+    <meta name="theme-color" content="#0B8F3E" />
+    <link rel="canonical" href="https://smartgastro.ai/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SmartGastro.ai" />
+    <meta property="og:locale" content="de_CH" />
+    <meta property="og:url" content="https://smartgastro.ai/" />
+    <meta property="og:title" content="SmartGastro.ai – KI für Gastronomie & Hotellerie" />
+    <meta property="og:description" content="Prognosen, Bestellvorschläge und Personalplanung aus Ihren Kassendaten. Digitale Lösungen für smarte Gastgeber:innen." />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Statische Kopie des React-Formulars, damit Netlify Forms es beim Build erkennt -->
+    <form name="kontakt" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="kontakt" />
+      <input name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="firma" />
+      <textarea name="nachricht"></textarea>
+      <input type="checkbox" name="privacy" />
+    </form>
+    <form name="bestellung" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="bestellung" />
+      <input name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="firma" />
+      <input type="text" name="zahlungsart" />
+      <input type="text" name="referenz" />
+      <input type="text" name="total" />
+      <textarea name="positionen"></textarea>
+    </form>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
