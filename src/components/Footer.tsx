@@ -9,11 +9,11 @@ export default function Footer() {
       <div className="container-x pt-20 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-14 border-b border-white/10">
           <div className="md:col-span-5">
-            <Link to="/" aria-label="SmartGastro.ai – Startseite">
+            <Link to="/" aria-label="SmartGastro.ai Startseite">
               <SmartGastroText dark className="text-2xl" />
             </Link>
             <p className="mt-5 max-w-sm leading-relaxed text-white/65">
-              Kassensystem, Website, digitale Speisekarte und KI für Restaurants – alles aus einer Hand, umgesetzt von einem Koch, der den Alltag kennt.
+              Kassensystem, Website, digitale Speisekarte und KI für Restaurants aus einer Hand. Umgesetzt von einem Koch, der den Alltag in der Gastronomie kennt.
             </p>
             <Link to={CONTACT_HREF} className="btn-accent mt-8 !py-3 text-sm">
               Kostenloses Erstgespräch <ArrowUpRight size={16} />

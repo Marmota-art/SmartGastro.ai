@@ -47,7 +47,7 @@ export default function Academy() {
       <PageHero
         eyebrow="SmartGastro Academy"
         title={<>Lernen Sie, Ihren Betrieb <span className="text-forest">selbst</span> zu digitalisieren.</>}
-        lead="Praxisnahe Video-Kurse von einem Koch für Gastronomen. Kaufen Sie einzelne Lektionen nach Bedarf oder das Komplett-Paket – eine Lektion ist dann geschenkt."
+        lead="Praxisnahe Video-Kurse von einem Koch für Gastronomen. Kaufen Sie einzelne Lektionen nach Bedarf oder das Komplett-Paket, bei dem eine Lektion geschenkt ist."
       />
 
       <section className="pb-24">
@@ -139,12 +139,12 @@ export default function Academy() {
       <section className="py-24 bg-white border-y border-linie">
         <div className="container-x grid lg:grid-cols-2 gap-14 items-center">
           <Reveal>
-            <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />Warum die <SmartGastroText withAcademy className="!text-xs" /></p>
+            <p className="eyebrow mb-4">Warum die <SmartGastroText withAcademy className="!text-xs" /></p>
             <h2 className="h-section">Von Gastronomen für Gastronomen</h2>
             <ul className="mt-8 space-y-4">
               {[
                 'Praxisnahe Inhalte aus dem echten Gastro-Alltag',
-                'Jederzeit und überall verfügbar – auch auf dem Handy',
+                'Jederzeit und überall verfügbar, auch auf dem Handy',
                 'Zertifikat nach erfolgreichem Abschluss',
                 'Inklusive Vorlagen und Checklisten für Ihren Betrieb',
               ].map((b) => (
@@ -171,7 +171,7 @@ export default function Academy() {
         </div>
       </section>
 
-      <CtaBand title="Lieber begleitet statt allein?" text="Wenn Sie die Umsetzung nicht selbst machen möchten, übernehme ich das für Sie – vom Konzept bis zum Go-Live." />
+      <CtaBand title="Sie möchten Unterstützung bei der Umsetzung?" text="Wenn Sie die Umsetzung nicht selbst machen möchten, übernehme ich das für Sie, vom Konzept bis zum Go-Live." />
     </>
   );
 }

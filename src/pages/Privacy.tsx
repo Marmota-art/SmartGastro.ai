@@ -14,7 +14,8 @@ export default function Privacy() {
           <p>
             <SmartGastroText /><br />
             Thomas Ballinari<br />
-            CH–St. Gallen
+            Volksbadstrasse 17a<br />
+            9000 St. Gallen, Schweiz
           </p>
           
           <section>

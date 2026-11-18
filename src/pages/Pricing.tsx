@@ -62,7 +62,7 @@ const PACKAGES = [
 
 const FAQ = [
   { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich. Danach erhalten Sie ein massgeschneidertes Angebot für Ihren Betrieb.' },
-  { q: 'Warum «ab»-Preise?', a: 'Jeder Betrieb ist anders: Umfang der Karte, Anzahl Sprachen, Kassensystem. Den genauen Preis kennen Sie vor dem Start – ohne versteckte Kosten.' },
+  { q: 'Warum «ab»-Preise?', a: 'Jeder Betrieb ist anders: Umfang der Karte, Anzahl Sprachen, Kassensystem. Den genauen Preis kennen Sie vor dem Start, ohne versteckte Kosten.' },
   { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung planen wir so, dass der Go-Live ohne Betriebsunterbruch stattfindet.' },
   { q: 'Wie kann ich bezahlen?', a: 'Per Kreditkarte, TWINT oder Banküberweisung. Alle Preise verstehen sich exkl. 8.1 % MwSt.' },
   { q: 'Was ist, wenn ich zuerst selbst lernen möchte?', a: 'Dann ist die SmartGastro Academy ideal: Die Masterclass «Digitale Speisekarte» gibt es ab CHF 9 pro Lektion.' },
@@ -83,7 +83,7 @@ function Slider({ label, value, set, min, max, step, fmt }: SliderProps) {
   );
 }
 
-/** Beispielrechnung – alle Werte sind Annahmen des Nutzers, keine Versprechen. */
+/** Beispielrechnung: alle Werte sind Annahmen des Nutzers, keine Versprechen. */
 function WasteCalculator() {
   const [einsatz, setEinsatz] = useState(25000);
   const [anteil, setAnteil] = useState(8);
@@ -100,7 +100,7 @@ function WasteCalculator() {
       <div className="rounded-2xl bg-forest text-white p-8 text-center">
         <p className="text-sm text-white/70">Mögliches Sparpotenzial pro Jahr</p>
         <p className="font-display text-4xl md:text-5xl font-extrabold mt-2 text-accent">{chf(proJahr)}</p>
-        <p className="text-xs text-white/55 mt-4 leading-relaxed">Beispielrechnung mit Ihren Annahmen. Die tatsächliche Wirkung hängt von Ihrem Betrieb ab – im Erstgespräch rechnen wir es mit Ihren Zahlen durch.</p>
+        <p className="text-xs text-white/55 mt-4 leading-relaxed">Beispielrechnung mit Ihren Annahmen. Die tatsächliche Wirkung hängt von Ihrem Betrieb ab. Im Erstgespräch rechnen wir es mit Ihren Zahlen durch.</p>
         <Link to={CONTACT_HREF} className="btn-accent mt-6 !py-3 text-sm">Mit meinen Zahlen rechnen <ArrowRight size={16} /></Link>
       </div>
     </div>
@@ -114,12 +114,12 @@ export default function Pricing() {
     <>
       <PageMeta
         title="Preise & Pakete"
-        description="Transparente Preise für digitale Speisekarten (ab CHF 490), Order & Pay und Multi-Standort-Lösungen – dazu Kassensystem, Website und KI auf Anfrage. Erstgespräch kostenlos."
+        description="Transparente Preise für digitale Speisekarten (ab CHF 490), Order & Pay und Multi-Standort-Lösungen, dazu Kassensystem, Website und KI auf Anfrage. Erstgespräch kostenlos."
       />
       <PageHero
         eyebrow="Preise & Pakete"
-        title={<>Klare Preise. <span className="text-forest">Keine Überraschungen.</span></>}
-        lead="Wählen Sie das Paket, das zu Ihrem Betrieb passt. Alle Preise exkl. 8.1 % MwSt. – das Erstgespräch ist immer kostenlos."
+        title={<>Preise und <span className="text-forest">Pakete</span></>}
+        lead="Wählen Sie das Paket, das zu Ihrem Betrieb passt. Alle Preise exkl. 8.1 % MwSt. Das Erstgespräch ist immer kostenlos."
       />
 
       <section className="pb-24">
@@ -161,9 +161,9 @@ export default function Pricing() {
           <div className="rounded-[2rem] bg-forest text-white p-8 md:p-12 grid lg:grid-cols-[1fr_1.3fr] gap-10 relative overflow-hidden grain">
             <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/50 blur-3xl" />
             <div className="relative">
-              <p className="eyebrow !text-accent mb-4"><span className="w-6 h-px bg-accent" />Rundum-Service</p>
-              <h2 className="text-3xl md:text-4xl leading-tight">Weitere Leistungen – einzeln oder als Komplettpaket</h2>
-              <p className="mt-4 text-white/75 leading-relaxed">Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Nach dem kostenlosen Erstgespräch erhalten Sie ein verbindliches Angebot – ohne versteckte Kosten.</p>
+              <p className="eyebrow !text-accent mb-4">Rundum-Service</p>
+              <h2 className="text-3xl md:text-4xl leading-tight">Weitere Leistungen, einzeln oder als Komplettpaket</h2>
+              <p className="mt-4 text-white/75 leading-relaxed">Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Nach dem kostenlosen Erstgespräch erhalten Sie ein verbindliches Angebot ohne versteckte Kosten.</p>
               <Link to={CONTACT_HREF} className="btn-accent mt-7">Angebot anfragen <ArrowRight size={16} /></Link>
             </div>
             <ul className="relative divide-y divide-white/10 self-center">
@@ -174,7 +174,7 @@ export default function Pricing() {
                 ['Restaurant-Website & Design', 'auf Anfrage'],
                 ['Schnittstellen & Verbindungen', 'auf Anfrage'],
                 ['KI-Lösungen (SmartGastro Engine)', 'auf Anfrage'],
-                ['Komplettpaket – alles aus einer Hand', 'individuelles Angebot'],
+                ['Komplettpaket aus einer Hand', 'individuelles Angebot'],
               ].map(([t, p]) => (
                 <li key={t} className="flex justify-between gap-4 py-3.5">
                   <span className="font-medium">{t}</span>

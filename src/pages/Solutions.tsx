@@ -27,7 +27,7 @@ function Points({ items, dark = false }: { items: string[]; dark?: boolean }) {
 function Eyebrow({ n, children, dark = false }: { n: string; children: ReactNode; dark?: boolean }) {
   return (
     <p className={`eyebrow mb-4 ${dark ? '!text-accent' : ''}`}>
-      <span className={`w-6 h-px ${dark ? 'bg-accent' : 'bg-primary'}`} />{n} · {children}
+      {n} · {children}
     </p>
   );
 }
@@ -46,10 +46,10 @@ function SubCard({ id }: { id: string }) {
 }
 
 const AI_FEATURES = [
-  { title: 'Nachfrage-Prognosen', icon: <TrendingUp size={22} />, desc: 'Gästezahl und Umsatz pro Tag – für Einkauf und Personalplanung.' },
+  { title: 'Nachfrage-Prognosen', icon: <TrendingUp size={22} />, desc: 'Gästezahl und Umsatz pro Tag als Grundlage für Einkauf und Personalplanung.' },
   { title: 'Mise-en-place-Vorgaben', icon: <SlidersHorizontal size={22} />, desc: 'Genaue Mengen für die Küche, damit weniger im Abfall landet.' },
   { title: 'Rezept-Kalkulation', icon: <Calculator size={22} />, desc: 'Deckungsbeiträge und Wareneinsatz automatisch berechnet.' },
-  { title: 'Upsell-Empfehlungen', icon: <ShoppingCart size={22} />, desc: 'Passende Vorschläge für Ihre Gäste – für einen höheren Durchschnittsbon.' },
+  { title: 'Upsell-Empfehlungen', icon: <ShoppingCart size={22} />, desc: 'Passende Vorschläge für Ihre Gäste, die den Durchschnittsbon erhöhen.' },
   { title: 'Lager-Alerts', icon: <Bell size={22} />, desc: 'Hinweise bei drohenden Engpässen oder Überbeständen.' },
   { title: 'Kassen-Anbindung', icon: <Plug size={22} />, desc: 'Die Engine lernt direkt aus Ihren bestehenden Kassendaten.' },
 ];
@@ -122,11 +122,11 @@ export default function Solutions() {
     <>
       <PageMeta
         title="Leistungen: Kassensystem, Website, Speisekarte und KI aus einer Hand"
-        description="Beratung, Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay, Schnittstellen und KI-Lösungen – alles aus einer Hand für Schweizer Gastrobetriebe."
+        description="Beratung, Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay, Schnittstellen und KI-Lösungen aus einer Hand für Schweizer Gastrobetriebe."
       />
       <PageHero
         eyebrow="Leistungen"
-        title={<>Alles, was Ihr Restaurant digital braucht – <span className="text-forest">aus einer Hand.</span></>}
+        title={<>Alles, was Ihr Restaurant digital braucht, <span className="text-forest">aus einer Hand.</span></>}
         lead="Von der ersten Analyse über Kassensystem und Website bis zur KI: Ich kümmere mich um alles und bin Ihr einziger Ansprechpartner. Einzeln buchbar oder als Komplettpaket."
       >
         <div className="mt-9 flex flex-col sm:flex-row gap-3">
@@ -146,10 +146,10 @@ export default function Solutions() {
         <div className="container-x">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <Reveal>
-              <Eyebrow n="01–03">Beratung & Kassensystem</Eyebrow>
-              <h2 className="h-section">Die richtige Kasse – richtig eingerichtet.</h2>
+              <Eyebrow n="01 bis 03">Beratung & Kassensystem</Eyebrow>
+              <h2 className="h-section">Die passende Kasse, sauber eingerichtet.</h2>
               <p className="lead mt-5">
-                Die Kasse ist das Herzstück Ihres Betriebs. Ich analysiere Ihre Abläufe, helfe bei der Wahl des passenden Systems und richte es komplett ein – so, dass Service und Küche vom ersten Abend an damit arbeiten können.
+                Die Kasse ist das Herzstück Ihres Betriebs. Ich analysiere Ihre Abläufe, helfe bei der Wahl des passenden Systems und richte es komplett ein, damit Service und Küche vom ersten Abend an damit arbeiten können.
               </p>
             </Reveal>
             <Reveal delay={0.1}>
@@ -172,7 +172,7 @@ export default function Solutions() {
           <Reveal className="lg:order-2">
             <Eyebrow n="04">Website & Design</Eyebrow>
             <h2 className="h-section">Eine Website, die Gäste an den Tisch bringt.</h2>
-            <p className="lead mt-5">{svc('website').short} Ihre Speisekarte und Öffnungszeiten pflegen Sie an einem Ort – die Website ist immer aktuell.</p>
+            <p className="lead mt-5">{svc('website').short} Ihre Speisekarte und Öffnungszeiten pflegen Sie an einem Ort, so ist die Website immer aktuell.</p>
             <Points items={[...svc('website').points, 'Reservations- und Kontaktmöglichkeit', 'Hosting und Pflege auf Wunsch inklusive']} />
             <div className="mt-8"><Link to={CONTACT_HREF} className="btn-primary">Website anfragen <ArrowRight size={18} /></Link></div>
           </Reveal>
@@ -187,7 +187,7 @@ export default function Solutions() {
             <Eyebrow n="05">Digitale Speisekarte & Order & Pay</Eyebrow>
             <h2 className="h-section">Bestellen und bezahlen direkt am Tisch.</h2>
             <p className="lead mt-5">
-              Mehr als ein PDF auf dem Handy: eine interaktive Karte im Look Ihres Betriebs – auf Wunsch mit Bestellen und Bezahlen am Tisch. Die Bestellung geht ohne Umweg an Küche und Kasse.
+              Mehr als ein PDF auf dem Handy: eine interaktive Karte im Look Ihres Betriebs, auf Wunsch mit Bestellen und Bezahlen am Tisch. Die Bestellung geht ohne Umweg an Küche und Kasse.
             </p>
             <Points items={['Zugriff per QR-Code, ohne App', 'Mehrsprachig, mit Bildern und Allergenen', 'Bestellen und Bezahlen am Tisch', 'Preise und Tagesangebote in Echtzeit ändern']} />
             <p className="mt-6 text-sm text-anthrazit/55">Im Einsatz: Pizzeria Di Grano, St. Gallen</p>
@@ -210,9 +210,9 @@ export default function Solutions() {
         <div className="container-x grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <Reveal className="lg:order-2">
             <Eyebrow n="06">Schnittstellen & Verbindungen</Eyebrow>
-            <h2 className="h-section">Ein System statt Insellösungen.</h2>
+            <h2 className="h-section">Alle Systeme sind verbunden.</h2>
             <p className="lead mt-5">
-              Kasse, Website, Speisekarte, Bestellungen und KI arbeiten zusammen. Ein Preis wird einmal geändert und stimmt überall – keine doppelte Erfassung, keine Excel-Listen.
+              Kasse, Website, Speisekarte, Bestellungen und KI arbeiten zusammen. Ein Preis wird einmal geändert und stimmt danach überall. Doppelte Erfassung und Excel-Listen fallen weg.
             </p>
             <Points items={svc('schnittstellen').points} />
           </Reveal>
@@ -234,7 +234,7 @@ export default function Solutions() {
                 Die Engine analysiert Ihre Kassendaten, Wettervorhersagen und lokale Events und berechnet präzise Prognosen für Ihren Tag: wie viele Gäste kommen, was die Küche vorbereiten soll und wo Sie Personal sparen können.
               </p>
               <p className="mt-4 text-white/75 leading-relaxed">
-                Entwickelt mit echten Betriebsdaten – unter anderem mit mehrjährigen Kassendaten des Restaurants Löwenburg in Lienz. Der Küchenchef behält das letzte Wort: Manuelle Korrekturen sind jederzeit möglich, die KI lernt daraus.
+                Entwickelt mit echten Betriebsdaten, unter anderem mit mehrjährigen Kassendaten des Restaurants Löwenburg in Lienz. Der Küchenchef behält das letzte Wort: Manuelle Korrekturen sind jederzeit möglich, die KI lernt daraus.
               </p>
 
               <div className="mt-8 rounded-2xl bg-white/[0.07] border border-white/15 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -281,7 +281,7 @@ export default function Solutions() {
         <div className="container-x grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
           <Reveal>
             <Eyebrow n="08">Schulung & Betreuung</Eyebrow>
-            <h2 className="h-section">Ihr Team kann es. Und ich bleibe da.</h2>
+            <h2 className="h-section">Schulung und Betreuung nach dem Start</h2>
             <p className="lead mt-5">{svc('schulung').short}</p>
             <Points items={[...svc('schulung').points, 'Video-Kurse der SmartGastro Academy für neue Mitarbeitende']} />
           </Reveal>
@@ -289,14 +289,14 @@ export default function Solutions() {
             <div className="rounded-[2rem] bg-accent p-8 md:p-10">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-anthrazit/60">Komplettpaket</p>
               <p className="font-display text-3xl md:text-4xl font-extrabold mt-3 leading-tight">Ein Ansprechpartner für Ihr ganzes Restaurant.</p>
-              <p className="mt-4 text-anthrazit/75 leading-relaxed">Beratung, Kasse, Website, Speisekarte, Schnittstellen und KI – geplant als ein Projekt, mit einem verbindlichen Angebot nach dem Erstgespräch.</p>
+              <p className="mt-4 text-anthrazit/75 leading-relaxed">Beratung, Kasse, Website, Speisekarte, Schnittstellen und KI, geplant als ein Projekt mit einem verbindlichen Angebot nach dem Erstgespräch.</p>
               <Link to={CONTACT_HREF} className="btn-primary mt-7">Komplettpaket anfragen <ArrowRight size={18} /></Link>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <CtaBand title="Welche Leistungen braucht Ihr Betrieb?" text="Im kostenlosen Erstgespräch schauen wir, wo Sie heute stehen – und was sich für Sie wirklich lohnt." />
+      <CtaBand title="Welche Leistungen braucht Ihr Betrieb?" text="Im kostenlosen Erstgespräch schauen wir, wo Sie heute stehen und was sich für Sie lohnt." />
     </>
   );
 }

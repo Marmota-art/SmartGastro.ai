@@ -7,17 +7,17 @@ import { CONTACT_HREF } from '../constants';
 const STEPS = [
   { title: 'Erstgespräch', icon: <Search size={22} />, desc: 'Wir lernen uns kennen und klären, wo es in Ihrem Betrieb am meisten drückt. Kostenlos und unverbindlich.' },
   { title: 'Analyse & Konzept', icon: <FileText size={22} />, desc: 'Ich analysiere Abläufe, Speisekarte und Kasse und erstelle ein individuelles Konzept mit massgeschneidertem Angebot.' },
-  { title: 'Bearbeitung Ihrer Daten', icon: <Database size={22} />, desc: 'Import, Strukturierung und Qualitätsprüfung Ihrer Daten – Speisekarte, Artikel, Kassendaten – unter Wahrung des Datenschutzes.' },
-  { title: 'Einrichtung & Schulung', icon: <Settings size={22} />, desc: 'Ich richte die Systeme ein und schule Ihr Team – vor Ort oder online, abgestimmt auf Ihre Öffnungszeiten.' },
+  { title: 'Bearbeitung Ihrer Daten', icon: <Database size={22} />, desc: 'Import, Strukturierung und Qualitätsprüfung Ihrer Daten wie Speisekarte, Artikel und Kassendaten, unter Wahrung des Datenschutzes.' },
+  { title: 'Einrichtung & Schulung', icon: <Settings size={22} />, desc: 'Ich richte die Systeme ein und schule Ihr Team vor Ort oder online, abgestimmt auf Ihre Öffnungszeiten.' },
   { title: 'Go-Live & Begleitung', icon: <Rocket size={22} />, desc: 'Start ohne Betriebsunterbruch. Danach bleibe ich Ihr Ansprechpartner für Fragen und Weiterentwicklung.' },
 ];
 
 const CONDITIONS = [
   { title: 'Transparente Preise', icon: <CheckCircle2 size={22} />, desc: 'Keine versteckten Kosten. Alle Preise verstehen sich exkl. 8.1 % MwSt.' },
   { title: 'Zahlungsarten', icon: <CreditCard size={22} />, desc: 'Kreditkarte, TWINT und Banküberweisung.' },
-  { title: 'Datenschutz & Sicherheit', icon: <ShieldCheck size={22} />, desc: 'Ihre Daten bleiben geschützt – nach Schweizer Datenschutzgesetz.' },
-  { title: 'Flexibilität', icon: <Clock size={22} />, desc: 'Lösungen, die sich an Ihre Abläufe anpassen – nicht umgekehrt.' },
-  { title: 'Persönlicher Support', icon: <UserCheck size={22} />, desc: 'Ein fester Ansprechpartner – vor Ort oder digital.' },
+  { title: 'Datenschutz & Sicherheit', icon: <ShieldCheck size={22} />, desc: 'Ihre Daten bleiben geschützt, nach Schweizer Datenschutzgesetz.' },
+  { title: 'Flexibilität', icon: <Clock size={22} />, desc: 'Die Lösungen passen sich an Ihre Abläufe an.' },
+  { title: 'Persönlicher Support', icon: <UserCheck size={22} />, desc: 'Ein fester Ansprechpartner, vor Ort oder digital.' },
 ];
 
 export default function HowWeWork() {
@@ -29,7 +29,7 @@ export default function HowWeWork() {
       />
       <PageHero
         eyebrow="So arbeiten wir"
-        title={<>Vom ersten Gespräch bis zum <span className="text-forest whitespace-nowrap">Go-Live</span> – klar und persönlich.</>}
+        title={<>Vom ersten Gespräch bis zum <span className="text-forest whitespace-nowrap">Go-Live</span></>}
         lead="Fünf Schritte, ein Ansprechpartner und keine Überraschungen bei den Kosten."
       >
         <div className="mt-9">

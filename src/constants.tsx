@@ -3,7 +3,7 @@ import SmartGastroText from './components/SmartGastroText';
 export const BRAND = {
   name: 'SmartGastro.ai',
   email: 'hello@smartgastro.ai',
-  location: 'CH-9000 St. Gallen',
+  location: 'Volksbadstrasse 17a, 9000 St. Gallen',
   iban: 'CH78 8080 8008 6231 9985 7',
   bank: 'Raiffeisenbank Oberes Rheintal'
 };
@@ -30,13 +30,13 @@ export const SERVICES = [
   {
     id: 'beratung',
     title: 'Beratung & Analyse',
-    short: 'Wir schauen uns Service, Küche, Abläufe und Zahlen an – und zeigen, wo Digitalisierung am meisten bringt.',
+    short: 'Wir schauen uns Service, Küche, Abläufe und Zahlen an und zeigen Ihnen, wo Digitalisierung am meisten bringt.',
     points: ['Analyse der Service-Abläufe', 'Digitaler Check Ihres Betriebs', 'Klare Roadmap mit Prioritäten'],
   },
   {
     id: 'kassenwahl',
     title: 'Kassensystem-Auswahl',
-    short: 'Die passende Kasse für Ihren Betrieb – verglichen nach Funktionen, Kosten und Schnittstellen.',
+    short: 'Gemeinsam finden wir die passende Kasse für Ihren Betrieb. Wir vergleichen Funktionen, Kosten und Schnittstellen.',
     points: ['Anforderungen definieren', 'Anbieter vergleichen', 'Empfehlung, die zu Ihnen passt'],
   },
   {
@@ -48,20 +48,20 @@ export const SERVICES = [
   {
     id: 'website',
     title: 'Website & Design',
-    short: 'Eine moderne Restaurant-Website, die auf dem Handy überzeugt – mit Speisekarte, Fotos und Kontakt.',
+    short: 'Eine moderne Restaurant-Website mit Speisekarte, Fotos und Kontakt, die auch auf dem Handy gut aussieht.',
     points: ['Design im Look Ihres Betriebs', 'Optimiert für Handy und Google', 'Speisekarte direkt eingebunden'],
   },
   {
     id: 'speisekarte',
     title: 'Digitale Speisekarte & Order & Pay',
-    short: 'QR-Speisekarte am Tisch, auf Wunsch mit Bestellen und Bezahlen – direkt verbunden mit Ihrer Kasse.',
+    short: 'QR-Speisekarte am Tisch, auf Wunsch mit Bestellen und Bezahlen. Alles ist direkt mit Ihrer Kasse verbunden.',
     points: ['QR-Speisekarte, mehrsprachig', 'Bestellen und Bezahlen am Tisch', 'Preise in Echtzeit ändern'],
   },
   {
     id: 'schnittstellen',
     title: 'Schnittstellen & Verbindungen',
-    short: 'Kasse, Website, Speisekarte und Daten arbeiten zusammen – statt doppelt erfasst zu werden.',
-    points: ['Kasse ↔ Speisekarte ↔ Website', 'Datenexporte und Berichte', 'Ein System statt Insellösungen'],
+    short: 'Kasse, Website, Speisekarte und Daten sind verbunden. Nichts muss doppelt erfasst werden.',
+    points: ['Kasse, Speisekarte und Website verbunden', 'Datenexporte und Berichte', 'Weniger Handarbeit im Büro'],
   },
   {
     id: 'engine',
@@ -77,7 +77,7 @@ export const SERVICES = [
   },
 ];
 
-/** Referenzkunden – nur belegte Fakten, keine erfundenen Kennzahlen. */
+/** Referenzkunden: nur belegte Fakten, keine erfundenen Kennzahlen. */
 export const REFERENCES = [
   {
     id: 'loewenburg',
@@ -97,7 +97,7 @@ export const REFERENCES = [
     place: 'St. Gallen',
     type: 'Pizzeria',
     project: 'Digitale QR-Speisekarte',
-    text: 'Digitale Speisekarte im Look der Pizzeria, erreichbar über QR-Codes am Tisch. Änderungen an Gerichten und Preisen sind sofort für alle Gäste sichtbar – ohne Neudruck.',
+    text: 'Digitale Speisekarte im Look der Pizzeria, erreichbar über QR-Codes am Tisch. Änderungen an Gerichten und Preisen sind sofort für alle Gäste sichtbar, ein Neudruck ist nicht nötig.',
     tags: ['QR-Speisekarte', 'Design im Corporate Look', 'Tisch-QR'],
     img: '/assets/img/v2/ref-digrano-raum.webp',
     logo: '/assets/img/v2/logo-digrano.webp',
@@ -109,7 +109,7 @@ export const REFERENCES = [
     place: 'St. Gallen',
     type: 'Restaurant & Café',
     project: 'Kassen- und Bestelllösung (Pilot)',
-    text: 'Pilotprojekt für eine schlanke, browserbasierte Kassen- und Bestelllösung, zugeschnitten auf die Abläufe im Café Park – vom Tisch bis zur Abrechnung.',
+    text: 'Pilotprojekt für eine schlanke, browserbasierte Kassen- und Bestelllösung, zugeschnitten auf die Abläufe im Café Park, vom Tisch bis zur Abrechnung.',
     tags: ['Kassensystem', 'Bestellung am Tisch', 'Tablet'],
     img: null as string | null,
     logo: null as string | null,

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
-/** Kompakter Hinweis unten links – verdeckt keine Buttons. Die Seite setzt keine Tracking-Cookies. */
+/** Kompakter Hinweis unten rechts, verdeckt keine Buttons. Die Seite setzt keine Tracking-Cookies. */
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
 

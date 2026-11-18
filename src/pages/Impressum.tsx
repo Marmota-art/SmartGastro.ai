@@ -13,7 +13,8 @@ export default function Impressum() {
             <p>
               <SmartGastroText /><br />
               Thomas Ballinari<br />
-              CH–St. Gallen<br />
+              Volksbadstrasse 17a<br />
+              9000 St. Gallen<br />
               Schweiz
             </p>
             <p className="mt-4">

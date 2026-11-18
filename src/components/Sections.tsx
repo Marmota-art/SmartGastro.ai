@@ -22,7 +22,7 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
 export function SectionHead({ eyebrow, title, lead, center = false }: { eyebrow?: string; title: ReactNode; lead?: ReactNode; center?: boolean }) {
   return (
     <div className={`max-w-3xl ${center ? 'mx-auto text-center' : ''}`}>
-      {eyebrow && <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />{eyebrow}</p>}
+      {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
       <h2 className="h-section">{title}</h2>
       {lead && <p className="lead mt-5">{lead}</p>}
     </div>
@@ -35,7 +35,7 @@ export function PageHero({ eyebrow, title, lead, children }: { eyebrow: string; 
     <section className="pt-14 pb-16 md:pt-20 md:pb-20">
       <div className="container-x">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-4xl">
-          <p className="eyebrow mb-5"><span className="w-6 h-px bg-primary" />{eyebrow}</p>
+          <p className="eyebrow mb-5">{eyebrow}</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">{title}</h1>
           {lead && <p className="lead mt-6 max-w-2xl">{lead}</p>}
           {children}
@@ -98,7 +98,7 @@ export function ReferenceGrid() {
   );
 }
 
-export function CtaBand({ title = 'Bereit für weniger Hektik und mehr Gastgeber-Zeit?', text = 'Im kostenlosen Erstgespräch schauen wir gemeinsam, wo in Ihrem Betrieb Digitalisierung am meisten bringt – ehrlich und ohne Verkaufsdruck.' }: { title?: string; text?: string }) {
+export function CtaBand({ title = 'Lassen Sie uns über Ihren Betrieb sprechen.', text = 'Im kostenlosen Erstgespräch schauen wir gemeinsam, wo Digitalisierung in Ihrem Betrieb am meisten bringt. Ehrlich und unverbindlich.' }: { title?: string; text?: string }) {
   return (
     <section className="py-20">
       <div className="container-x">
@@ -129,7 +129,7 @@ export function ContactSection() {
           <SectionHead
             eyebrow="Kontakt"
             title={<>Kostenloses Erstgespräch</>}
-            lead="Erzählen Sie mir kurz von Ihrem Betrieb. Ich melde mich persönlich bei Ihnen und schlage Ihnen einen Termin vor – vor Ort oder online."
+            lead="Erzählen Sie mir kurz von Ihrem Betrieb. Ich melde mich persönlich bei Ihnen und schlage Ihnen einen Termin vor, bei Ihnen vor Ort oder online."
           />
           <ul className="mt-10 space-y-4">
             {[
@@ -148,7 +148,7 @@ export function ContactSection() {
             <div className="text-sm">
               <p className="font-semibold">Thomas Ballinari</p>
               <a href={`mailto:${BRAND.email}`} className="text-forest hover:underline">{BRAND.email}</a>
-              <p className="flex items-center gap-1.5 text-anthrazit/55 mt-1"><Clock size={13} /> Persönliche Antwort – kein Callcenter</p>
+              <p className="flex items-center gap-1.5 text-anthrazit/55 mt-1"><Clock size={13} /> Sie erhalten eine persönliche Antwort</p>
             </div>
           </div>
         </div>

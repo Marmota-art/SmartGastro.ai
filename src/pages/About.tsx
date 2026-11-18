@@ -8,7 +8,7 @@ import { BRAND, CONTACT_HREF } from '../constants';
 const PATH = [
   { icon: <ChefHat size={20} />, title: 'Gelernter Koch', text: 'Das Handwerk von der Pike auf gelernt.' },
   { icon: <Utensils size={20} />, title: 'Küchenchef', text: 'Verantwortung für Team, Einkauf und Kalkulation.' },
-  { icon: <Building2 size={20} />, title: 'Pächter eines grossen Landgasthofs', text: 'Über viele Jahre unternehmerisch geführt – mit allen Höhen und Tiefen.' },
+  { icon: <Building2 size={20} />, title: 'Pächter eines grossen Landgasthofs', text: 'Über viele Jahre als Unternehmer geführt, mit allen Höhen und Tiefen.' },
   { icon: <Sparkles size={20} />, title: 'Zertifizierter KI-Spezialist', text: 'Heute bringe ich digitale Werkzeuge und KI in Gastrobetriebe.' },
 ];
 
@@ -17,7 +17,7 @@ export default function About() {
     <>
       <PageMeta
         title="Über mich: Thomas Ballinari"
-        description="Thomas Ballinari – gelernter Koch, Küchenchef, langjähriger Pächter und zertifizierter KI-Spezialist – digitalisiert Gastrobetriebe in der Schweiz."
+        description="Thomas Ballinari ist gelernter Koch, Küchenchef, langjähriger Pächter und zertifizierter KI-Spezialist. Er digitalisiert Gastrobetriebe in der Schweiz."
       />
       <section className="pt-10 pb-24 md:pt-16">
         <div className="container-x grid lg:grid-cols-[1fr_1.1fr] gap-14 lg:gap-20 items-center">
@@ -29,18 +29,18 @@ export default function About() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="eyebrow mb-5"><span className="w-6 h-px bg-primary" />Über mich</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Ich bin Koch. <span className="text-forest">Und ich verstehe KI.</span></h1>
+            <p className="eyebrow mb-5">Über mich</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Vom Koch zum <span className="text-forest">KI-Spezialisten</span></h1>
             <div className="mt-7 space-y-5 text-lg text-anthrazit/75 leading-relaxed">
               <p>
                 Ich bin Thomas Ballinari. Als gelernter Koch, Küchenchef und langjähriger Pächter eines grossen Landgasthofs kenne ich den Gastro-Alltag aus erster Hand: Hektik im Service, Personalnot und lange Abende mit Excel-Tabellen.
               </p>
               <p>
-                Heute führe ich als zertifizierter KI-Spezialist mit <SmartGastroText /> Kassensysteme, digitale Speisekarten, Kalkulation und KI-Lösungen in Schweizer Gastrobetrieben ein – so, dass sie im Stress auch wirklich funktionieren.
+                Heute führe ich als zertifizierter KI-Spezialist mit <SmartGastroText /> Kassensysteme, digitale Speisekarten, Kalkulation und KI-Lösungen in Schweizer Gastrobetrieben ein. So, dass sie im Stress auch wirklich funktionieren.
               </p>
             </div>
             <blockquote className="mt-8 border-l-4 border-accent pl-6 font-display text-xl md:text-2xl leading-snug">
-              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können – präsent im Gastraum, kreativ in der Küche.»
+              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können, präsent im Gastraum und kreativ in der Küche.»
             </blockquote>
             <div className="mt-10 flex flex-col sm:flex-row gap-3">
               <Link to={CONTACT_HREF} className="btn-primary">Erstgespräch buchen <ArrowRight size={18} /></Link>
@@ -52,8 +52,8 @@ export default function About() {
 
       <section className="py-24 bg-white border-y border-linie">
         <div className="container-x">
-          <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />Mein Weg</p>
-          <h2 className="h-section max-w-2xl">Vom Herd zur KI – ohne den Gast aus den Augen zu verlieren.</h2>
+          <p className="eyebrow mb-4">Mein Weg</p>
+          <h2 className="h-section max-w-2xl">Vom Herd zur KI, mit dem Gast immer im Blick.</h2>
           <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PATH.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.06}>
@@ -68,7 +68,7 @@ export default function About() {
         </div>
       </section>
 
-      <CtaBand title="Lernen wir uns kennen." text="Ein Gespräch unter Gastronomen – kostenlos, unverbindlich und ohne Fachchinesisch." />
+      <CtaBand title="Lernen wir uns kennen." text="Ein Gespräch unter Gastronomen, kostenlos und unverbindlich." />
     </>
   );
 }

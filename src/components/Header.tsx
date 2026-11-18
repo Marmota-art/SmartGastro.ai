@@ -45,7 +45,7 @@ export default function Header() {
     <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled || isOpen ? 'bg-creme/90 backdrop-blur-md border-b border-linie' : 'bg-creme/0 border-b border-transparent'}`}>
       <div className="container-x">
         <div className="flex justify-between items-center h-[72px] gap-4">
-          <Link to="/" aria-label="SmartGastro.ai – Startseite" className="shrink-0">
+          <Link to="/" aria-label="SmartGastro.ai Startseite" className="shrink-0">
             <SmartGastroText className="text-[22px]" />
           </Link>
 
