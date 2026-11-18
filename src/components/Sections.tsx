@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, Mail, MapPin, Clock, Check } from 'lucide-react';
-import { BRAND, REFERENCES, CONTACT_HREF } from '../constants';
+import { ArrowRight, Mail, MapPin, Clock, Check, ClipboardCheck, Scale, MonitorCog, Globe, QrCode, Workflow, BrainCircuit, GraduationCap } from 'lucide-react';
+import { BRAND, REFERENCES, CONTACT_HREF, SERVICES } from '../constants';
 
 /** Sanftes Einblenden beim Scrollen. */
 export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
@@ -52,8 +52,8 @@ function RefVisual({ r }: { r: (typeof REFERENCES)[number] }) {
         <img src={r.img} alt={`${r.name}, ${r.place}`} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         {r.logo && (
-          <div className="absolute left-5 bottom-5 bg-[#F3E9D2] rounded-xl px-3 py-2 shadow-lg">
-            <img src={r.logo} alt={`Logo ${r.name}`} className="h-9 w-auto" />
+          <div className="absolute left-5 bottom-5 bg-white rounded-xl px-3 py-2 shadow-lg">
+            <img src={r.logo} alt={`Logo ${r.name}`} className="h-12 w-auto" />
           </div>
         )}
       </div>
@@ -184,10 +184,13 @@ export function ContactSection() {
             </div>
             <div className="space-y-2">
               <label htmlFor="anliegen" className="field-label">Interesse</label>
-              <select id="anliegen" name="anliegen" className="field appearance-none" defaultValue="Digitale Speisekarte">
+              <select id="anliegen" name="anliegen" className="field appearance-none" defaultValue="Komplettpaket (alles aus einer Hand)">
+                <option>Komplettpaket (alles aus einer Hand)</option>
+                <option>Kassensystem: Auswahl &amp; Einrichtung</option>
+                <option>Website &amp; Design</option>
                 <option>Digitale Speisekarte</option>
                 <option>Order &amp; Pay</option>
-                <option>KI-Prognosen (Engine)</option>
+                <option>KI-Lösungen (Engine)</option>
                 <option>Mehrere Standorte</option>
                 <option>Academy / Schulung</option>
                 <option>Noch offen</option>
@@ -213,5 +216,52 @@ export function ContactSection() {
         </form>
       </div>
     </section>
+  );
+}
+
+export const SERVICE_ICONS: Record<string, ReactNode> = {
+  beratung: <ClipboardCheck size={22} />,
+  kassenwahl: <Scale size={22} />,
+  kasse: <MonitorCog size={22} />,
+  website: <Globe size={22} />,
+  speisekarte: <QrCode size={22} />,
+  schnittstellen: <Workflow size={22} />,
+  engine: <BrainCircuit size={22} />,
+  schulung: <GraduationCap size={22} />,
+};
+
+/** Rundum-Service als nummerierte Bausteine. */
+export function ServiceGrid({ linked = true }: { linked?: boolean }) {
+  return (
+    <ol className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {SERVICES.map((s, i) => {
+        const inner = (
+          <>
+            <div className="flex items-center justify-between">
+              <span className="w-12 h-12 rounded-2xl bg-forest text-white flex items-center justify-center group-hover:bg-accent group-hover:text-anthrazit transition-colors">{SERVICE_ICONS[s.id]}</span>
+              <span className="font-display text-sm font-bold text-anthrazit/30 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 className="text-xl mt-6">{s.title}</h3>
+            <p className="mt-2 text-sm text-anthrazit/65 leading-relaxed flex-grow">{s.short}</p>
+            {linked && (
+              <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-forest">
+                Details <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </span>
+            )}
+          </>
+        );
+        return (
+          <Reveal key={s.id} delay={(i % 4) * 0.06}>
+            <li className="h-full">
+              {linked ? (
+                <Link to={`/leistungen#${s.id}`} className="group card p-6 h-full flex flex-col hover:border-forest/40 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(0,0,0,0.35)] transition-all duration-500">{inner}</Link>
+              ) : (
+                <div className="group card p-6 h-full flex flex-col">{inner}</div>
+              )}
+            </li>
+          </Reveal>
+        );
+      })}
+    </ol>
   );
 }

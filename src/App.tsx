@@ -45,7 +45,7 @@ export default function App() {
         <main id="main" className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/loesungen" element={<Solutions />} />
+            <Route path="/leistungen" element={<Solutions />} />
             <Route path="/preise" element={<Pricing />} />
             <Route path="/referenzen" element={<References />} />
             <Route path="/so-arbeiten-wir" element={<HowWeWork />} />
@@ -59,8 +59,8 @@ export default function App() {
             <Route path="/sicherheit" element={<Security />} />
 
             {/* Alte Adressen weiterleiten (Google, Lesezeichen) */}
-            <Route path="/leistungen" element={<Navigate to="/loesungen" replace />} />
-            <Route path="/implementierung" element={<Navigate to="/loesungen#engine" replace />} />
+            <Route path="/loesungen" element={<Navigate to="/leistungen" replace />} />
+            <Route path="/implementierung" element={<Navigate to="/leistungen#engine" replace />} />
             <Route path="/projektablauf" element={<Navigate to="/so-arbeiten-wir" replace />} />
             <Route path="/konditionen" element={<Navigate to="/so-arbeiten-wir#konditionen" replace />} />
             <Route path="/naechste-schritte" element={<Navigate to="/so-arbeiten-wir" replace />} />

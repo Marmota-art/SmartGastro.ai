@@ -9,7 +9,7 @@ export const BRAND = {
 };
 
 export const NAV_LINKS = [
-  { name: 'Lösungen', href: '/loesungen' },
+  { name: 'Leistungen', href: '/leistungen' },
   { name: 'Preise', href: '/preise' },
   { name: 'Referenzen', href: '/referenzen' },
   { name: 'So arbeiten wir', href: '/so-arbeiten-wir' },
@@ -19,6 +19,64 @@ export const NAV_LINKS = [
 
 export const CONTACT_HREF = '/#kontakt';
 
+/** Demo der SmartGastro Engine (auf Wunsch von Thomas sichtbar gelassen). */
+export const ENGINE_DEMO = {
+  url: 'https://gemini.google.com/share/bcf2f6bba4e2',
+  password: 'admin-123',
+};
+
+/** Rundum-Service: alle Leistungsbausteine von der Beratung bis zur KI. */
+export const SERVICES = [
+  {
+    id: 'beratung',
+    title: 'Beratung & Analyse',
+    short: 'Wir schauen uns Service, Küche, Abläufe und Zahlen an – und zeigen, wo Digitalisierung am meisten bringt.',
+    points: ['Analyse der Service-Abläufe', 'Digitaler Check Ihres Betriebs', 'Klare Roadmap mit Prioritäten'],
+  },
+  {
+    id: 'kassenwahl',
+    title: 'Kassensystem-Auswahl',
+    short: 'Die passende Kasse für Ihren Betrieb – verglichen nach Funktionen, Kosten und Schnittstellen.',
+    points: ['Anforderungen definieren', 'Anbieter vergleichen', 'Empfehlung, die zu Ihnen passt'],
+  },
+  {
+    id: 'kasse',
+    title: 'Kassensystem-Einrichtung',
+    short: 'Ich richte Ihre Kasse komplett ein: Artikel, Tasten, Menüs, Drucker, Tische und Datenübernahme.',
+    points: ['Artikel- und Menüstruktur', 'Bon- und Küchendrucker', 'Übernahme bestehender Daten'],
+  },
+  {
+    id: 'website',
+    title: 'Website & Design',
+    short: 'Eine moderne Restaurant-Website, die auf dem Handy überzeugt – mit Speisekarte, Fotos und Kontakt.',
+    points: ['Design im Look Ihres Betriebs', 'Optimiert für Handy und Google', 'Speisekarte direkt eingebunden'],
+  },
+  {
+    id: 'speisekarte',
+    title: 'Digitale Speisekarte & Order & Pay',
+    short: 'QR-Speisekarte am Tisch, auf Wunsch mit Bestellen und Bezahlen – direkt verbunden mit Ihrer Kasse.',
+    points: ['QR-Speisekarte, mehrsprachig', 'Bestellen und Bezahlen am Tisch', 'Preise in Echtzeit ändern'],
+  },
+  {
+    id: 'schnittstellen',
+    title: 'Schnittstellen & Verbindungen',
+    short: 'Kasse, Website, Speisekarte und Daten arbeiten zusammen – statt doppelt erfasst zu werden.',
+    points: ['Kasse ↔ Speisekarte ↔ Website', 'Datenexporte und Berichte', 'Ein System statt Insellösungen'],
+  },
+  {
+    id: 'engine',
+    title: 'KI-Lösungen',
+    short: 'Die SmartGastro Engine prognostiziert Gäste und Umsatz und hilft bei Einkauf, Mise en place und Kalkulation.',
+    points: ['Nachfrage-Prognosen', 'Weniger Food Waste', 'Rezept- und Preiskalkulation'],
+  },
+  {
+    id: 'schulung',
+    title: 'Schulung & Betreuung',
+    short: 'Ich schule Ihr Team vor Ort und bleibe nach dem Go-Live Ihr persönlicher Ansprechpartner.',
+    points: ['Schulung vor Ort oder online', 'Go-Live ohne Betriebsunterbruch', 'Persönlicher Support'],
+  },
+];
+
 /** Referenzkunden – nur belegte Fakten, keine erfundenen Kennzahlen. */
 export const REFERENCES = [
   {
@@ -26,11 +84,11 @@ export const REFERENCES = [
     name: 'Restaurant Löwenburg',
     place: 'Lienz SG',
     type: 'Landgasthof',
-    project: 'Kassendaten & Menü-Engineering',
+    project: 'Kassendaten, Speisekarte & KI-Prognosen',
     text: 'Mehrjährige Kassendaten aus dem WaiterOne-System bereinigt und strukturiert, die Speisekarte neu aufgebaut. Die Daten bilden die Grundlage für die Prognosen der SmartGastro Engine.',
-    tags: ['WaiterOne', 'Datenbereinigung', 'Speisekarte'],
-    img: null as string | null,
-    logo: null as string | null,
+    tags: ['WaiterOne', 'Datenbereinigung', 'Speisekarte', 'KI-Prognosen'],
+    img: '/assets/img/v2/ref-loewenburg.webp' as string | null,
+    logo: '/assets/img/v2/logo-loewenburg.webp' as string | null,
     initials: 'LB',
   },
   {

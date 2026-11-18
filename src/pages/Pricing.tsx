@@ -114,7 +114,7 @@ export default function Pricing() {
     <>
       <PageMeta
         title="Preise & Pakete"
-        description="Transparente Preise für digitale Speisekarten (ab CHF 490), QR-Menu Hero, Order & Pay und Multi-Standort-Lösungen. Erstgespräch kostenlos."
+        description="Transparente Preise für digitale Speisekarten (ab CHF 490), Order & Pay und Multi-Standort-Lösungen – dazu Kassensystem, Website und KI auf Anfrage. Erstgespräch kostenlos."
       />
       <PageHero
         eyebrow="Preise & Pakete"
@@ -151,8 +151,38 @@ export default function Pricing() {
         </div>
         <div className="container-x mt-8">
           <p className="text-sm text-anthrazit/55">
-            KI-Prognosen mit der SmartGastro Engine bieten wir auf Anfrage an – abgestimmt auf Ihre Kassendaten. <Link to="/loesungen#engine" className="text-forest font-semibold hover:underline">Mehr zur Engine</Link>
+            Die Pakete oben betreffen Speisekarte und Order &amp; Pay. <Link to="/leistungen" className="text-forest font-semibold hover:underline">Alle Leistungen ansehen</Link>
           </p>
+        </div>
+      </section>
+
+      <section className="pb-24">
+        <div className="container-x">
+          <div className="rounded-[2rem] bg-forest text-white p-8 md:p-12 grid lg:grid-cols-[1fr_1.3fr] gap-10 relative overflow-hidden grain">
+            <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/50 blur-3xl" />
+            <div className="relative">
+              <p className="eyebrow !text-accent mb-4"><span className="w-6 h-px bg-accent" />Rundum-Service</p>
+              <h2 className="text-3xl md:text-4xl leading-tight">Weitere Leistungen – einzeln oder als Komplettpaket</h2>
+              <p className="mt-4 text-white/75 leading-relaxed">Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Nach dem kostenlosen Erstgespräch erhalten Sie ein verbindliches Angebot – ohne versteckte Kosten.</p>
+              <Link to={CONTACT_HREF} className="btn-accent mt-7">Angebot anfragen <ArrowRight size={16} /></Link>
+            </div>
+            <ul className="relative divide-y divide-white/10 self-center">
+              {[
+                ['Beratung & Analyse', 'Erstgespräch kostenlos'],
+                ['Kassensystem-Auswahl', 'auf Anfrage'],
+                ['Kassensystem-Einrichtung & Programmierung', 'auf Anfrage'],
+                ['Restaurant-Website & Design', 'auf Anfrage'],
+                ['Schnittstellen & Verbindungen', 'auf Anfrage'],
+                ['KI-Lösungen (SmartGastro Engine)', 'auf Anfrage'],
+                ['Komplettpaket – alles aus einer Hand', 'individuelles Angebot'],
+              ].map(([t, p]) => (
+                <li key={t} className="flex justify-between gap-4 py-3.5">
+                  <span className="font-medium">{t}</span>
+                  <span className="text-sm text-accent text-right shrink-0">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 

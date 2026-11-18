@@ -13,7 +13,7 @@ export default function Footer() {
               <SmartGastroText dark className="text-2xl" />
             </Link>
             <p className="mt-5 max-w-sm leading-relaxed text-white/65">
-              Digitale Speisekarten, Order &amp; Pay und KI-Prognosen für die Schweizer Gastronomie – eingeführt von einem Koch, der den Alltag kennt.
+              Kassensystem, Website, digitale Speisekarte und KI für Restaurants – alles aus einer Hand, umgesetzt von einem Koch, der den Alltag kennt.
             </p>
             <Link to={CONTACT_HREF} className="btn-accent mt-8 !py-3 text-sm">
               Kostenloses Erstgespräch <ArrowUpRight size={16} />

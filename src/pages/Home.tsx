@@ -1,37 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, ChefHat, QrCode, Smartphone, LineChart, GraduationCap, Sparkles, Check } from 'lucide-react';
+import { ArrowRight, ChefHat, GraduationCap, Sparkles, Check } from 'lucide-react';
 import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
-import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection } from '../components/Sections';
+import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection, ServiceGrid } from '../components/Sections';
 import { REFERENCES, CONTACT_HREF } from '../constants';
-
-const OFFERS = [
-  {
-    icon: <QrCode size={22} />,
-    title: 'Digitale Speisekarte',
-    text: 'Ihre Karte per QR-Code am Tisch – im eigenen Look, mehrsprachig, mit Bildern und Allergenen. Preise ändern Sie in Sekunden statt neu zu drucken.',
-    img: '/assets/img/v2/loesung-speisekarte.webp',
-    href: '/loesungen#speisekarte',
-    price: 'ab CHF 490',
-  },
-  {
-    icon: <Smartphone size={22} />,
-    title: 'Order & Pay',
-    text: 'Gäste bestellen und bezahlen direkt am Tisch, die Bestellung landet in Ihrer Kasse. Ihr Service gewinnt Zeit für das, was zählt: Gastfreundschaft.',
-    img: '/assets/img/v2/loesung-orderpay.webp',
-    href: '/loesungen#order-pay',
-    price: 'CHF 9’800',
-  },
-  {
-    icon: <LineChart size={22} />,
-    title: 'KI-Prognosen',
-    text: 'Die SmartGastro Engine lernt aus Ihren Kassendaten, Wetter und Events – und sagt Ihnen, wie viele Gäste kommen und was die Küche vorbereiten soll.',
-    img: '/assets/img/v2/engine-dashboard.webp',
-    href: '/loesungen#engine',
-    price: 'auf Anfrage',
-  },
-];
 
 const STEPS = [
   { n: '01', title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Wir klären, wo es im Betrieb hakt.' },
@@ -44,8 +17,8 @@ export default function Home() {
   return (
     <>
       <PageMeta
-        title="SmartGastro.ai – Digitale Speisekarten, Order & Pay und KI für die Gastronomie"
-        description="Thomas Ballinari, gelernter Koch und zertifizierter KI-Spezialist, führt digitale Speisekarten, Order & Pay und KI-Prognosen in Schweizer Gastrobetrieben ein – ohne Betriebsunterbruch."
+        title="SmartGastro.ai – Kassensystem, Website und KI für Restaurants aus einer Hand"
+        description="Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay und KI-Lösungen – alles aus einer Hand von Thomas Ballinari, Koch und zertifiziertem KI-Spezialisten."
       />
 
       {/* HERO */}
@@ -59,7 +32,7 @@ export default function Home() {
           <div>
             <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="chip mb-7">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Digitalisierung für Schweizer Gastrobetriebe
+              Ihr Digitalpartner für die Gastronomie
             </motion.p>
 
             <motion.h1
@@ -77,12 +50,12 @@ export default function Home() {
             </motion.h1>
 
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="lead mt-7 max-w-xl">
-              Digitale Speisekarten, Order &amp; Pay und KI-Prognosen – eingeführt von einem gelernten Koch, der selbst jahrelang einen grossen Landgasthof geführt hat. Ohne Betriebsunterbruch.
+              Kassensystem, Website, digitale Speisekarte und KI – alles aus einer Hand. Umgesetzt von einem gelernten Koch, der selbst jahrelang einen grossen Landgasthof geführt hat. Ohne Betriebsunterbruch.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="mt-9 flex flex-col sm:flex-row gap-3">
               <Link to={CONTACT_HREF} className="btn-primary text-base">Kostenloses Erstgespräch <ArrowRight size={18} /></Link>
-              <Link to="/loesungen" className="btn-ghost text-base">Lösungen ansehen</Link>
+              <Link to="/leistungen" className="btn-ghost text-base">Leistungen ansehen</Link>
             </motion.div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-12">
@@ -153,35 +126,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ANGEBOTE */}
+      {/* RUNDUM-SERVICE */}
       <section className="py-24">
         <div className="container-x">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <SectionHead eyebrow="Lösungen" title="Drei Wege zu einem entspannteren Betrieb" />
-            <Link to="/preise" className="btn-ghost self-start md:self-auto">Alle Preise <ArrowRight size={16} /></Link>
+            <SectionHead
+              eyebrow="Rundum-Service"
+              title={<>Alles aus einer Hand – <span className="text-forest">von der Kasse bis zur KI.</span></>}
+              lead="Statt fünf Anbieter zu koordinieren, haben Sie einen Ansprechpartner. Ich kümmere mich um alles, was Ihr Restaurant digital braucht – Schritt für Schritt oder als Komplettpaket."
+            />
+            <Link to="/leistungen" className="btn-ghost self-start md:self-auto">Alle Leistungen <ArrowRight size={16} /></Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {OFFERS.map((o, i) => (
-              <Reveal key={o.title} delay={i * 0.08}>
-                <Link to={o.href} className="group card overflow-hidden flex flex-col h-full hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.3)] transition-all duration-500">
-                  <div className="relative h-52 overflow-hidden bg-anthrazit">
-                    <img src={o.img} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <span className="absolute left-5 top-5 w-11 h-11 rounded-2xl bg-white text-forest flex items-center justify-center shadow">{o.icon}</span>
-                  </div>
-                  <div className="p-7 flex flex-col flex-grow">
-                    <h3 className="text-2xl">{o.title}</h3>
-                    <p className="mt-3 text-anthrazit/70 leading-relaxed flex-grow">{o.text}</p>
-                    <div className="mt-7 pt-5 border-t border-linie flex items-center justify-between">
-                      <span className="text-sm font-semibold text-anthrazit/60">{o.price}</span>
-                      <span className="inline-flex items-center gap-1.5 font-semibold text-forest">
-                        Mehr erfahren <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+          <ServiceGrid />
 
           <Reveal delay={0.1}>
             <Link to="/schulung" className="mt-6 group card p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6 hover:border-forest/40 transition-colors">
