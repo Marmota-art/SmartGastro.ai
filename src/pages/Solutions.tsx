@@ -7,7 +7,7 @@ import {
 import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
 import { PageHero, Reveal, CtaBand, ServiceGrid, SERVICE_ICONS } from '../components/Sections';
-import { CONTACT_HREF, ENGINE_DEMO, SERVICES } from '../constants';
+import { CONTACT_HREF, ENGINE_DEMO, SERVICES, ACADEMY_ENABLED } from '../constants';
 
 const svc = (id: string) => SERVICES.find((s) => s.id === id)!;
 
@@ -283,7 +283,7 @@ export default function Solutions() {
             <Eyebrow n="08">Schulung & Betreuung</Eyebrow>
             <h2 className="h-section">Schulung und Betreuung nach dem Start</h2>
             <p className="lead mt-5">{svc('schulung').short}</p>
-            <Points items={[...svc('schulung').points, 'Video-Kurse der SmartGastro Academy für neue Mitarbeitende']} />
+            <Points items={ACADEMY_ENABLED ? [...svc('schulung').points, 'Video-Kurse der SmartGastro Academy für neue Mitarbeitende'] : svc('schulung').points} />
           </Reveal>
           <Reveal delay={0.1}>
             <div className="rounded-[2rem] bg-accent p-8 md:p-10">

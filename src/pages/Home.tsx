@@ -4,7 +4,7 @@ import { ArrowRight, ChefHat, GraduationCap, Sparkles, Check } from 'lucide-reac
 import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
 import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection, ServiceGrid } from '../components/Sections';
-import { REFERENCES, CONTACT_HREF } from '../constants';
+import { REFERENCES, CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
 
 const STEPS = [
   { n: '01', title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Wir klären, wo es im Betrieb hakt.' },
@@ -139,6 +139,7 @@ export default function Home() {
           </div>
           <ServiceGrid />
 
+          {ACADEMY_ENABLED && (
           <Reveal delay={0.1}>
             <Link to="/schulung" className="mt-6 group card p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6 hover:border-forest/40 transition-colors">
               <span className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center shrink-0"><GraduationCap size={24} /></span>
@@ -149,6 +150,7 @@ export default function Home() {
               <span className="inline-flex items-center gap-1.5 font-semibold text-forest shrink-0">Zur Academy <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></span>
             </Link>
           </Reveal>
+          )}
         </div>
       </section>
 

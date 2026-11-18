@@ -17,6 +17,7 @@ import Impressum from './pages/Impressum';
 import Privacy from './pages/Privacy';
 import Security from './pages/Security';
 import Checkout from './pages/Checkout';
+import { ACADEMY_ENABLED } from './constants';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -49,10 +50,10 @@ export default function App() {
             <Route path="/preise" element={<Pricing />} />
             <Route path="/referenzen" element={<References />} />
             <Route path="/so-arbeiten-wir" element={<HowWeWork />} />
-            <Route path="/schulung" element={<Academy />} />
+            <Route path="/schulung" element={ACADEMY_ENABLED ? <Academy /> : <Navigate to="/" replace />} />
             <Route path="/ueber" element={<About />} />
-            <Route path="/warenkorb" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/warenkorb" element={ACADEMY_ENABLED ? <Cart /> : <Navigate to="/" replace />} />
+            <Route path="/checkout" element={ACADEMY_ENABLED ? <Checkout /> : <Navigate to="/" replace />} />
             <Route path="/thanks" element={<Thanks />} />
             <Route path="/impressum" element={<Impressum />} />
             <Route path="/datenschutz" element={<Privacy />} />

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Mail, MapPin, Clock, Check, ClipboardCheck, Scale, MonitorCog, Globe, QrCode, Workflow, BrainCircuit, GraduationCap } from 'lucide-react';
-import { BRAND, REFERENCES, CONTACT_HREF, SERVICES } from '../constants';
+import { BRAND, REFERENCES, CONTACT_HREF, SERVICES, ACADEMY_ENABLED } from '../constants';
 
 /** Sanftes Einblenden beim Scrollen. */
 export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
@@ -199,7 +199,7 @@ export function ContactSection() {
                 <option>Order &amp; Pay</option>
                 <option>KI-Lösungen (Engine)</option>
                 <option>Mehrere Standorte</option>
-                <option>Academy / Schulung</option>
+                {ACADEMY_ENABLED && <option>Academy / Schulung</option>}
                 <option>Noch offen</option>
               </select>
             </div>

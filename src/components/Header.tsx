@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingBag, ArrowRight } from 'lucide-react';
-import { NAV_LINKS, CONTACT_HREF } from '../constants';
+import { NAV_LINKS, CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
 import SmartGastroText from './SmartGastroText';
 import { useShop } from '../context/ShopContext';
 
@@ -58,14 +58,14 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-2">
-            {cartCount > 0 && CartLink}
+            {ACADEMY_ENABLED && cartCount > 0 && CartLink}
             <Link to={CONTACT_HREF} className="btn-primary !py-2.5 !px-5 text-sm">
               Erstgespräch buchen <ArrowRight size={16} />
             </Link>
           </div>
 
           <div className="lg:hidden flex items-center gap-1">
-            {cartCount > 0 && CartLink}
+            {ACADEMY_ENABLED && cartCount > 0 && CartLink}
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-expanded={isOpen}

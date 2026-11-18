@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Check, ArrowRight, Plus, Minus, Calculator } from 'lucide-react';
 import PageMeta from '../components/PageMeta';
 import { PageHero, Reveal, SectionHead, CtaBand } from '../components/Sections';
-import { CONTACT_HREF } from '../constants';
+import { CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
 
 const PACKAGES = [
   {
@@ -60,13 +60,15 @@ const PACKAGES = [
   },
 ];
 
-const FAQ = [
+const ALL_FAQ = [
   { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich. Danach erhalten Sie ein massgeschneidertes Angebot für Ihren Betrieb.' },
   { q: 'Warum «ab»-Preise?', a: 'Jeder Betrieb ist anders: Umfang der Karte, Anzahl Sprachen, Kassensystem. Den genauen Preis kennen Sie vor dem Start, ohne versteckte Kosten.' },
   { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung planen wir so, dass der Go-Live ohne Betriebsunterbruch stattfindet.' },
   { q: 'Wie kann ich bezahlen?', a: 'Per Kreditkarte, TWINT oder Banküberweisung. Alle Preise verstehen sich exkl. 8.1 % MwSt.' },
   { q: 'Was ist, wenn ich zuerst selbst lernen möchte?', a: 'Dann ist die SmartGastro Academy ideal: Die Masterclass «Digitale Speisekarte» gibt es ab CHF 9 pro Lektion.' },
 ];
+
+const FAQ = ALL_FAQ.filter((f) => ACADEMY_ENABLED || !f.a.includes('Academy'));
 
 function chf(n: number) {
   return 'CHF ' + Math.round(n).toLocaleString('de-CH');

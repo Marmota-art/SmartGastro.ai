@@ -8,7 +8,10 @@ export const BRAND = {
   bank: 'Raiffeisenbank Oberes Rheintal'
 };
 
-export const NAV_LINKS = [
+/** Academy und Shop sind ausgeblendet, bis Bezahlung (Stripe) und Video-Zugang eingerichtet sind. */
+export const ACADEMY_ENABLED = false;
+
+const ALL_NAV_LINKS = [
   { name: 'Leistungen', href: '/leistungen' },
   { name: 'Preise', href: '/preise' },
   { name: 'Referenzen', href: '/referenzen' },
@@ -16,6 +19,8 @@ export const NAV_LINKS = [
   { name: 'Academy', href: '/schulung' },
   { name: 'Über mich', href: '/ueber' },
 ];
+
+export const NAV_LINKS = ALL_NAV_LINKS.filter((l) => ACADEMY_ENABLED || l.href !== '/schulung');
 
 export const CONTACT_HREF = '/#kontakt';
 
