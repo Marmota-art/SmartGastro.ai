@@ -112,7 +112,7 @@ export const REFERENCES = [
     text: 'Pilotprojekt für eine schlanke, browserbasierte Kassen- und Bestelllösung, zugeschnitten auf die Abläufe im Café Park, vom Tisch bis zur Abrechnung.',
     tags: ['Kassensystem', 'Bestellung am Tisch', 'Tablet'],
     img: null as string | null,
-    logo: null as string | null,
+    logo: '/assets/img/v2/logo-park.webp' as string | null,
     initials: 'CP',
   },
 ];
