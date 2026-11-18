@@ -190,7 +190,7 @@ export default function Solutions() {
               Mehr als ein PDF auf dem Handy: eine interaktive Karte im Look Ihres Betriebs, auf Wunsch mit Bestellen und Bezahlen am Tisch. Die Bestellung geht ohne Umweg an Küche und Kasse.
             </p>
             <Points items={['Zugriff per QR-Code, ohne App', 'Mehrsprachig, mit Bildern und Allergenen', 'Bestellen und Bezahlen am Tisch', 'Preise und Tagesangebote in Echtzeit ändern']} />
-            <p className="mt-6 text-sm text-anthrazit/55">Im Einsatz: Pizzeria Di Grano, St. Gallen</p>
+            <p className="mt-6 text-sm text-anthrazit/55">Im Einsatz: Pizzeria Di Grano und Restaurant Café Park, St. Gallen</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link to="/preise" className="btn-primary">Preise ansehen <ArrowRight size={18} /></Link>
               <span className="font-display text-lg font-bold">ab CHF 490 <span className="font-sans text-sm font-normal text-anthrazit/50">exkl. MwSt.</span></span>
