@@ -1,8 +1,10 @@
+import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
 
 export default function Privacy() {
   return (
     <div className="py-24 bg-white">
+      <PageMeta title="Datenschutz" description="Datenschutzerklärung von SmartGastro.ai." />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-display font-bold mb-12">Datenschutzerklärung</h1>
         <div className="prose prose-lg text-anthrazit/80 space-y-8">

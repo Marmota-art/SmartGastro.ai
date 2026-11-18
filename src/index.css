@@ -1,38 +1,64 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Montserrat", sans-serif;
-  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Inter", sans-serif;
+
+  /* Markenfarben (Grün/Gelb aus dem Logo, moderner abgestimmt) */
   --color-primary: #0B8F3E;
+  --color-forest: #0B5D33;
+  --color-forest-deep: #0A2E1D;
   --color-accent: #FFD21E;
-  --color-anthrazit: #333333;
-  --color-hellgrau: #F7F7F7;
+  --color-anthrazit: #1E2421;
+  --color-hellgrau: #F4F2EC;
+  --color-creme: #FAF8F3;
+  --color-linie: #E6E2D8;
 }
 
 @layer base {
+  html { scroll-behavior: smooth; }
   body {
-    @apply font-sans text-anthrazit bg-white;
+    @apply font-sans text-anthrazit bg-creme antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-semibold;
+    @apply font-display font-bold tracking-tight;
   }
+  ::selection { background: var(--color-accent); color: var(--color-anthrazit); }
+  :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; border-radius: 6px; }
 }
 
-.btn-xl {
-  @apply rounded-[2rem] px-8 py-3 transition-all duration-300 shadow-sm hover:shadow-md;
+@layer components {
+  .container-x { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .eyebrow { @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary; }
+  .h-section { @apply text-3xl sm:text-4xl lg:text-5xl leading-[1.05]; }
+  .lead { @apply text-lg text-anthrazit/70 leading-relaxed; }
+
+  .btn-primary, .btn-accent, .btn-ghost, .btn-ghost-dark { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold whitespace-nowrap transition-all duration-300 cursor-pointer; }
+  .btn-primary { @apply bg-forest text-white hover:bg-primary shadow-[0_8px_24px_-8px_rgba(11,93,51,0.6)]; }
+  .btn-accent { @apply bg-accent text-anthrazit hover:bg-white; }
+  .btn-ghost { @apply border border-anthrazit/15 text-anthrazit hover:border-anthrazit/40 hover:bg-white; }
+  .btn-ghost-dark { @apply border border-white/25 text-white hover:bg-white/10; }
+
+  .card { @apply bg-white rounded-3xl border border-linie; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full bg-white/90 backdrop-blur px-3 py-1.5 text-xs font-semibold text-anthrazit shadow-sm border border-linie; }
+
+  .field { @apply w-full px-5 py-3.5 bg-white rounded-2xl border border-linie focus:border-forest outline-none transition-colors; }
+  .field-label { @apply text-sm font-semibold text-anthrazit/80; }
 }
 
-.card-shadow {
-  @apply shadow-[0_4px_20px_rgba(0,0,0,0.05)];
-}
+/* Kompatibilität mit bestehenden Seiten (Warenkorb, Checkout, Rechtliches) */
+.btn-xl { @apply rounded-full px-8 py-3 transition-all duration-300; }
+.card-shadow { @apply shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)]; }
 
-.bg-overlay {
-  @apply relative;
-}
-
-.bg-overlay::before {
+.grain::after {
   content: "";
-  @apply absolute inset-0 bg-black/45 z-0;
+  position: absolute; inset: 0; pointer-events: none; opacity: .06; mix-blend-mode: overlay;
+  background-image: radial-gradient(rgba(255,255,255,.8) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }

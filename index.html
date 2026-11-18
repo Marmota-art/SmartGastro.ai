@@ -1,13 +1,54 @@
 <!doctype html>
-<html lang="en">
+<html lang="de-CH">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartGastro.ai</title>
+    <title>SmartGastro.ai – Digitale Speisekarten, Order & Pay und KI für die Gastronomie</title>
+    <meta name="description" content="Thomas Ballinari, gelernter Koch und zertifizierter KI-Spezialist, führt digitale Speisekarten, Order & Pay und KI-Prognosen in Schweizer Gastrobetrieben ein – ohne Betriebsunterbruch." />
+    <meta name="theme-color" content="#0B5D33" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://smartgastro.ai/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_CH" />
+    <meta property="og:site_name" content="SmartGastro.ai" />
+    <meta property="og:title" content="SmartGastro.ai – Mehr Zeit für Ihre Gäste" />
+    <meta property="og:description" content="Digitale Speisekarten, Order & Pay und KI-Prognosen – eingeführt von einem Koch, der Gastronomie kennt." />
+    <meta property="og:url" content="https://smartgastro.ai/" />
+    <meta property="og:image" content="https://smartgastro.ai/assets/img/v2/og-smartgastro.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="image" href="/assets/img/v2/thomas.webp" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "SmartGastro.ai",
+        "url": "https://smartgastro.ai/",
+        "image": "https://smartgastro.ai/assets/img/v2/og-smartgastro.jpg",
+        "email": "hello@smartgastro.ai",
+        "founder": { "@type": "Person", "name": "Thomas Ballinari", "jobTitle": "Gründer, Koch und KI-Spezialist" },
+        "address": { "@type": "PostalAddress", "addressLocality": "St. Gallen", "postalCode": "9000", "addressCountry": "CH" },
+        "areaServed": "CH",
+        "knowsAbout": ["Digitale Speisekarte", "QR-Speisekarte", "Order & Pay", "Kassensysteme", "KI in der Gastronomie", "Food Waste"]
+      }
+    </script>
   </head>
   <body>
+    <!-- Statische Kopie des Kontaktformulars, damit Netlify Forms es beim Deploy erkennt -->
+    <form name="kontakt" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" /><input type="email" name="email" /><input type="text" name="firma" />
+      <input type="text" name="anliegen" /><textarea name="nachricht"></textarea><input type="checkbox" name="privacy" /><input name="bot-field" />
+    </form>
     <div id="root"></div>
+    <noscript>
+      <p>SmartGastro.ai – digitale Speisekarten, Order &amp; Pay und KI-Lösungen für die Schweizer Gastronomie. Kontakt: hello@smartgastro.ai</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

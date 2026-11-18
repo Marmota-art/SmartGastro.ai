@@ -1,198 +1,177 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { PlayCircle, BookOpen, CheckCircle, ArrowRight, ChevronDown, ChevronUp, Plus } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { CheckCircle, ArrowRight, ChevronDown, Plus, PlayCircle, Clock, Bell } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
+import { PageHero, Reveal, CtaBand } from '../components/Sections';
 import { useShop } from '../context/ShopContext';
-import { COURSES } from '../constants';
+import { COURSES, CONTACT_HREF } from '../constants';
+
+type Course = (typeof COURSES)[number];
 
 export default function Academy() {
   const { addToCart } = useShop();
   const navigate = useNavigate();
-  const [expandedCourse, setExpandedCourse] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(COURSES[0].id);
+  const [added, setAdded] = useState<string | null>(null);
 
-  const handleAddLesson = (course: typeof COURSES[0], lessonName: string) => {
+  const handleAddLesson = (course: Course, lessonName: string) => {
+    const id = `${course.id}-lesson-${lessonName.replace(/\s+/g, '-').toLowerCase()}`;
     addToCart({
-      id: `${course.id}-lesson-${lessonName.replace(/\s+/g, '-').toLowerCase()}`,
+      id,
       title: `${course.title}: ${lessonName}`,
       price: course.pricePerLesson,
       priceLabel: `Einzel-Lektion (CHF ${course.pricePerLesson})`
     });
+    setAdded(id);
+    window.setTimeout(() => setAdded((a) => (a === id ? null : a)), 1500);
   };
 
-  const handleAddBundle = (course: typeof COURSES[0]) => {
-    const bundlePrice = (course.lessons.length - 1) * course.pricePerLesson;
+  const handleAddBundle = (course: Course) => {
     addToCart({
       id: `${course.id}-bundle`,
       title: `${course.title} (Komplett-Paket)`,
-      price: bundlePrice,
+      price: (course.lessons.length - 1) * course.pricePerLesson,
       priceLabel: `Alle ${course.lessons.length} Lektionen (1 geschenkt)`
     });
     navigate('/warenkorb');
   };
 
   return (
-    <div className="py-24 bg-hellgrau">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-24">
-          <h1 className="text-4xl md:text-5xl mb-4">
-            <SmartGastroText withAcademy />
-          </h1>
-          <div className="inline-block px-6 py-2 bg-accent text-anthrazit text-sm font-bold rounded-full mb-8 tracking-[0.2em] uppercase shadow-sm">
-            Coming Soon
-          </div>
-          <p className="text-xl text-anthrazit/70 max-w-3xl mx-auto leading-relaxed">
-            Wählen Sie aus unseren spezialisierten Modulen. Kaufen Sie einzelne Lektionen nach Bedarf oder das Komplett-Paket zum Vorzugspreis.
-          </p>
-        </div>
+    <>
+      <PageMeta
+        title="Academy: Online-Kurse für die Gastronomie"
+        description="Masterclass «Digitale Speisekarte»: 12 Video-Lektionen von der QR-Code-Erstellung bis zur Menü-Psychologie. Ab CHF 9 pro Lektion."
+      />
+      <PageHero
+        eyebrow="SmartGastro Academy"
+        title={<>Lernen Sie, Ihren Betrieb <span className="text-forest">selbst</span> zu digitalisieren.</>}
+        lead="Praxisnahe Video-Kurse von einem Koch für Gastronomen. Kaufen Sie einzelne Lektionen nach Bedarf oder das Komplett-Paket – eine Lektion ist dann geschenkt."
+      />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
-          {COURSES.map((course, idx) => (
-            <motion.div
-              key={course.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              className="bg-white rounded-[2.5rem] overflow-hidden card-shadow flex flex-col h-full"
-            >
-              <div className="h-48 bg-anthrazit relative flex items-center justify-center group cursor-pointer overflow-hidden">
-                <img 
-                  src={`/assets/img/${course.img}`} 
-                  alt={course.title}
-                  className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${course.id}/600/400`;
-                  }}
-                />
-                <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors"></div>
-                <PlayCircle size={64} className="text-white relative z-10 opacity-80 group-hover:scale-110 transition-transform" />
-              </div>
-              <div className="p-10 flex flex-col flex-grow">
-                <div className="flex items-center space-x-4 mb-4 text-xs font-bold uppercase tracking-widest text-primary">
-                  <span className="bg-primary/10 px-3 py-1 rounded-full">{course.level}</span>
-                  <span className="text-anthrazit/40">{course.duration}</span>
-                </div>
-                <h3 className="text-2xl font-display font-bold mb-4">{course.title}</h3>
-                
-                <div className="mb-6 space-y-2">
-                  <div className="flex justify-between items-center p-3 bg-hellgrau rounded-xl border border-black/5">
-                    <span className="text-sm font-medium">Pro Lektion</span>
-                    <span className="font-bold text-primary">CHF {course.pricePerLesson}</span>
+      <section className="pb-24">
+        <div className="container-x grid lg:grid-cols-3 gap-6">
+          {COURSES.map((course, idx) => {
+            const soon = course.status === 'soon';
+            const isOpen = expanded === course.id;
+            return (
+              <Reveal key={course.id} delay={idx * 0.06}>
+                <article className="card overflow-hidden flex flex-col h-full">
+                  <div className="relative aspect-[16/9] bg-anthrazit overflow-hidden">
+                    <img src={`/assets/img/${course.img}`} alt="" loading="lazy" className={`absolute inset-0 w-full h-full object-cover ${soon ? 'opacity-50 grayscale-[40%]' : ''}`} />
+                    <span className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${soon ? 'bg-white text-anthrazit' : 'bg-accent text-anthrazit'}`}>
+                      {soon ? 'In Produktion' : 'Jetzt verfügbar'}
+                    </span>
+                    {!soon && <PlayCircle size={56} className="absolute inset-0 m-auto text-white/90 drop-shadow-lg" />}
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-primary/5 rounded-xl border border-primary/10">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-primary">Komplett-Paket</span>
-                      <span className="text-[10px] text-primary/60 uppercase font-bold">1 Lektion geschenkt!</span>
+
+                  <div className="p-7 flex flex-col flex-grow">
+                    <div className="flex items-center gap-3 text-xs font-semibold text-anthrazit/55">
+                      <span className="rounded-full bg-forest/10 text-forest px-2.5 py-1">{course.level}</span>
+                      <span className="inline-flex items-center gap-1"><Clock size={13} />{course.duration}</span>
+                      <span>{course.lessons.length} Lektionen</span>
                     </div>
-                    <span className="font-bold text-primary">CHF {(course.lessons.length - 1) * course.pricePerLesson}</span>
-                  </div>
-                </div>
+                    <h2 className="text-2xl mt-4">{course.title}</h2>
+                    <p className="text-anthrazit/70 mt-3 leading-relaxed">{course.desc}</p>
 
-                <p className="text-anthrazit/70 mb-8 leading-relaxed">{course.desc}</p>
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-hellgrau p-4">
+                        <p className="text-xs text-anthrazit/55">Pro Lektion</p>
+                        <p className="font-display text-xl font-bold mt-1">CHF {course.pricePerLesson}</p>
+                      </div>
+                      <div className="rounded-2xl bg-forest/[0.07] p-4">
+                        <p className="text-xs text-forest">Komplett-Paket</p>
+                        <p className="font-display text-xl font-bold text-forest mt-1">CHF {(course.lessons.length - 1) * course.pricePerLesson}</p>
+                      </div>
+                    </div>
 
-                <div className="mt-auto space-y-4">
-                  <button
-                    onClick={() => setExpandedCourse(expandedCourse === course.id ? null : course.id)}
-                    className={`w-full py-3 text-sm font-bold transition-all flex items-center justify-center space-x-2 rounded-xl shadow-sm ${
-                      expandedCourse === course.id 
-                        ? 'bg-accent text-anthrazit' 
-                        : 'bg-accent/20 text-anthrazit hover:bg-accent'
-                    }`}
-                  >
-                    <span>Lektionen anzeigen ({course.lessons.length})</span>
-                    {expandedCourse === course.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </button>
-
-                  <AnimatePresence>
-                    {expandedCourse === course.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="space-y-2 pt-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-                          {course.lessons.map((lesson, lIdx) => (
-                            <div key={lIdx} className="flex items-center justify-between p-3 bg-hellgrau/50 rounded-xl text-xs group hover:bg-primary/5 transition-colors">
-                              <span className="text-anthrazit/70 font-medium">{lIdx + 1}. {lesson}</span>
-                              <div className="flex flex-col items-center">
-                                <span className="text-[8px] font-bold text-primary uppercase tracking-tighter mb-1 leading-none">In den</span>
-                                <span className="text-[8px] font-bold text-primary uppercase tracking-tighter mb-1 leading-none -mt-1">Warenkorb</span>
-                                <button
-                                  onClick={() => handleAddLesson(course, lesson)}
-                                  className="p-1.5 bg-white border border-black/5 rounded-lg hover:bg-primary hover:text-white transition-all shadow-sm"
-                                  title="Lektion hinzufügen"
-                                >
-                                  <Plus size={14} />
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <div className="pt-6 border-t border-black/5">
-                    <button 
-                      onClick={() => handleAddBundle(course)}
-                      className="w-full py-4 bg-primary text-white rounded-2xl font-bold hover:bg-accent hover:text-anthrazit transition-all flex items-center justify-center space-x-2 shadow-lg shadow-primary/20"
+                    <button
+                      onClick={() => setExpanded(isOpen ? null : course.id)}
+                      aria-expanded={isOpen}
+                      className="mt-6 flex items-center justify-between w-full py-3 border-t border-linie text-sm font-semibold"
                     >
-                      <span>Komplett kaufen</span>
-                      <ArrowRight size={18} />
+                      Lektionen anzeigen
+                      <ChevronDown size={18} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                     </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
 
-        {/* Training Benefits */}
-        <section className="bg-white rounded-[3rem] p-12 md:p-20 card-shadow">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl font-display font-bold mb-8">Warum unsere Schulungen?</h2>
-              <div className="space-y-6">
-                {[
-                  'Praxisnahe Inhalte von Gastronomen für Gastronomen',
-                  'Jederzeit und überall verfügbar (Mobile-First)',
-                  'Zertifikat nach erfolgreichem Abschluss',
-                  'Inklusive Vorlagen und Checklisten für Ihren Betrieb'
-                ].map((benefit) => (
-                  <div key={benefit} className="flex items-start space-x-4">
-                    <CheckCircle className="text-primary mt-1 shrink-0" size={24} />
-                    <p className="text-lg text-anthrazit/80">{benefit}</p>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.ol initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                          {course.lessons.map((lesson, i) => {
+                            const id = `${course.id}-lesson-${lesson.replace(/\s+/g, '-').toLowerCase()}`;
+                            return (
+                              <li key={lesson} className="flex items-center justify-between gap-3 py-2.5 text-sm border-b border-linie/70 last:border-0">
+                                <span className="text-anthrazit/75"><span className="text-anthrazit/40 tabular-nums mr-2">{String(i + 1).padStart(2, '0')}</span>{lesson}</span>
+                                {!soon && (
+                                  <button
+                                    onClick={() => handleAddLesson(course, lesson)}
+                                    aria-label={`Lektion «${lesson}» in den Warenkorb`}
+                                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center border transition-colors ${added === id ? 'bg-forest text-white border-forest' : 'border-linie hover:bg-forest hover:text-white hover:border-forest'}`}
+                                  >
+                                    {added === id ? <CheckCircle size={15} /> : <Plus size={15} />}
+                                  </button>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </motion.ol>
+                      )}
+                    </AnimatePresence>
+
+                    <div className="mt-auto pt-6">
+                      {soon ? (
+                        <Link to={CONTACT_HREF} className="btn-ghost w-full"><Bell size={16} /> Bei Start informieren</Link>
+                      ) : (
+                        <button onClick={() => handleAddBundle(course)} className="btn-primary w-full">
+                          Komplett-Paket kaufen <ArrowRight size={18} />
+                        </button>
+                      )}
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className="mt-12">
-                <button 
-                  onClick={() => navigate('/warenkorb')}
-                  className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit"
-                >
-                  Zum Warenkorb
-                </button>
-              </div>
+                </article>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="py-24 bg-white border-y border-linie">
+        <div className="container-x grid lg:grid-cols-2 gap-14 items-center">
+          <Reveal>
+            <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />Warum die <SmartGastroText withAcademy className="!text-xs" /></p>
+            <h2 className="h-section">Von Gastronomen für Gastronomen</h2>
+            <ul className="mt-8 space-y-4">
+              {[
+                'Praxisnahe Inhalte aus dem echten Gastro-Alltag',
+                'Jederzeit und überall verfügbar – auch auf dem Handy',
+                'Zertifikat nach erfolgreichem Abschluss',
+                'Inklusive Vorlagen und Checklisten für Ihren Betrieb',
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-3">
+                  <CheckCircle className="text-primary mt-0.5 shrink-0" size={22} />
+                  <span className="text-lg text-anthrazit/80">{b}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="rounded-[1.5rem] overflow-hidden aspect-video bg-anthrazit shadow-xl">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/xEAaUUx6iMw"
+                title="Datenbereinigung in der Gastronomie"
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
             </div>
-            <div className="relative">
-              <div className="aspect-video bg-hellgrau rounded-3xl overflow-hidden shadow-inner">
-                <iframe
-                  src="https://www.youtube.com/embed/xEAaUUx6iMw"
-                  title="Datenbereinigung in der Gastronomie"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-accent p-8 rounded-3xl shadow-xl">
-                <p className="text-3xl font-display font-bold text-anthrazit">100%</p>
-                <p className="text-xs font-bold uppercase tracking-wider text-anthrazit/60">Praxisbezug</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
+            <p className="text-sm text-anthrazit/55 mt-3">Einblick: Datenbereinigung in der Gastronomie</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <CtaBand title="Lieber begleitet statt allein?" text="Wenn Sie die Umsetzung nicht selbst machen möchten, übernehme ich das für Sie – vom Konzept bis zum Go-Live." />
+    </>
   );
 }

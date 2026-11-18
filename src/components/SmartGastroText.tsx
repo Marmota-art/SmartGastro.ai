@@ -13,7 +13,7 @@ export default function SmartGastroText({ className = "", withAcademy = false, w
 
   return (
     <span className={`font-display font-bold tracking-tight ${className}`}>
-      <span className="text-primary">Smart</span>
+      <span className={dark ? "text-[#4ADE80]" : "text-primary"}>Smart</span>
       <span className="text-accent">Gastro</span>
       {!withAcademy && !withEngine && <span className={dotAiColor}>.ai</span>}
       {withAcademy && <span className={` ml-2 ${suffixColor}`}>Academy</span>}

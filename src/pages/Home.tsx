@@ -1,275 +1,237 @@
-import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, ArrowRight, Sparkles, LayoutDashboard, Users, CreditCard, ClipboardList, Calendar, Brain, LogIn } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ArrowRight, ChefHat, QrCode, Smartphone, LineChart, GraduationCap, Sparkles, Check } from 'lucide-react';
+import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
+import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection } from '../components/Sections';
+import { REFERENCES, CONTACT_HREF } from '../constants';
 
-const CARDS = [
-  { title: 'Preise & Pakete', subtitle: 'Transparent und fair kalkuliert.', img: 'Bild_Preise_Pakete.jpg', link: '/preise', icon: <CreditCard size={32} /> },
-  { title: 'Leistungen', subtitle: 'Von QR-Speisekarten bis Order & Pay.', img: 'Bild_Leistungen.png', link: '/leistungen', icon: <Sparkles size={32} /> },
-  { title: 'Projektablauf', subtitle: 'Schritt für Schritt zum Go‑Live.', img: 'Bild_Projektablauf.jpeg', link: '/projektablauf', icon: <ClipboardList size={32} /> },
-  { title: 'Konditionen', subtitle: 'Zahlung, Spesen & Formalitäten.', img: 'Bild_Konditionen.png', link: '/konditionen', icon: <Users size={32} /> },
-  { title: 'Nächste Schritte', subtitle: 'So starten wir gemeinsam.', img: 'Bild_QR_Hero.jpeg', link: '/naechste-schritte', icon: <Calendar size={32} /> },
-  { title: 'Implementierung', subtitle: 'Moderne Gastro-Lösungen.', img: 'Bild_Implementierung.jpg', link: '/implementierung', icon: <LayoutDashboard size={32} /> },
+const OFFERS = [
+  {
+    icon: <QrCode size={22} />,
+    title: 'Digitale Speisekarte',
+    text: 'Ihre Karte per QR-Code am Tisch – im eigenen Look, mehrsprachig, mit Bildern und Allergenen. Preise ändern Sie in Sekunden statt neu zu drucken.',
+    img: '/assets/img/v2/loesung-speisekarte.webp',
+    href: '/loesungen#speisekarte',
+    price: 'ab CHF 490',
+  },
+  {
+    icon: <Smartphone size={22} />,
+    title: 'Order & Pay',
+    text: 'Gäste bestellen und bezahlen direkt am Tisch, die Bestellung landet in Ihrer Kasse. Ihr Service gewinnt Zeit für das, was zählt: Gastfreundschaft.',
+    img: '/assets/img/v2/loesung-orderpay.webp',
+    href: '/loesungen#order-pay',
+    price: 'CHF 9’800',
+  },
+  {
+    icon: <LineChart size={22} />,
+    title: 'KI-Prognosen',
+    text: 'Die SmartGastro Engine lernt aus Ihren Kassendaten, Wetter und Events – und sagt Ihnen, wie viele Gäste kommen und was die Küche vorbereiten soll.',
+    img: '/assets/img/v2/engine-dashboard.webp',
+    href: '/loesungen#engine',
+    price: 'auf Anfrage',
+  },
+];
+
+const STEPS = [
+  { n: '01', title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Wir klären, wo es im Betrieb hakt.' },
+  { n: '02', title: 'Analyse & Konzept', text: 'Ich schaue mir Abläufe, Karte und Kasse an und mache einen klaren Vorschlag.' },
+  { n: '03', title: 'Einrichtung & Schulung', text: 'Ich richte alles ein, übernehme Ihre Daten und schule Ihr Team.' },
+  { n: '04', title: 'Go-Live & Begleitung', text: 'Start ohne Betriebsunterbruch – und ich bleibe Ihr Ansprechpartner.' },
 ];
 
 export default function Home() {
-  const scrollToContact = () => {
-    document.getElementById('kontakt')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative h-[85vh] flex items-center justify-center bg-anthrazit overflow-hidden">
-        <img
-          src="/assets/img/Bild_Rest_Tech.jpg"
-          alt="Smart Gastro Technology"
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          referrerPolicy="no-referrer"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/restaurant-tech/1920/1080?blur=2';
-          }}
-        />
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
-          <motion.h1
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight"
-          >
-            KI in der Gastronomie – Digitale Lösungen für smarte Gastgeber:innen
-          </motion.h1>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.button
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              onClick={scrollToContact}
-              className="btn-xl bg-primary text-white text-lg font-bold hover:bg-accent hover:text-anthrazit w-full sm:w-auto"
+    <>
+      <PageMeta
+        title="SmartGastro.ai – Digitale Speisekarten, Order & Pay und KI für die Gastronomie"
+        description="Thomas Ballinari, gelernter Koch und zertifizierter KI-Spezialist, führt digitale Speisekarten, Order & Pay und KI-Prognosen in Schweizer Gastrobetrieben ein – ohne Betriebsunterbruch."
+      />
+
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -top-40 -right-40 w-[42rem] h-[42rem] rounded-full bg-accent/25 blur-3xl" />
+          <div className="absolute top-40 -left-40 w-[30rem] h-[30rem] rounded-full bg-primary/10 blur-3xl" />
+        </div>
+
+        <div className="container-x pt-8 pb-20 md:pt-14 md:pb-28 grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
+          <div>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="chip mb-7">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              Digitalisierung für Schweizer Gastrobetriebe
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.6rem] font-extrabold"
             >
-              Erstgespräch buchen
-            </motion.button>
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="w-full sm:w-auto"
-            >
-              <Link
-                to="/ueber"
-                className="btn-xl bg-white/10 backdrop-blur-md border border-white/20 text-white text-lg font-bold hover:bg-white hover:text-anthrazit w-full sm:w-auto inline-block text-center"
-              >
-                Über <SmartGastroText dark />
-              </Link>
+              Mehr Zeit für Ihre Gäste.{' '}
+              <span className="relative whitespace-nowrap text-forest">
+                Weniger Hektik
+                <svg aria-hidden="true" viewBox="0 0 300 12" className="absolute left-0 -bottom-1 w-full h-3 text-accent" preserveAspectRatio="none"><path d="M2 9c60-6 150-8 296-3" stroke="currentColor" strokeWidth="6" fill="none" strokeLinecap="round" /></svg>
+              </span>{' '}
+              im Betrieb.
+            </motion.h1>
+
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="lead mt-7 max-w-xl">
+              Digitale Speisekarten, Order &amp; Pay und KI-Prognosen – eingeführt von einem gelernten Koch, der selbst jahrelang einen grossen Landgasthof geführt hat. Ohne Betriebsunterbruch.
+            </motion.p>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="mt-9 flex flex-col sm:flex-row gap-3">
+              <Link to={CONTACT_HREF} className="btn-primary text-base">Kostenloses Erstgespräch <ArrowRight size={18} /></Link>
+              <Link to="/loesungen" className="btn-ghost text-base">Lösungen ansehen</Link>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-anthrazit/45 mb-4">Betriebe, die mit SmartGastro arbeiten</p>
+              <ul className="flex flex-wrap gap-x-8 gap-y-3">
+                {REFERENCES.map((r) => (
+                  <li key={r.id}>
+                    <Link to="/referenzen" className="font-display font-semibold text-anthrazit/70 hover:text-forest transition-colors">
+                      {r.name} <span className="font-sans font-normal text-sm text-anthrazit/45">· {r.place}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           </div>
+
+          {/* Portrait */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto w-full max-w-md lg:max-w-none"
+          >
+            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-[2.5rem] bg-forest" />
+            <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-[#8d9298]">
+              <img src="/assets/img/v2/thomas.webp" alt="Thomas Ballinari, Gründer von SmartGastro.ai" fetchPriority="high" className="w-full h-full object-cover object-top" />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
+              <div className="absolute left-6 bottom-6 text-white">
+                <p className="font-display text-xl font-bold">Thomas Ballinari</p>
+                <p className="text-sm text-white/80">Gründer SmartGastro.ai</p>
+              </div>
+            </div>
+            <div className="absolute -left-3 sm:-left-8 top-10 chip !py-2.5 !px-4 !text-sm">
+              <ChefHat size={18} className="text-forest" /> Gelernter Koch &amp; Küchenchef
+            </div>
+            <div className="absolute -right-2 sm:-right-6 top-1/2 chip !py-2.5 !px-4 !text-sm">
+              <Sparkles size={18} className="text-forest" /> Zertifizierter KI-Spezialist
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-primary mb-8 italic">
-            "Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können – präsent im Gastraum, kreativ in der Küche – und nicht gefangen in Hektik, Excel-Tabellen oder Personalnot."
-          </h2>
-          <div className="w-20 h-1 bg-accent mx-auto rounded-full"></div>
+      {/* PROBLEM → VERSPRECHEN */}
+      <section className="py-20 border-y border-linie bg-white">
+        <div className="container-x grid lg:grid-cols-[1fr_1.3fr] gap-12 items-start">
+          <Reveal>
+            <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />Warum SmartGastro</p>
+            <h2 className="h-section">Gastgeber sein – nicht Excel-Verwalter.</h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <blockquote className="font-display text-2xl md:text-3xl leading-snug text-anthrazit/85">
+              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können – präsent im Gastraum, kreativ in der Küche – und nicht gefangen in Hektik, Excel-Tabellen oder Personalnot.»
+            </blockquote>
+            <p className="mt-5 text-sm font-semibold text-anthrazit/55">Thomas Ballinari, Gründer</p>
+            <div className="mt-10 grid sm:grid-cols-3 gap-4">
+              {[
+                ['Aus der Praxis', 'Koch, Küchenchef und langjähriger Pächter – ich kenne den Druck am Pass.'],
+                ['Alles aus einer Hand', 'Speisekarte, Kasse, Daten und Schulung – abgestimmt auf Ihren Betrieb.'],
+                ['Ein Ansprechpartner', 'Von der Analyse bis zum Go-Live – persönlich und direkt.'],
+              ].map(([t, d]) => (
+                <div key={t} className="rounded-2xl bg-hellgrau p-5">
+                  <p className="font-display font-bold">{t}</p>
+                  <p className="text-sm text-anthrazit/65 mt-2 leading-relaxed">{d}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Navigation Cards */}
-      <section className="pb-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CARDS.map((card, idx) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-              >
-                <Link
-                  to={card.link}
-                  className="group relative block h-96 rounded-3xl overflow-hidden card-shadow bg-anthrazit"
-                >
-                  <img
-                    src={`/assets/img/${card.img}`}
-                    alt={card.title}
-                    className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${card.title}/600/800`;
-                    }}
-                  />
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
-                    <div className="mb-4 text-accent">{card.icon}</div>
-                    <h3 className="text-xl font-display font-bold leading-tight group-hover:text-accent transition-colors mb-2">
-                      {card.title}
-                    </h3>
-                    <p className="text-sm text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {card.subtitle}
-                    </p>
+      {/* ANGEBOTE */}
+      <section className="py-24">
+        <div className="container-x">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <SectionHead eyebrow="Lösungen" title="Drei Wege zu einem entspannteren Betrieb" />
+            <Link to="/preise" className="btn-ghost self-start md:self-auto">Alle Preise <ArrowRight size={16} /></Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {OFFERS.map((o, i) => (
+              <Reveal key={o.title} delay={i * 0.08}>
+                <Link to={o.href} className="group card overflow-hidden flex flex-col h-full hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.3)] transition-all duration-500">
+                  <div className="relative h-52 overflow-hidden bg-anthrazit">
+                    <img src={o.img} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <span className="absolute left-5 top-5 w-11 h-11 rounded-2xl bg-white text-forest flex items-center justify-center shadow">{o.icon}</span>
+                  </div>
+                  <div className="p-7 flex flex-col flex-grow">
+                    <h3 className="text-2xl">{o.title}</h3>
+                    <p className="mt-3 text-anthrazit/70 leading-relaxed flex-grow">{o.text}</p>
+                    <div className="mt-7 pt-5 border-t border-linie flex items-center justify-between">
+                      <span className="text-sm font-semibold text-anthrazit/60">{o.price}</span>
+                      <span className="inline-flex items-center gap-1.5 font-semibold text-forest">
+                        Mehr erfahren <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </div>
                   </div>
                 </Link>
-              </motion.div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.1}>
+            <Link to="/schulung" className="mt-6 group card p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6 hover:border-forest/40 transition-colors">
+              <span className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center shrink-0"><GraduationCap size={24} /></span>
+              <div className="flex-grow">
+                <p className="font-display text-xl font-bold"><SmartGastroText withAcademy /></p>
+                <p className="text-anthrazit/70 mt-1">Lieber selbst umsetzen? Die Masterclass «Digitale Speisekarte» zeigt in 12 Video-Lektionen Schritt für Schritt, wie es geht – ab CHF 9 pro Lektion.</p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 font-semibold text-forest shrink-0">Zur Academy <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></span>
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* REFERENZEN */}
+      <section className="py-24 bg-white border-y border-linie">
+        <div className="container-x">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <SectionHead eyebrow="Referenzen" title="Im Einsatz in der Ostschweiz" lead="Vom Landgasthof bis zur Stadtpizzeria – echte Betriebe, echte Projekte." />
+            <Link to="/referenzen" className="btn-ghost self-start md:self-auto">Alle Referenzen <ArrowRight size={16} /></Link>
+          </div>
+          <ReferenceGrid />
+        </div>
+      </section>
+
+      {/* ABLAUF */}
+      <section className="py-24">
+        <div className="container-x">
+          <SectionHead eyebrow="So arbeiten wir" title="In vier Schritten zum digitalen Betrieb" lead="Klar strukturiert, transparent im Preis und ohne dass Ihr Service darunter leidet." />
+          <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {STEPS.map((s, i) => (
+              <Reveal key={s.n} delay={i * 0.08}>
+                <li className="relative h-full card p-7">
+                  <span className="font-display text-5xl font-extrabold text-accent">{s.n}</span>
+                  <h3 className="text-xl mt-4">{s.title}</h3>
+                  <p className="mt-2 text-anthrazit/65 leading-relaxed">{s.text}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-anthrazit/70">
+            {['Erstgespräch kostenlos', 'Transparente Preise', 'Bezahlung per Karte, TWINT oder Überweisung', 'Datenschutz nach Schweizer Standard'].map((t) => (
+              <span key={t} className="inline-flex items-center gap-2"><Check size={16} className="text-primary" />{t}</span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Was Sie erwarten */}
-      <section className="py-24 bg-hellgrau">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Was Sie erwarten</h2>
-            <div className="w-20 h-1.5 bg-accent mx-auto rounded-full"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white p-10 rounded-3xl card-shadow flex flex-col">
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6">
-                <LayoutDashboard size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Implementierung moderner Gastro-Lösungen</h3>
-              <p className="text-anthrazit/70 leading-relaxed mb-8 flex-grow">
-                Wir begleiten Sie bei der Einführung digitaler Tools, von der QR-Speisekarte bis zum KI-gestützten Management.
-              </p>
-              <Link
-                to="/implementierung"
-                className="inline-flex items-center space-x-2 text-primary font-bold hover:text-accent transition-colors group"
-              >
-                <span>Mehr erfahren</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-            <div className="bg-white p-10 rounded-3xl card-shadow flex flex-col">
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6">
-                <Sparkles size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Umfassende Online-Kurse</h3>
-              <p className="text-anthrazit/70 leading-relaxed mb-8 flex-grow">
-                Lernen Sie in Ihrem eigenen Tempo, wie Sie KI und digitale Tools effizient in Ihren Betrieb integrieren.
-              </p>
-              <Link
-                to="/schulung"
-                className="inline-flex items-center space-x-2 text-primary font-bold hover:text-accent transition-colors group"
-              >
-                <span>Zu den Kursen</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-            <div className="bg-white p-10 rounded-3xl card-shadow flex flex-col">
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6">
-                <CheckCircle size={28} />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Persönliche Beratung</h3>
-              <p className="text-anthrazit/70 leading-relaxed mb-8 flex-grow">
-                Profitieren Sie von unserer langjährigen Erfahrung in der Gastronomie und Technologie.
-              </p>
-              <button
-                onClick={scrollToContact}
-                className="inline-flex items-center space-x-2 text-primary font-bold hover:text-accent transition-colors group text-left"
-              >
-                <span>Jetzt anfragen</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Kontaktformular */}
-      <section id="kontakt" className="py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Erstgespräch buchen</h2>
-            <p className="text-anthrazit/70">Wir freuen uns auf Ihre Nachricht und melden uns zeitnah bei Ihnen.</p>
-          </div>
-          
-          <form
-            name="kontakt"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            action="/thanks"
-            className="space-y-6"
-          >
-            <input type="hidden" name="form-name" value="kontakt" />
-            <p className="hidden">
-              <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-bold uppercase tracking-wider text-anthrazit/60">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  className="w-full px-6 py-4 bg-hellgrau rounded-2xl border-transparent focus:border-primary focus:bg-white focus:ring-0 transition-all outline-none"
-                  placeholder="Ihr Name"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-bold uppercase tracking-wider text-anthrazit/60">E-Mail</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full px-6 py-4 bg-hellgrau rounded-2xl border-transparent focus:border-primary focus:bg-white focus:ring-0 transition-all outline-none"
-                  placeholder="ihre@email.ch"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label htmlFor="firma" className="text-sm font-bold uppercase tracking-wider text-anthrazit/60">Firma / Restaurant (optional)</label>
-              <input
-                type="text"
-                id="firma"
-                name="firma"
-                className="w-full px-6 py-4 bg-hellgrau rounded-2xl border-transparent focus:border-primary focus:bg-white focus:ring-0 transition-all outline-none"
-                placeholder="Name Ihres Betriebs"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label htmlFor="nachricht" className="text-sm font-bold uppercase tracking-wider text-anthrazit/60">Nachricht</label>
-              <textarea
-                id="nachricht"
-                name="nachricht"
-                required
-                rows={5}
-                className="w-full px-6 py-4 bg-hellgrau rounded-2xl border-transparent focus:border-primary focus:bg-white focus:ring-0 transition-all outline-none resize-none"
-                placeholder="Wie können wir Ihnen helfen?"
-              ></textarea>
-            </div>
-            
-            <div className="flex items-start space-x-3">
-              <input
-                type="checkbox"
-                id="privacy"
-                name="privacy"
-                required
-                className="mt-1 rounded text-primary focus:ring-primary"
-              />
-              <label htmlFor="privacy" className="text-sm text-anthrazit/70 leading-relaxed">
-                Ich stimme zu, dass meine Angaben zur Beantwortung meiner Anfrage gespeichert werden. Keine Weitergabe an Dritte.
-              </label>
-            </div>
-            
-            <div className="pt-4">
-              <button
-                type="submit"
-                className="w-full btn-xl bg-primary text-white text-lg font-bold hover:bg-accent hover:text-anthrazit"
-              >
-                Nachricht senden
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-    </div>
+      <CtaBand />
+      <ContactSection />
+    </>
   );
 }

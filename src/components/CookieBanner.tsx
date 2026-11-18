@@ -1,59 +1,47 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
+/** Kompakter Hinweis unten links – verdeckt keine Buttons. Die Seite setzt keine Tracking-Cookies. */
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookie-consent');
-    if (!consent) {
+    try {
+      if (!localStorage.getItem('cookie-consent')) setIsVisible(true);
+    } catch {
       setIsVisible(true);
     }
   }, []);
 
-  const handleConsent = (type: 'all' | 'none' | 'config') => {
-    localStorage.setItem('cookie-consent', type);
+  const handleConsent = (type: 'all' | 'none') => {
+    try { localStorage.setItem('cookie-consent', type); } catch { /* ignore */ }
     setIsVisible(false);
-    if (type === 'all') {
-      // Initialize analytics if needed
-      console.log('Analytics enabled');
-    }
   };
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
+          role="region"
+          aria-label="Cookie-Hinweis"
+          initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-6 left-6 right-6 z-[100] max-w-2xl mx-auto"
+          exit={{ y: 40, opacity: 0 }}
+          transition={{ delay: 1.2 }}
+          className="fixed bottom-4 left-4 right-4 sm:left-auto sm:max-w-sm z-[60] bg-white rounded-2xl border border-linie shadow-[0_20px_50px_-20px_rgba(0,0,0,0.35)] p-5"
         >
-          <div className="bg-white rounded-2xl shadow-2xl border border-black/5 p-6 md:p-8">
-            <h3 className="text-lg font-display font-bold mb-4">Cookie-Einstellungen</h3>
-            <p className="text-sm text-anthrazit/70 mb-6 leading-relaxed">
-              Wir nutzen Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Einige sind essenziell, andere helfen uns, diese Website und Ihre Erfahrung zu verbessern.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => handleConsent('all')}
-                className="btn-xl bg-primary text-white text-sm font-semibold hover:bg-accent hover:text-anthrazit"
-              >
-                Alle annehmen
-              </button>
-              <button
-                onClick={() => handleConsent('none')}
-                className="btn-xl bg-hellgrau text-anthrazit text-sm font-semibold hover:bg-black/5"
-              >
-                Nur essenzielle
-              </button>
-              <button
-                onClick={() => handleConsent('config')}
-                className="btn-xl border border-black/10 text-anthrazit text-sm font-semibold hover:bg-black/5"
-              >
-                Konfigurieren
-              </button>
-            </div>
+          <p className="text-sm text-anthrazit/75 leading-relaxed">
+            Diese Website verwendet nur technisch notwendige Speicherungen und keine Tracking-Cookies.{' '}
+            <Link to="/datenschutz" className="underline underline-offset-2 hover:text-forest">Datenschutz</Link>
+          </p>
+          <div className="mt-4 flex gap-2">
+            <button onClick={() => handleConsent('all')} className="flex-1 rounded-full bg-forest text-white text-sm font-semibold py-2.5 hover:bg-primary transition-colors">
+              Verstanden
+            </button>
+            <button onClick={() => handleConsent('none')} className="flex-1 rounded-full border border-linie text-sm font-semibold py-2.5 hover:bg-hellgrau transition-colors">
+              Nur notwendige
+            </button>
           </div>
         </motion.div>
       )}

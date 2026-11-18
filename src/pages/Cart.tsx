@@ -1,3 +1,4 @@
+import PageMeta from '../components/PageMeta';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Trash2, ShoppingBag, ArrowRight, CheckCircle, Plus, Minus, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
@@ -31,6 +32,7 @@ export default function Cart() {
 
   return (
     <div className="py-24 bg-hellgrau min-h-screen">
+      <PageMeta title="Warenkorb" description="Ihr Warenkorb bei der SmartGastro Academy." />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-12">
           

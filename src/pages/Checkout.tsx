@@ -1,3 +1,4 @@
+import PageMeta from '../components/PageMeta';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CreditCard, Landmark, Wallet, ArrowLeft, ShieldCheck, Lock, CheckCircle, ArrowRight } from 'lucide-react';
@@ -70,6 +71,7 @@ export default function Checkout() {
 
   return (
     <div className="py-24 bg-hellgrau min-h-screen">
+      <PageMeta title="Kasse" description="Bestellung abschliessen." />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 flex items-center justify-between">
           <div>

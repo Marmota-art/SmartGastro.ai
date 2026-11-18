@@ -1,103 +1,100 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingBag } from 'lucide-react';
-import { NAV_LINKS, BRAND } from '../constants';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Menu, X, ShoppingBag, ArrowRight } from 'lucide-react';
+import { NAV_LINKS, CONTACT_HREF } from '../constants';
 import SmartGastroText from './SmartGastroText';
 import { useShop } from '../context/ShopContext';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useShop();
   const location = useLocation();
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
+  useEffect(() => setIsOpen(false), [location]);
 
-  const scrollToContact = () => {
-    const element = document.getElementById('kontakt');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    } else if (location.pathname !== '/') {
-      window.location.href = '/#kontakt';
-    }
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
+      isActive ? 'text-forest bg-forest/[0.07]' : 'text-anthrazit/75 hover:text-anthrazit'
+    }`;
+
+  const CartLink = (
+    <Link to="/warenkorb" aria-label={`Warenkorb${cartCount ? `, ${cartCount} Artikel` : ''}`} className="relative p-2 rounded-full text-anthrazit/80 hover:text-anthrazit hover:bg-black/5 transition-colors">
+      <ShoppingBag size={20} />
+      {cartCount > 0 && (
+        <span className="absolute -top-0.5 -right-0.5 bg-accent text-anthrazit text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+          {cartCount}
+        </span>
+      )}
+    </Link>
+  );
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center space-x-2">
-            <SmartGastroText className="text-2xl" />
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled || isOpen ? 'bg-creme/90 backdrop-blur-md border-b border-linie' : 'bg-creme/0 border-b border-transparent'}`}>
+      <div className="container-x">
+        <div className="flex justify-between items-center h-[72px] gap-4">
+          <Link to="/" aria-label="SmartGastro.ai – Startseite" className="shrink-0">
+            <SmartGastroText className="text-[22px]" />
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav aria-label="Hauptnavigation" className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-sm font-medium text-anthrazit/80 hover:text-primary transition-colors"
-              >
+              <NavLink key={link.href} to={link.href} className={linkClass}>
                 {link.name}
-              </Link>
+              </NavLink>
             ))}
-            <button
-              onClick={scrollToContact}
-              className="text-sm font-medium text-anthrazit/80 hover:text-primary transition-colors"
-            >
-              Kontakt
-            </button>
-            <Link to="/warenkorb" className="relative p-2 text-anthrazit hover:text-primary transition-colors">
-              <ShoppingBag size={24} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-accent text-anthrazit text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <Link to="/warenkorb" className="relative p-2 text-anthrazit hover:text-primary transition-colors">
-              <ShoppingBag size={24} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-accent text-anthrazit text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
-                  {cartCount}
-                </span>
-              )}
+          <div className="hidden lg:flex items-center gap-2">
+            {cartCount > 0 && CartLink}
+            <Link to={CONTACT_HREF} className="btn-primary !py-2.5 !px-5 text-sm">
+              Erstgespräch buchen <ArrowRight size={16} />
             </Link>
+          </div>
+
+          <div className="lg:hidden flex items-center gap-1">
+            {cartCount > 0 && CartLink}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-anthrazit hover:text-primary transition-colors"
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav"
+              aria-label={isOpen ? 'Menü schliessen' : 'Menü öffnen'}
+              className="p-2 rounded-full text-anthrazit hover:bg-black/5 transition-colors"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Nav */}
       {isOpen && (
-        <div className="lg:hidden bg-white border-b border-black/5 absolute w-full left-0 animate-in slide-in-from-top duration-300">
-          <div className="px-4 pt-2 pb-6 space-y-1">
+        <div id="mobile-nav" className="lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-creme overflow-y-auto">
+          <nav aria-label="Mobile Navigation" className="container-x pt-4 pb-10 flex flex-col">
             {NAV_LINKS.map((link) => (
-              <Link
+              <NavLink
                 key={link.href}
                 to={link.href}
-                className="block px-3 py-4 text-base font-medium text-anthrazit hover:bg-hellgrau rounded-lg"
+                className={({ isActive }) => `py-4 border-b border-linie font-display text-2xl font-semibold ${isActive ? 'text-forest' : 'text-anthrazit'}`}
               >
                 {link.name}
-              </Link>
+              </NavLink>
             ))}
-            <button
-              onClick={scrollToContact}
-              className="block w-full text-left px-3 py-4 text-base font-medium text-anthrazit hover:bg-hellgrau rounded-lg"
-            >
-              Kontakt
-            </button>
-          </div>
+            <Link to={CONTACT_HREF} className="btn-primary mt-8 text-base">
+              Kostenloses Erstgespräch <ArrowRight size={18} />
+            </Link>
+          </nav>
         </div>
       )}
     </header>

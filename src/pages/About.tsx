@@ -1,54 +1,74 @@
-import { motion } from 'motion/react';
-import { BRAND } from '../constants';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChefHat, Utensils, Building2, Sparkles, Mail } from 'lucide-react';
+import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
+import { Reveal, CtaBand } from '../components/Sections';
+import { BRAND, CONTACT_HREF } from '../constants';
+
+const PATH = [
+  { icon: <ChefHat size={20} />, title: 'Gelernter Koch', text: 'Das Handwerk von der Pike auf gelernt.' },
+  { icon: <Utensils size={20} />, title: 'Küchenchef', text: 'Verantwortung für Team, Einkauf und Kalkulation.' },
+  { icon: <Building2 size={20} />, title: 'Pächter eines grossen Landgasthofs', text: 'Über viele Jahre unternehmerisch geführt – mit allen Höhen und Tiefen.' },
+  { icon: <Sparkles size={20} />, title: 'Zertifizierter KI-Spezialist', text: 'Heute bringe ich digitale Werkzeuge und KI in Gastrobetriebe.' },
+];
 
 export default function About() {
   return (
-    <div className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
-        >
-          <div className="order-2 lg:order-1">
-            <h1 className="text-4xl md:text-5xl font-display font-bold mb-8 text-primary">Über <SmartGastroText /></h1>
-            <div className="space-y-6 text-lg text-anthrazit/80 leading-relaxed">
-              <p className="font-semibold text-xl text-anthrazit">
-                Thomas Ballinari – gelernter Koch, Küchenchef, langjähriger Pächter eines grossen Landgasthof und zertifizierter KI-Spezialist, implementiert Kassensysteme mit digitalen Speisekarten, Kalkulation & KI-Lösungen für Gastronomiebetriebe in der Schweiz.
+    <>
+      <PageMeta
+        title="Über mich: Thomas Ballinari"
+        description="Thomas Ballinari – gelernter Koch, Küchenchef, langjähriger Pächter und zertifizierter KI-Spezialist – digitalisiert Gastrobetriebe in der Schweiz."
+      />
+      <section className="pt-10 pb-24 md:pt-16">
+        <div className="container-x grid lg:grid-cols-[1fr_1.1fr] gap-14 lg:gap-20 items-center">
+          <Reveal className="relative max-w-md mx-auto w-full lg:max-w-none">
+            <div className="absolute inset-0 -translate-x-4 translate-y-4 rounded-[2.5rem] bg-accent" />
+            <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-[#8d9298]">
+              <img src="/assets/img/v2/thomas.webp" alt="Thomas Ballinari" className="w-full h-full object-cover object-top" />
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <p className="eyebrow mb-5"><span className="w-6 h-px bg-primary" />Über mich</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.02]">Ich bin Koch. <span className="text-forest">Und ich verstehe KI.</span></h1>
+            <div className="mt-7 space-y-5 text-lg text-anthrazit/75 leading-relaxed">
+              <p>
+                Ich bin Thomas Ballinari. Als gelernter Koch, Küchenchef und langjähriger Pächter eines grossen Landgasthofs kenne ich den Gastro-Alltag aus erster Hand: Hektik im Service, Personalnot und lange Abende mit Excel-Tabellen.
               </p>
               <p>
-                Meine Mission: Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können – präsent im Gastraum, kreativ in der Küche – und nicht gefangen in Hektik, Excel-Tabellen oder Personalnot.
+                Heute führe ich als zertifizierter KI-Spezialist mit <SmartGastroText /> Kassensysteme, digitale Speisekarten, Kalkulation und KI-Lösungen in Schweizer Gastrobetrieben ein – so, dass sie im Stress auch wirklich funktionieren.
               </p>
-              <p>
-                Mit <SmartGastroText className="text-lg" /> bringen wir die neuesten technologischen Entwicklungen direkt in Ihren Betrieb. Wir verstehen die Herausforderungen der Branche aus erster Hand und bieten Lösungen, die wirklich funktionieren.
-              </p>
-              <div className="pt-8">
-                <a
-                  href={`mailto:${BRAND.email}`}
-                  className="btn-xl bg-primary text-white font-bold hover:bg-accent hover:text-anthrazit inline-block"
-                >
-                  Kontakt aufnehmen
-                </a>
-              </div>
             </div>
-          </div>
-          
-          <div className="order-1 lg:order-2">
-            <div className="relative">
-              <div className="absolute -inset-4 bg-accent/20 rounded-[3rem] -rotate-3"></div>
-              <img
-                src="/assets/img/Thomas_Ballinari_2026.jpg"
-                alt="Thomas Ballinari"
-                className="relative rounded-[3rem] shadow-2xl w-full object-cover aspect-[4/5]"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/chef/800/1000';
-                }}
-              />
+            <blockquote className="mt-8 border-l-4 border-accent pl-6 font-display text-xl md:text-2xl leading-snug">
+              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können – präsent im Gastraum, kreativ in der Küche.»
+            </blockquote>
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <Link to={CONTACT_HREF} className="btn-primary">Erstgespräch buchen <ArrowRight size={18} /></Link>
+              <a href={`mailto:${BRAND.email}`} className="btn-ghost"><Mail size={18} /> {BRAND.email}</a>
             </div>
-          </div>
-        </motion.div>
-      </div>
-    </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white border-y border-linie">
+        <div className="container-x">
+          <p className="eyebrow mb-4"><span className="w-6 h-px bg-primary" />Mein Weg</p>
+          <h2 className="h-section max-w-2xl">Vom Herd zur KI – ohne den Gast aus den Augen zu verlieren.</h2>
+          <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {PATH.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.06}>
+                <li className="h-full rounded-2xl bg-hellgrau p-7">
+                  <span className="w-11 h-11 rounded-xl bg-forest text-white flex items-center justify-center">{p.icon}</span>
+                  <h3 className="text-xl mt-5">{p.title}</h3>
+                  <p className="mt-2 text-anthrazit/65 leading-relaxed">{p.text}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <CtaBand title="Lernen wir uns kennen." text="Ein Gespräch unter Gastronomen – kostenlos, unverbindlich und ohne Fachchinesisch." />
+    </>
   );
 }

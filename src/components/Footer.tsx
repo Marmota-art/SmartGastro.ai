@@ -1,62 +1,58 @@
 import { Link } from 'react-router-dom';
-import { BRAND, NAV_LINKS } from '../constants';
+import { Mail, MapPin, ArrowUpRight } from 'lucide-react';
+import { BRAND, NAV_LINKS, CONTACT_HREF } from '../constants';
 import SmartGastroText from './SmartGastroText';
 
 export default function Footer() {
   return (
-    <footer className="bg-hellgrau pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-4">
-            <Link to="/" className="text-2xl">
-              <SmartGastroText />
+    <footer className="bg-forest-deep text-white/80">
+      <div className="container-x pt-20 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-14 border-b border-white/10">
+          <div className="md:col-span-5">
+            <Link to="/" aria-label="SmartGastro.ai – Startseite">
+              <SmartGastroText dark className="text-2xl" />
             </Link>
-            <p className="text-sm text-anthrazit/70 leading-relaxed">
-              Digitale Lösungen für die Gastronomie der Zukunft. Wir machen Gastgeber wieder zu Gastgebern.
+            <p className="mt-5 max-w-sm leading-relaxed text-white/65">
+              Digitale Speisekarten, Order &amp; Pay und KI-Prognosen für die Schweizer Gastronomie – eingeführt von einem Koch, der den Alltag kennt.
             </p>
+            <Link to={CONTACT_HREF} className="btn-accent mt-8 !py-3 text-sm">
+              Kostenloses Erstgespräch <ArrowUpRight size={16} />
+            </Link>
           </div>
 
-          <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider mb-6">Kontakt</h4>
-            <ul className="space-y-3 text-sm text-anthrazit/70">
-              <li>{BRAND.location}</li>
-              <li>
-                <a href={`mailto:${BRAND.email}`} className="hover:text-primary transition-colors">
-                  {BRAND.email}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider mb-6">Navigation</h4>
-            <ul className="grid grid-cols-1 gap-3 text-sm text-anthrazit/70">
+          <div className="md:col-span-3">
+            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/45 mb-5">Navigation</h2>
+            <ul className="space-y-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href} className="hover:text-primary transition-colors">
-                    {link.name}
-                  </Link>
+                  <Link to={link.href} className="hover:text-accent transition-colors">{link.name}</Link>
                 </li>
               ))}
-              <li>
-                <Link to="/ueber" className="hover:text-primary transition-colors">Über <SmartGastroText className="text-sm" /></Link>
-              </li>
             </ul>
           </div>
 
-          <div>
-            <h4 className="font-display font-bold text-sm uppercase tracking-wider mb-6">Rechtliches</h4>
-            <ul className="space-y-3 text-sm text-anthrazit/70">
-              <li><Link to="/impressum" className="hover:text-primary transition-colors">Impressum</Link></li>
-              <li><Link to="/datenschutz" className="hover:text-primary transition-colors">Datenschutz</Link></li>
-              <li><Link to="/sicherheit" className="hover:text-primary transition-colors">Sicherheit</Link></li>
+          <div className="md:col-span-4">
+            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/45 mb-5">Kontakt</h2>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <Mail size={18} className="text-accent mt-0.5 shrink-0" />
+                <a href={`mailto:${BRAND.email}`} className="hover:text-accent transition-colors">{BRAND.email}</a>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="text-accent mt-0.5 shrink-0" />
+                <span>{BRAND.location}, Schweiz</span>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-black/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-anthrazit/50">
-          <p>© {new Date().getFullYear()} <SmartGastroText className="text-xs" />. Alle Rechte vorbehalten.</p>
-          <p className="mt-2 md:mt-0">Entwickelt für die Schweizer Gastronomie.</p>
+        <div className="pt-8 flex flex-col md:flex-row justify-between gap-4 text-sm text-white/45">
+          <p>© {new Date().getFullYear()} SmartGastro.ai · Thomas Ballinari · Entwickelt für die Schweizer Gastronomie.</p>
+          <ul className="flex gap-6">
+            <li><Link to="/impressum" className="hover:text-white transition-colors">Impressum</Link></li>
+            <li><Link to="/datenschutz" className="hover:text-white transition-colors">Datenschutz</Link></li>
+            <li><Link to="/sicherheit" className="hover:text-white transition-colors">Sicherheit</Link></li>
+          </ul>
         </div>
       </div>
     </footer>

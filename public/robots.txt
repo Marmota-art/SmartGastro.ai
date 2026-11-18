@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /warenkorb
+Disallow: /checkout
+Disallow: /thanks
+
+Sitemap: https://smartgastro.ai/sitemap.xml

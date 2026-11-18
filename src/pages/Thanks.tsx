@@ -1,9 +1,11 @@
+import PageMeta from '../components/PageMeta';
 import { Link } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 
 export default function Thanks() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center bg-hellgrau py-24">
+      <PageMeta title="Vielen Dank" description="Vielen Dank für Ihre Nachricht." />
       <div className="max-w-md w-full mx-auto px-4 text-center">
         <div className="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-8">
           <CheckCircle size={40} />
