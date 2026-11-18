@@ -88,10 +88,10 @@ export default function Home() {
                 <p className="text-sm text-white/80">Gründer SmartGastro.ai</p>
               </div>
             </div>
-            <div className="absolute -left-3 sm:-left-8 top-10 chip !py-2.5 !px-4 !text-sm">
+            <div className="absolute -left-3 sm:-left-8 top-[60%] chip !py-2.5 !px-4 !text-sm">
               <ChefHat size={18} className="text-forest" /> Gelernter Koch &amp; Küchenchef
             </div>
-            <div className="absolute -right-2 sm:-right-6 top-1/2 chip !py-2.5 !px-4 !text-sm">
+            <div className="absolute -right-2 sm:-right-6 top-[71%] chip !py-2.5 !px-4 !text-sm">
               <Sparkles size={18} className="text-forest" /> Zertifizierter KI-Spezialist
             </div>
           </motion.div>
