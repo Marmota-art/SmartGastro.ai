@@ -12,7 +12,7 @@ export default function Thanks() {
         </div>
         <h1 className="text-3xl font-display font-bold mb-4">Vielen Dank!</h1>
         <p className="text-lg text-anthrazit/70 mb-10 leading-relaxed">
-          Vielen Dank für Ihr Vertrauen. Wir haben Ihre Anfrage bzw. Bestellung erhalten und werden uns so schnell wie möglich bei Ihnen melden.
+          Ihre Anfrage ist angekommen. Ich melde mich so schnell wie möglich persönlich bei Ihnen, um einen Termin für das Erstgespräch zu vereinbaren.
         </p>
         <Link
           to="/"
