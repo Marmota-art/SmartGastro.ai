@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { ShopProvider } from './context/ShopContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,14 +10,17 @@ import Pricing from './pages/Pricing';
 import Solutions from './pages/Solutions';
 import HowWeWork from './pages/HowWeWork';
 import References from './pages/References';
-import Academy from './pages/Academy';
-import Cart from './pages/Cart';
 import Thanks from './pages/Thanks';
 import Impressum from './pages/Impressum';
 import Privacy from './pages/Privacy';
 import Security from './pages/Security';
-import Checkout from './pages/Checkout';
 import { ACADEMY_ENABLED } from './constants';
+
+// Shop und Academy (mit Stripe und PayPal) nur laden, wenn sie gebraucht werden.
+// Solange ACADEMY_ENABLED aus ist, wird dieser Code nie heruntergeladen.
+const Academy = lazy(() => import('./pages/Academy'));
+const Cart = lazy(() => import('./pages/Cart'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -46,6 +49,7 @@ export default function App() {
         <ScrollToTop />
         {!isHome && <Header />}
         <main id="main" className="flex-grow">
+          <Suspense fallback={<div className="min-h-[60vh]" />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/leistungen" element={<Solutions />} />
@@ -69,6 +73,7 @@ export default function App() {
             <Route path="/naechste-schritte" element={<Navigate to="/so-arbeiten-wir" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </Suspense>
         </main>
         <Footer />
         <CookieBanner />
