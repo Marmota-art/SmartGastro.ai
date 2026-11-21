@@ -7,18 +7,19 @@
 /projektablauf        /so-arbeiten-wir   301
 /konditionen          /so-arbeiten-wir   301
 /naechste-schritte    /so-arbeiten-wir   301
-/leistungen.html      /leistungen        301
-/preise.html          /preise            301
-/ueber.html           /ueber             301
-/projektablauf.html   /so-arbeiten-wir   301
-/konditionen.html     /so-arbeiten-wir   301
-/naechste-schritte.html /so-arbeiten-wir 301
-/impressum.html       /impressum         301
-/datenschutz.html     /datenschutz       301
-/sicherheit.html      /sicherheit        301
-/thanks.html          /thanks            301
+/leistungen.html      /leistungen        301!
+/preise.html          /preise            301!
+/ueber.html           /ueber             301!
+/projektablauf.html   /so-arbeiten-wir   301!
+/konditionen.html     /so-arbeiten-wir   301!
+/naechste-schritte.html /so-arbeiten-wir 301!
+/impressum.html       /impressum         301!
+/datenschutz.html     /datenschutz       301!
+/sicherheit.html      /sicherheit        301!
+/thanks.html          /thanks            301!
 
-# Die Seiten liegen vorgerendert als dist/<seite>/index.html und werden direkt ausgeliefert (scripts/prerender.mjs).
+# Die Seiten liegen vorgerendert als dist/<seite>.html und werden unter /<seite> direkt ausgeliefert (scripts/prerender.mjs).
+# Die alten .html-Adressen oben sind mit «!» erzwungen, sonst würde die gleichnamige Datei ausgeliefert.
 
 # Academy und Shop sind ausgeblendet (ACADEMY_ENABLED = false): vorübergehend zur Startseite.
 # Beim Einschalten diese drei Zeilen entfernen und die Seiten in scripts/prerender.mjs ergänzen.

@@ -1,7 +1,7 @@
 /**
  * Vorrendern für Google und Link-Vorschauen.
  * Nach `vite build` (Browser) und `vite build --ssr` (Server) wird jede Seite zu fertigem HTML gerendert
- * und als dist/<seite>/index.html abgelegt. Im Browser übernimmt React dieses HTML (hydrateRoot).
+ * und als dist/<seite>.html abgelegt (Netlify liefert /preise aus preise.html, ohne Umleitung auf /preise/). Im Browser übernimmt React dieses HTML (hydrateRoot).
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
@@ -39,7 +39,7 @@ function fill(html, appHtml, head, url, { noindex = false, notFound = false } = 
 let count = 0;
 for (const url of ROUTES) {
   const { html, head } = await render(url);
-  const file = url === '/' ? path.join(dist, 'index.html') : path.join(dist, url.slice(1), 'index.html');
+  const file = url === '/' ? path.join(dist, 'index.html') : path.join(dist, `${url.slice(1)}.html`);
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, fill(template, html, head, url, { noindex: NOINDEX.has(url) }));
   console.log(`  ✓ ${url.padEnd(18)} ${head.title ?? '(kein Titel)'}`);
