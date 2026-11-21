@@ -117,7 +117,7 @@ export const REFERENCES = [
     text: 'Getränke- und Speisekarte digital per QR-Code am Tisch. Dazu ein Pilotprojekt für eine schlanke, browserbasierte Kassen- und Bestelllösung, zugeschnitten auf die Abläufe im Café Park.',
     tags: ['QR-Getränkekarte', 'QR-Speisekarte', 'Kassensystem', 'Tablet'],
     img: null as string | null,
-    logo: '/assets/img/v2/logo-park.webp' as string | null,
+    logo: '/assets/img/v2/logo-park-name.webp' as string | null,
     initials: 'CP',
   },
 ];
