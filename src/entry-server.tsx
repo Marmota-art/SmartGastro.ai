@@ -8,6 +8,8 @@ import { StaticRouter } from 'react-router-dom';
 import App from './App';
 import { HeadContext, type HeadData } from './components/PageMeta';
 
+export { schemaFor } from './seo';
+
 export async function render(url: string): Promise<{ html: string; head: HeadData }> {
   const head: HeadData = {};
   const { prelude } = await prerenderToNodeStream(

@@ -85,7 +85,8 @@ const BETRIEBE: Betrieb[] = [
   },
 ];
 
-const FAQ = [
+/** Häufige Fragen. Auch als strukturierte Daten für Google genutzt (src/seo.ts). */
+export const FAQ = [
   { q: 'Warum gibt es keine fixen Paketpreise?', a: 'Weil jeder Betrieb anders ist: Kassensystem, Umfang der Karte, Sprachen, Abläufe. Die Preise auf dieser Seite sind Beispiele zur Orientierung. Ihren verbindlichen Festpreis erhalten Sie nach der Analyse, bevor irgendetwas startet.' },
   { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich.' },
   { q: 'Funktioniert das mit meiner Kasse?', a: 'Das klären wir in der Analyse. Ich prüfe, wie sich Ihre bestehende Kasse anbinden lässt. Wenn sie nicht passt, vergleiche ich mit Ihnen Alternativen und richte die neue Kasse ein.' },
