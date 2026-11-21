@@ -336,13 +336,57 @@
 
 
 <section class="panel cta" id="kontakt">
-  <div data-reveal>
-    <h2>Lassen Sie uns über Ihren Betrieb sprechen.</h2>
-    <p class="lead">Kostenlos und unverbindlich. Vor Ort oder online.</p>
-    <div class="cta-row">
-      <a class="btn btn-yellow" href="mailto:hello@smartgastro.ai?subject=Erstgespr%C3%A4ch">Erstgespräch buchen <svg class="ic"><use href="#i-arrow"/></svg></a>
+  <div class="cta-grid">
+    <div data-reveal>
+      <p class="eyebrow">Erstgespräch buchen</p>
+      <h2>Lassen Sie uns über Ihren Betrieb sprechen.</h2>
+      <p class="lead">Kostenlos und unverbindlich. Erzählen Sie kurz, worum es geht. Ich melde mich persönlich und wir vereinbaren einen Termin, bei Ihnen vor Ort, online oder am Telefon.</p>
+      <ul class="ticks cta-ticks">
+        <li><svg class="ic"><use href="#i-check"/></svg>Kostenlos und unverbindlich</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Konkrete Einschätzung für Ihren Betrieb</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Persönliche Antwort von Thomas Ballinari</li>
+      </ul>
+      <div class="mail"><span>oder schreiben Sie an</span><code id="mailTxt">hello@smartgastro.ai</code><button class="copy" id="copyBtn" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Kopieren</span></button></div>
     </div>
-    <div class="mail"><span>oder schreiben Sie an</span><code id="mailTxt">hello@smartgastro.ai</code><button class="copy" id="copyBtn" type="button"><svg class="ic"><use href="#i-copy"/></svg><span>Kopieren</span></button></div>
+
+    <form class="book" name="kontakt" method="POST" action="/thanks" data-netlify="true" netlify-honeypot="bot-field" data-reveal>
+      <input type="hidden" name="form-name" value="kontakt">
+      <p class="hp"><label>Nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+      <h3>Erstgespräch anfragen</h3>
+      <div class="row2">
+        <label class="f"><span>Name *</span><input type="text" name="name" required autocomplete="name" placeholder="Vor- und Nachname"></label>
+        <label class="f"><span>Betrieb</span><input type="text" name="firma" autocomplete="organization" placeholder="Name Ihres Betriebs"></label>
+      </div>
+      <div class="row2">
+        <label class="f"><span>E-Mail *</span><input type="email" name="email" required autocomplete="email" placeholder="ihre@email.ch"></label>
+        <label class="f"><span>Telefon</span><input type="tel" name="telefon" autocomplete="tel" placeholder="079 123 45 67"></label>
+      </div>
+      <div class="row2">
+        <label class="f"><span>Interesse</span>
+          <select name="anliegen">
+            <option>Komplettpaket (alles aus einer Hand)</option>
+            <option>Kassensystem: Auswahl &amp; Einrichtung</option>
+            <option>Digitale Speisekarte</option>
+            <option>Bestellen &amp; bezahlen am Tisch</option>
+            <option>Website &amp; Design</option>
+            <option>KI-Lösungen (Engine)</option>
+            <option>Mehrere Standorte</option>
+            <option>Noch offen</option>
+          </select>
+        </label>
+        <label class="f"><span>Wunschtermin</span><input type="text" name="wunschtermin" placeholder="z. B. Dienstagnachmittag"></label>
+      </div>
+      <fieldset class="f seg">
+        <legend>Gespräch am liebsten</legend>
+        <label><input type="radio" name="termin" value="Vor Ort im Betrieb" checked><span>Vor Ort</span></label>
+        <label><input type="radio" name="termin" value="Online (Video)"><span>Online</span></label>
+        <label><input type="radio" name="termin" value="Telefon"><span>Telefon</span></label>
+      </fieldset>
+      <label class="f"><span>Nachricht *</span><textarea name="nachricht" rows="4" required placeholder="Was beschäftigt Sie im Betrieb gerade am meisten?"></textarea></label>
+      <label class="ok"><input type="checkbox" name="privacy" required><span>Ich bin einverstanden, dass meine Angaben zur Beantwortung meiner Anfrage gespeichert werden. Keine Weitergabe an Dritte. <a href="/datenschutz">Datenschutz</a></span></label>
+      <p class="book-err" role="alert" hidden>Das Senden hat nicht geklappt. Bitte versuchen Sie es nochmals oder schreiben Sie an hello@smartgastro.ai.</p>
+      <button class="btn btn-yellow" type="submit">Erstgespräch anfragen <svg class="ic"><use href="#i-arrow"/></svg></button>
+    </form>
   </div>
 </section>
 
