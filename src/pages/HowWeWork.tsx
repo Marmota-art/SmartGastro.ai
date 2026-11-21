@@ -24,11 +24,11 @@ export default function HowWeWork() {
   return (
     <>
       <PageMeta
-        title="So arbeiten wir: Ablauf und Konditionen"
+        title="Ablauf und Konditionen"
         description="Vom kostenlosen Erstgespräch bis zum Go-Live ohne Betriebsunterbruch: der Projektablauf und die Konditionen von SmartGastro.ai."
       />
       <PageHero
-        eyebrow="So arbeiten wir"
+        eyebrow="Ablauf"
         title={<>Vom ersten Gespräch bis zum <span className="text-forest whitespace-nowrap">Go-Live</span></>}
         lead="Fünf Schritte, ein Ansprechpartner und keine Überraschungen bei den Kosten."
       >

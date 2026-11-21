@@ -10,7 +10,7 @@ export default function References() {
       />
       <PageHero
         eyebrow="Referenzen"
-        title={<>Unsere <span className="text-forest">Referenzen</span></>}
+        title={<>Referenzen <span className="text-forest">aus der Praxis</span></>}
         lead="Vom Landgasthof im Rheintal bis zur Pizzeria in St. Gallen: Diese Betriebe arbeiten mit SmartGastro."
       />
       <section className="pb-12">

@@ -1,5 +1,6 @@
 import PageMeta from '../components/PageMeta';
 import SmartGastroText from '../components/SmartGastroText';
+import { BRAND } from '../constants';
 
 export default function Impressum() {
   return (
@@ -26,6 +27,13 @@ export default function Impressum() {
             <h2 className="text-xl font-bold mb-4">Vertretungsberechtigte Personen</h2>
             <p>Thomas Ballinari, Inhaber</p>
           </section>
+
+          {BRAND.uid && (
+            <section>
+              <h2 className="text-xl font-bold mb-4">Unternehmens-Identifikationsnummer</h2>
+              <p>{BRAND.uid}</p>
+            </section>
+          )}
 
           <section>
             <h2 className="text-xl font-bold mb-4">Haftungsausschluss</h2>

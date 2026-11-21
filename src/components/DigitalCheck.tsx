@@ -74,7 +74,7 @@ const QUESTIONS: Question[] = [
 function recommendation(area: Area, betrieb: Betrieb | null): { title: string; text: string; price: string; anliegen: string } {
   switch (area) {
     case 'kasse':
-      return { title: 'Kasse prüfen und anbinden', text: 'Wir prüfen, ob Ihre Kasse angebunden werden kann, oder finden mit Ihnen eine passende neue und richten sie ein.', price: 'nach Analyse', anliegen: 'Kassensystem: Auswahl & Einrichtung' };
+      return { title: 'Kasse prüfen und anbinden', text: 'Ich prüfe, ob Ihre Kasse angebunden werden kann, oder finde mit Ihnen eine passende neue und richten sie ein.', price: 'nach Analyse', anliegen: 'Kassensystem: Auswahl & Einrichtung' };
     case 'karte':
       return {
         title: 'Digitale Speisekarte mit Kassenanbindung',
@@ -229,7 +229,7 @@ export default function DigitalCheck() {
 
           {weakest.length > 0 && (
             <>
-              <p className="dc-recs-h">Damit würden wir bei Ihnen anfangen:</p>
+              <p className="dc-recs-h">Damit würde ich bei Ihnen anfangen:</p>
               <ol className="dc-recs">
                 {weakest.map((w) => {
                   const r = recommendation(w.area, betrieb);

@@ -1,1 +1,37 @@
-/*  /index.html  200
+# Netlify-Weiterleitungen. Reihenfolge zählt: die erste passende Regel gilt.
+# Dateien (Bilder, Skripte) werden immer direkt ausgeliefert und sind hiervon nicht betroffen.
+
+# Alte Adressen dauerhaft umleiten (301), damit Google und Lesezeichen weiter funktionieren
+/loesungen            /leistungen        301
+/implementierung      /leistungen        301
+/projektablauf        /so-arbeiten-wir   301
+/konditionen          /so-arbeiten-wir   301
+/naechste-schritte    /so-arbeiten-wir   301
+/leistungen.html      /leistungen        301
+/preise.html          /preise            301
+/ueber.html           /ueber             301
+/projektablauf.html   /so-arbeiten-wir   301
+/konditionen.html     /so-arbeiten-wir   301
+/naechste-schritte.html /so-arbeiten-wir 301
+/impressum.html       /impressum         301
+/datenschutz.html     /datenschutz       301
+/sicherheit.html      /sicherheit        301
+/thanks.html          /thanks            301
+
+# Seiten der Website: an die App übergeben
+/leistungen       /index.html  200
+/preise           /index.html  200
+/referenzen       /index.html  200
+/so-arbeiten-wir  /index.html  200
+/ueber            /index.html  200
+/impressum        /index.html  200
+/datenschutz      /index.html  200
+/sicherheit       /index.html  200
+/thanks           /index.html  200
+/demo-karte       /index.html  200
+/schulung         /index.html  200
+/warenkorb        /index.html  200
+/checkout         /index.html  200
+
+# Alles andere: Seite «Nicht gefunden» mit Status 404
+/*  /index.html  404

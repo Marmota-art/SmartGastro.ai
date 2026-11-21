@@ -507,3 +507,6 @@
 .sg2 .qr-hint{margin:0;font-size:.9rem;color:var(--ink2)}
 @media(hover:hover) and (pointer:fine){.sg2 .qr-hint{display:none}}
 @media(max-width:900px){.sg2 .qr-tent{display:none}.sg2 .qr-open{width:100%}}
+/* Fünf Menüpunkte: unter 1140 px ins Menü-Symbol, damit nichts umbricht */
+.sg2 .nav-links a{white-space:nowrap}
+@media(max-width:1140px){.sg2 .nav-links{display:none}.sg2 .nav-burger{display:flex}}
