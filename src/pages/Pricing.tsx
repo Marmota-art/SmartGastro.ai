@@ -12,7 +12,7 @@ import { CONTACT_HREF } from '../constants';
 /** Vom Erstgespräch zum verbindlichen Preis. */
 const PATH = [
   { Icon: MessageCircle, title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Sie erzählen, wo es im Betrieb drückt.' },
-  { Icon: ClipboardCheck, title: 'Analyse Ihres Betriebs', text: 'Wir sehen uns Abläufe, Karte und vor allem Ihre Kasse an: Was ist da, was lässt sich anbinden?' },
+  { Icon: ClipboardCheck, title: 'Analyse Ihres Betriebs', text: 'Ich sehe mir Abläufe, Karte und vor allem Ihre Kasse an: Was ist da, was lässt sich anbinden?' },
   { Icon: FileSignature, title: 'Ihr Angebot', text: 'Sie erhalten ein verbindliches Angebot mit Festpreis, zugeschnitten auf Ihren Betrieb. Ohne versteckte Kosten.' },
 ];
 
@@ -66,7 +66,7 @@ const BETRIEBE: Betrieb[] = [
     Icon: HomeIcon,
     intro: 'Grosser Betrieb mit Saal, Bankette, schwankende Gästezahlen.',
     bedarf: ['Kasse einrichten oder neu aufbauen', 'Speisekarte und Website aus einem Guss', 'Prognosen für Einkauf und Personal'],
-    kasse: 'Wir bereiten Ihre Kassendaten der letzten Jahre auf. Daraus entstehen Karte, Auswertungen und Prognosen, wie im Restaurant Löwenburg.',
+    kasse: 'Ich bereite Ihre Kassendaten der letzten Jahre auf. Daraus entstehen Karte, Auswertungen und Prognosen, wie im Restaurant Löwenburg.',
     analyse: ['Welche Daten liefert Ihre Kasse heute?', 'Wie läuft es bei Banketten und im Saal?', 'Wo entstehen Food Waste und Überstunden?'],
     beispiel: [
       { name: 'Speisekarte mit Kassenanbindung und Website', preis: 'ab CHF 2’900' },
@@ -88,8 +88,8 @@ const BETRIEBE: Betrieb[] = [
 const FAQ = [
   { q: 'Warum gibt es keine fixen Paketpreise?', a: 'Weil jeder Betrieb anders ist: Kassensystem, Umfang der Karte, Sprachen, Abläufe. Die Preise auf dieser Seite sind Beispiele zur Orientierung. Ihren verbindlichen Festpreis erhalten Sie nach der Analyse, bevor irgendetwas startet.' },
   { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich.' },
-  { q: 'Funktioniert das mit meiner Kasse?', a: 'Das klären wir in der Analyse. Wir prüfen, wie sich Ihre bestehende Kasse anbinden lässt. Wenn sie nicht passt, vergleichen wir mit Ihnen Alternativen und richten die neue Kasse ein.' },
-  { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung planen wir so, dass der Start ohne Betriebsunterbruch gelingt.' },
+  { q: 'Funktioniert das mit meiner Kasse?', a: 'Das klären wir in der Analyse. Ich prüfe, wie sich Ihre bestehende Kasse anbinden lässt. Wenn sie nicht passt, vergleiche ich mit Ihnen Alternativen und richte die neue Kasse ein.' },
+  { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung plane ich so, dass der Start ohne Betriebsunterbruch gelingt.' },
   { q: 'Wie kann ich bezahlen?', a: 'Per Kreditkarte, TWINT oder Banküberweisung. Alle Preise verstehen sich exkl. 8.1 % MwSt.' },
 ];
 
@@ -146,7 +146,7 @@ export default function Pricing() {
       <PageHero
         eyebrow="Preise"
         title={<>Ihr Preis passt zu <span className="text-forest">Ihrem Betrieb.</span></>}
-        lead="Kein Paket von der Stange. Wir analysieren zuerst Ihren Betrieb und Ihre Kasse, danach erhalten Sie ein verbindliches Angebot mit Festpreis. Die Preise auf dieser Seite sind Beispiele zur Orientierung."
+        lead="Kein Paket von der Stange. Ich analysiere zuerst Ihren Betrieb und Ihre Kasse, danach erhalten Sie ein verbindliches Angebot mit Festpreis. Die Preise auf dieser Seite sind Beispiele zur Orientierung."
       >
         <div className="mt-8 flex flex-col sm:flex-row gap-3">
           <Link to={CONTACT_HREF} className="btn-primary">Kostenlose Analyse anfragen <ArrowRight size={18} /></Link>
@@ -185,7 +185,7 @@ export default function Pricing() {
                 <p className="eyebrow !text-accent mb-4"><Link2 size={14} /> Kassenanbindung</p>
                 <h2 className="text-3xl md:text-[2.6rem] leading-[1.08]">Ihre Kasse ist das Herzstück. Alles andere hängt daran.</h2>
                 <p className="mt-5 text-white/80 leading-relaxed text-lg">
-                  Speisekarte, Bestellungen, Website und KI holen ihre Daten aus der Kasse. Darum ist die Anbindung bei uns immer Teil des Angebots, nicht ein teures Extra.
+                  Speisekarte, Bestellungen, Website und KI holen ihre Daten aus der Kasse. Darum ist die Anbindung bei mir immer Teil des Angebots, nicht ein teures Extra.
                 </p>
                 <ul className="mt-6 space-y-2.5">
                   {['Einmal ändern, überall aktuell', 'Nichts doppelt erfassen', 'Bestehende Kasse anbinden oder passende neue einrichten'].map((t) => (
@@ -303,7 +303,7 @@ export default function Pricing() {
           <SectionHead
             eyebrow="Rundum-Service"
             title="Weitere Bausteine, einzeln oder als Komplettpaket"
-            lead="Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Diese Bausteine kalkulieren wir nach der Analyse in Ihr Angebot ein."
+            lead="Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Diese Bausteine kalkuliere ich nach der Analyse in Ihr Angebot ein."
           />
           <ul className="card divide-y divide-linie px-6">
             {[

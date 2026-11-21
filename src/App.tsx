@@ -3,7 +3,6 @@ import { useEffect, lazy, Suspense } from 'react';
 import { ShopProvider } from './context/ShopContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import CookieBanner from './components/CookieBanner';
 import Home from './pages/Home';
 import About from './pages/About';
 import Pricing from './pages/Pricing';
@@ -22,6 +21,7 @@ const Academy = lazy(() => import('./pages/Academy'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const DemoKarte = lazy(() => import('./pages/DemoKarte'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -76,12 +76,11 @@ export default function App() {
             <Route path="/projektablauf" element={<Navigate to="/so-arbeiten-wir" replace />} />
             <Route path="/konditionen" element={<Navigate to="/so-arbeiten-wir#konditionen" replace />} />
             <Route path="/naechste-schritte" element={<Navigate to="/so-arbeiten-wir" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           </Suspense>
         </main>
         {!isDemo && <Footer />}
-        {!isDemo && <CookieBanner />}
       </div>
     </ShopProvider>
   );

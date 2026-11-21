@@ -88,10 +88,10 @@ export default function Privacy() {
             </p>
           </Section>
 
-          <Section title="7. Speicherung im Browser">
+          <Section title="7. Cookies und Speicherung im Browser">
             <p>
-              Ihre Auswahl im Hinweis zum Datenschutz («Verstanden» oder «Nur notwendige») speichern wir im lokalen Speicher Ihres Browsers, damit der Hinweis nicht bei jedem Besuch erscheint.
-              Diese Angabe verlässt Ihr Gerät nicht. Sie können sie jederzeit in den Einstellungen Ihres Browsers löschen.
+              Diese Website setzt keine Cookies und speichert keine Daten im Browser. Auch der Digital-Check und die Demo-Speisekarte laufen nur auf Ihrem Gerät;
+              Ihre Antworten werden weder übertragen noch gespeichert, solange Sie sie nicht selbst über das Kontaktformular senden.
             </p>
           </Section>
 

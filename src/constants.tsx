@@ -5,7 +5,9 @@ export const BRAND = {
   email: 'hello@smartgastro.ai',
   location: 'Volksbadstrasse 17a, 9000 St. Gallen',
   iban: 'CH78 8080 8008 6231 9985 7',
-  bank: 'Raiffeisenbank Oberes Rheintal'
+  bank: 'Raiffeisenbank Oberes Rheintal',
+  /** UID bzw. MWST-Nummer (z. B. «CHE-123.456.789 MWST»). Leer lassen, solange keine vorhanden ist; dann erscheint sie nicht im Impressum. */
+  uid: '',
 };
 
 /** Academy und Shop sind ausgeblendet, bis Bezahlung (Stripe) und Video-Zugang eingerichtet sind. */
@@ -15,7 +17,7 @@ const ALL_NAV_LINKS = [
   { name: 'Leistungen', href: '/leistungen' },
   { name: 'Preise', href: '/preise' },
   { name: 'Referenzen', href: '/referenzen' },
-  { name: 'So arbeiten wir', href: '/so-arbeiten-wir' },
+  { name: 'Ablauf', href: '/so-arbeiten-wir' },
   { name: 'Academy', href: '/schulung' },
   { name: 'Über mich', href: '/ueber' },
 ];
@@ -35,13 +37,13 @@ export const SERVICES = [
   {
     id: 'beratung',
     title: 'Beratung & Analyse',
-    short: 'Wir schauen uns Service, Küche, Abläufe und Zahlen an und zeigen Ihnen, wo Digitalisierung am meisten bringt.',
+    short: 'Ich schaue mir Service, Küche, Abläufe und Zahlen an und zeige Ihnen, wo Digitalisierung am meisten bringt.',
     points: ['Analyse der Service-Abläufe', 'Digitaler Check Ihres Betriebs', 'Klare Roadmap mit Prioritäten'],
   },
   {
     id: 'kassenwahl',
     title: 'Kassensystem-Auswahl',
-    short: 'Gemeinsam finden wir die passende Kasse für Ihren Betrieb. Wir vergleichen Funktionen, Kosten und Schnittstellen.',
+    short: 'Gemeinsam finden wir die passende Kasse für Ihren Betrieb. Ich vergleiche Funktionen, Kosten und Schnittstellen.',
     points: ['Anforderungen definieren', 'Anbieter vergleichen', 'Empfehlung, die zu Ihnen passt'],
   },
   {
