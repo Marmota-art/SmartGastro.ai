@@ -187,6 +187,29 @@ export default function Home() {
       cleanups.push(() => d.removeEventListener('toggle', onToggle));
     });
 
+    // Erstgespräch-Formular: an Netlify Forms senden, danach eigene Danke-Seite.
+    // Ohne JavaScript greift der normale Formularversand (Netlify-Standardseite).
+    const book = $<HTMLFormElement>('form.book');
+    const onSubmit = async (e: SubmitEvent) => {
+      if (!book) return;
+      e.preventDefault();
+      const btn = book.querySelector<HTMLButtonElement>('button[type=submit]');
+      const err = book.querySelector<HTMLElement>('.book-err');
+      if (btn) { btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = 'Wird gesendet …'; }
+      if (err) err.hidden = true;
+      try {
+        const body = new URLSearchParams(new FormData(book) as unknown as Record<string, string>).toString();
+        const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+        if (!res.ok) throw new Error(String(res.status));
+        navigate('/thanks');
+      } catch {
+        if (err) err.hidden = false;
+        if (btn) { btn.disabled = false; btn.innerHTML = btn.dataset.label || 'Erstgespräch anfragen'; }
+      }
+    };
+    book?.addEventListener('submit', onSubmit);
+    cleanups.push(() => book?.removeEventListener('submit', onSubmit));
+
     // Direkt auf einen Abschnitt verlinkt (z. B. /#kontakt)
     if (window.location.hash) timers.push(window.setTimeout(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView(), 60));
 

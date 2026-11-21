@@ -426,3 +426,4 @@
 .sg2 .book .ok a{color:var(--g700);text-decoration:underline}
 .sg2 .book .btn{width:100%}
 @media(max-width:560px){.sg2 .cta{padding:30px 14px}}
+.sg2 .book .book-err{margin:0;padding:.7em .9em;border-radius:12px;background:#fdecea;color:#8a1c12;font-weight:600;font-size:.95rem}.sg2 .book .btn:disabled{opacity:.7;cursor:wait;transform:none}
