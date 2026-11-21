@@ -3,5 +3,6 @@ Allow: /
 Disallow: /warenkorb
 Disallow: /checkout
 Disallow: /thanks
+Disallow: /demo-karte
 
 Sitemap: https://smartgastro.ai/sitemap.xml

@@ -21,6 +21,7 @@ import { ACADEMY_ENABLED } from './constants';
 const Academy = lazy(() => import('./pages/Academy'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
+const DemoKarte = lazy(() => import('./pages/DemoKarte'));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -41,19 +42,23 @@ function ScrollToTop() {
 
 export default function App() {
   // Die Startseite bringt ihren eigenen Kopf (Entwurf V2) mit.
-  const isHome = useLocation().pathname === '/';
+  const { pathname } = useLocation();
+  const isHome = pathname === '/';
+  // Die Demo-Speisekarte (per QR-Code) zeigt sich wie die Karte eines Restaurants, ohne Website-Rahmen.
+  const isDemo = pathname === '/demo-karte';
   return (
     <ShopProvider>
       <div className="flex flex-col min-h-screen">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] btn-accent">Zum Inhalt springen</a>
         <ScrollToTop />
-        {!isHome && <Header />}
+        {!isHome && !isDemo && <Header />}
         <main id="main" className="flex-grow">
           <Suspense fallback={<div className="min-h-[60vh]" />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/leistungen" element={<Solutions />} />
             <Route path="/preise" element={<Pricing />} />
+            <Route path="/demo-karte" element={<DemoKarte />} />
             <Route path="/referenzen" element={<References />} />
             <Route path="/so-arbeiten-wir" element={<HowWeWork />} />
             <Route path="/schulung" element={ACADEMY_ENABLED ? <Academy /> : <Navigate to="/" replace />} />
@@ -75,8 +80,8 @@ export default function App() {
           </Routes>
           </Suspense>
         </main>
-        <Footer />
-        <CookieBanner />
+        {!isDemo && <Footer />}
+        {!isDemo && <CookieBanner />}
       </div>
     </ShopProvider>
   );
