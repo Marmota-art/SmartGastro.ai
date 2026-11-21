@@ -21,7 +21,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/45 mb-5">Navigation</h2>
+            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/75 mb-5">Navigation</h2>
             <ul className="space-y-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
@@ -32,7 +32,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-4">
-            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/45 mb-5">Kontakt</h2>
+            <h2 className="text-xs font-sans font-semibold uppercase tracking-[0.18em] text-white/75 mb-5">Kontakt</h2>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail size={18} className="text-accent mt-0.5 shrink-0" />
@@ -46,7 +46,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 flex flex-col md:flex-row justify-between gap-4 text-sm text-white/45">
+        <div className="pt-8 flex flex-col md:flex-row justify-between gap-4 text-sm text-white/75">
           <p>© {new Date().getFullYear()} SmartGastro.ai · Thomas Ballinari · Entwickelt für die Schweizer Gastronomie.</p>
           <ul className="flex gap-6">
             <li><Link to="/impressum" className="hover:text-white transition-colors">Impressum</Link></li>

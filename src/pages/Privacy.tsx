@@ -25,7 +25,7 @@ export default function Privacy() {
       <PageMeta title="Datenschutz" description="Datenschutzerklärung von SmartGastro.ai nach Schweizer Datenschutzgesetz: welche Daten wir bearbeiten, wofür und welche Rechte Sie haben." />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-display font-bold mb-4">Datenschutzerklärung</h1>
-        <p className="text-sm text-anthrazit/55 mb-12">Stand: {STAND}</p>
+        <p className="text-sm text-anthrazit/70 mb-12">Stand: {STAND}</p>
 
         <div className="text-anthrazit/80 leading-relaxed space-y-10">
           <Section title="1. Verantwortlich">

@@ -41,15 +41,13 @@ export default function HowWeWork() {
         <div className="container-x">
           <ol className="relative border-l-2 border-linie ml-5 md:ml-6 space-y-10">
             {STEPS.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.05}>
-                <li className="relative pl-10 md:pl-14">
+              <Reveal key={s.title} delay={i * 0.05} as="li" className="relative pl-10 md:pl-14">
                   <span className="absolute -left-[23px] md:-left-[27px] top-0 w-11 h-11 md:w-12 md:h-12 rounded-2xl bg-forest text-white flex items-center justify-center shadow-lg">{s.icon}</span>
                   <div className="card p-7 md:p-8 max-w-3xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Schritt {i + 1}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-forest">Schritt {i + 1}</p>
                     <h2 className="text-2xl mt-2">{s.title}</h2>
                     <p className="mt-3 text-anthrazit/70 leading-relaxed">{s.desc}</p>
                   </div>
-                </li>
               </Reveal>
             ))}
           </ol>

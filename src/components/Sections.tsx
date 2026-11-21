@@ -5,9 +5,10 @@ import { ArrowRight, Mail, MapPin, Clock, Check, ClipboardCheck, Scale, MonitorC
 import { BRAND, REFERENCES, CONTACT_HREF, SERVICES, ACADEMY_ENABLED } from '../constants';
 
 /** Sanftes Einblenden beim Scrollen. */
-export function Reveal({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
+export function Reveal({ children, delay = 0, className = '', as = 'div' }: { children: ReactNode; delay?: number; className?: string; as?: 'div' | 'li' }) {
+  const M = as === 'li' ? motion.li : motion.div;
   return (
-    <motion.div
+    <M
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
@@ -15,7 +16,7 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
       className={className}
     >
       {children}
-    </motion.div>
+    </M>
   );
 }
 
@@ -86,10 +87,10 @@ export function ReferenceGrid() {
           <article className="group card overflow-hidden h-full flex flex-col">
             <RefVisual r={r} />
             <div className="p-7 flex flex-col flex-grow">
-              <div className="flex items-center gap-2 text-sm text-anthrazit/55">
+              <div className="flex items-center gap-2 text-sm text-anthrazit/70">
                 <MapPin size={14} /> {r.place}
               </div>
-              <h3 className="text-xl mt-2">{r.name}</h3>
+              <h2 className="text-xl mt-2">{r.name}</h2>
               <p className="mt-1 text-sm font-semibold text-forest">{r.project}</p>
               <p className="mt-4 text-anthrazit/70 leading-relaxed flex-grow">{r.text}</p>
               <ul className="mt-6 flex flex-wrap gap-2">
@@ -155,7 +156,7 @@ export function ContactSection() {
             <div className="text-sm">
               <p className="font-semibold">Thomas Ballinari</p>
               <a href={`mailto:${BRAND.email}`} className="text-forest hover:underline">{BRAND.email}</a>
-              <p className="flex items-center gap-1.5 text-anthrazit/55 mt-1"><Clock size={13} /> Sie erhalten eine persönliche Antwort</p>
+              <p className="flex items-center gap-1.5 text-anthrazit/70 mt-1"><Clock size={13} /> Sie erhalten eine persönliche Antwort</p>
             </div>
           </div>
         </div>
@@ -186,7 +187,7 @@ export function ContactSection() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div className="space-y-2">
-              <label htmlFor="firma" className="field-label">Betrieb <span className="font-normal text-anthrazit/45">(optional)</span></label>
+              <label htmlFor="firma" className="field-label">Betrieb <span className="font-normal text-anthrazit/70">(optional)</span></label>
               <input type="text" id="firma" name="firma" autoComplete="organization" className="field" placeholder="Name Ihres Betriebs" />
             </div>
             <div className="space-y-2">
@@ -246,7 +247,7 @@ export function ServiceGrid({ linked = true }: { linked?: boolean }) {
           <>
             <div className="flex items-center justify-between">
               <span className="w-12 h-12 rounded-2xl bg-forest text-white flex items-center justify-center group-hover:bg-accent group-hover:text-anthrazit transition-colors">{SERVICE_ICONS[s.id]}</span>
-              <span className="font-display text-sm font-bold text-anthrazit/30 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+              <span className="font-display text-sm font-bold text-anthrazit/30 tabular-nums" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             </div>
             <h3 className="text-xl mt-6">{s.title}</h3>
             <p className="mt-2 text-sm text-anthrazit/65 leading-relaxed flex-grow">{s.short}</p>
@@ -258,14 +259,12 @@ export function ServiceGrid({ linked = true }: { linked?: boolean }) {
           </>
         );
         return (
-          <Reveal key={s.id} delay={(i % 4) * 0.06}>
-            <li className="h-full">
+          <Reveal key={s.id} delay={(i % 4) * 0.06} as="li" className="h-full">
               {linked ? (
                 <Link to={`/leistungen#${s.id}`} className="group card p-6 h-full flex flex-col hover:border-forest/40 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(0,0,0,0.35)] transition-all duration-500">{inner}</Link>
               ) : (
                 <div className="group card p-6 h-full flex flex-col">{inner}</div>
               )}
-            </li>
           </Reveal>
         );
       })}

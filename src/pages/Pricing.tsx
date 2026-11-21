@@ -125,7 +125,7 @@ function WasteCalculator() {
       <div className="rounded-2xl bg-forest text-white p-8 text-center">
         <p className="text-sm text-white/70">Mögliches Sparpotenzial pro Jahr</p>
         <p className="font-display text-4xl md:text-5xl font-extrabold mt-2 text-accent">{chf(proJahr)}</p>
-        <p className="text-xs text-white/55 mt-4 leading-relaxed">Beispielrechnung mit Ihren Annahmen. Die tatsächliche Wirkung hängt von Ihrem Betrieb ab. Im Erstgespräch rechnen wir es mit Ihren Zahlen durch.</p>
+        <p className="text-xs text-white/75 mt-4 leading-relaxed">Beispielrechnung mit Ihren Annahmen. Die tatsächliche Wirkung hängt von Ihrem Betrieb ab. Im Erstgespräch rechnen wir es mit Ihren Zahlen durch.</p>
         <Link to={CONTACT_HREF} className="btn-accent mt-6 !py-3 text-sm">Mit meinen Zahlen rechnen <ArrowRight size={16} /></Link>
       </div>
     </div>
@@ -141,7 +141,7 @@ export default function Pricing() {
     <>
       <PageMeta
         title="Preise nach Analyse Ihres Betriebs"
-        description="Ihr Preis entsteht aus der Analyse Ihres Betriebs. Beispielpreise für Café, Restaurant, Landgasthof und Hotel, mit Anbindung an Ihre Kasse. Erstgespräch kostenlos."
+        description="Ihr Preis entsteht aus der Analyse Ihres Betriebs: Beispielpreise für Café, Restaurant, Landgasthof und Hotel, immer mit Kassenanbindung."
       />
       <PageHero
         eyebrow="Preise"
@@ -159,8 +159,7 @@ export default function Pricing() {
         <div className="container-x">
           <ol className="grid md:grid-cols-3 gap-5">
             {PATH.map(({ Icon, title, text }, i) => (
-              <Reveal key={title} delay={i * 0.06}>
-                <li className="card h-full p-7 relative">
+              <Reveal key={title} delay={i * 0.06} as="li" className="card h-full p-7 relative">
                   <div className="flex items-center justify-between">
                     <span className="w-12 h-12 rounded-2xl bg-forest/[0.08] text-forest flex items-center justify-center"><Icon size={22} /></span>
                     <span className="font-display text-4xl font-extrabold text-accent">{i + 1}</span>
@@ -168,7 +167,6 @@ export default function Pricing() {
                   <h2 className="text-xl mt-5">{title}</h2>
                   <p className="mt-2 text-anthrazit/70 leading-relaxed">{text}</p>
                   {i === 0 && <p className="mt-4 inline-flex rounded-full bg-accent/30 px-3 py-1 text-xs font-bold text-anthrazit">kostenlos</p>}
-                </li>
               </Reveal>
             ))}
           </ol>
@@ -285,11 +283,11 @@ export default function Pricing() {
                     <li key={e.name} className="border-b border-white/10 pb-5 last:border-0 last:pb-0">
                       <p className="text-white/80">{e.name}</p>
                       <p className="font-display text-3xl font-extrabold mt-1">{e.preis}</p>
-                      {e.note && <p className="text-sm text-white/60 mt-1">{e.note}</p>}
+                      {e.note && <p className="text-sm text-white/75 mt-1">{e.note}</p>}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-6 text-xs text-white/55 leading-relaxed">Richtwerte exkl. 8.1 % MwSt. Kassenanbindung inbegriffen, soweit Ihre Kasse eine Schnittstelle hat. Der verbindliche Festpreis folgt nach der Analyse.</p>
+                <p className="mt-6 text-xs text-white/75 leading-relaxed">Richtwerte exkl. 8.1 % MwSt. Kassenanbindung inbegriffen, soweit Ihre Kasse eine Schnittstelle hat. Der verbindliche Festpreis folgt nach der Analyse.</p>
                 <Link to={CONTACT_HREF} className="btn-accent mt-6">Analyse für meinen Betrieb <ArrowRight size={16} /></Link>
               </div>
             </motion.div>

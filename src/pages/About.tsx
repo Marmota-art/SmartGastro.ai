@@ -56,12 +56,10 @@ export default function About() {
           <h2 className="h-section max-w-2xl">Vom Herd zur KI, mit dem Gast immer im Blick.</h2>
           <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {PATH.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.06}>
-                <li className="h-full rounded-2xl bg-hellgrau p-7">
+              <Reveal key={p.title} delay={i * 0.06} as="li" className="h-full rounded-2xl bg-hellgrau p-7">
                   <span className="w-11 h-11 rounded-xl bg-forest text-white flex items-center justify-center">{p.icon}</span>
                   <h3 className="text-xl mt-5">{p.title}</h3>
-                  <p className="mt-2 text-anthrazit/65 leading-relaxed">{p.text}</p>
-                </li>
+                  <p className="mt-2 text-anthrazit/70 leading-relaxed">{p.text}</p>
               </Reveal>
             ))}
           </ol>

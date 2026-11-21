@@ -5,7 +5,7 @@ export default function References() {
   return (
     <>
       <PageMeta
-        title="Referenzen: Restaurant Löwenburg, Pizzeria Di Grano, Café Park"
+        title="Referenzen: Löwenburg, Di Grano, Café Park"
         description="SmartGastro.ai im Einsatz: Restaurant Löwenburg in Lienz, Pizzeria Di Grano und Restaurant Café Park in St. Gallen."
       />
       <PageHero
