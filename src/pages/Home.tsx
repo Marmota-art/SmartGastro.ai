@@ -1,195 +1,209 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, ChefHat, GraduationCap, Sparkles, Check } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
-import SmartGastroText from '../components/SmartGastroText';
-import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection, ServiceGrid } from '../components/Sections';
-import { REFERENCES, CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
+import markup from './home-v2.html?raw';
+import '../styles/home-v2.css';
 
-const STEPS = [
-  { n: '01', title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Wir klären, wo es im Betrieb hakt.' },
-  { n: '02', title: 'Analyse & Konzept', text: 'Ich schaue mir Abläufe, Karte und Kasse an und mache einen klaren Vorschlag.' },
-  { n: '03', title: 'Einrichtung & Schulung', text: 'Ich richte alles ein, übernehme Ihre Daten und schule Ihr Team.' },
-  { n: '04', title: 'Go-Live & Begleitung', text: 'Start ohne Betriebsunterbruch. Danach bleibe ich Ihr Ansprechpartner.' },
-];
-
+/**
+ * Startseite V2 nach dem Entwurf von schnellstart.ai.
+ * Inhalt und Gestaltung stehen in home-v2.html und styles/home-v2.css,
+ * die kleinen Animationen und die Preis-Demo im Effekt unten.
+ */
 export default function Home() {
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const cleanups: Array<() => void> = [];
+    const timers: number[] = [];
+    const on = <K extends keyof WindowEventMap>(t: Window, ev: K, fn: (e: WindowEventMap[K]) => void, opt?: AddEventListenerOptions) => {
+      t.addEventListener(ev, fn as EventListener, opt);
+      cleanups.push(() => t.removeEventListener(ev, fn as EventListener));
+    };
+    const $ = <T extends Element = HTMLElement>(s: string, c: ParentNode = root) => c.querySelector(s) as T | null;
+    const $$ = <T extends Element = HTMLElement>(s: string, c: ParentNode = root) => Array.from(c.querySelectorAll(s)) as T[];
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const hasIO = 'IntersectionObserver' in window;
+    root.classList.add('js');
+
+    // Interne Links (/impressum usw.) über den Router öffnen, Anker (#…) sanft ansteuern
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as Element).closest('a');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        const el = document.getElementById(href.slice(1));
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+          history.replaceState(null, '', href);
+        }
+      } else if (href.startsWith('/')) {
+        e.preventDefault();
+        navigate(href);
+      }
+    };
+    root.addEventListener('click', onClick);
+    cleanups.push(() => root.removeEventListener('click', onClick));
+
+    // Navigation: beim Scrollen dunkel hinterlegt
+    const nav = $('#nav');
+    const onScroll = () => nav?.classList.toggle('solid', window.scrollY > 30);
+    on(window, 'scroll', onScroll, { passive: true });
+    onScroll();
+
+    const observers: IntersectionObserver[] = [];
+    // Einblenden (nur Verschiebung, Inhalt bleibt sichtbar)
+    const seen = hasIO && !reduce
+      ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); seen!.unobserve(e.target); } }), { threshold: 0.15 })
+      : null;
+    if (seen) observers.push(seen);
+    $$('[data-reveal]').forEach((el) => (seen ? seen.observe(el) : el.classList.add('in')));
+
+    // Linke Leiste: aktiven Abschnitt markieren
+    if (hasIO) {
+      const links: Record<string, HTMLElement> = {};
+      $$('.rail a').forEach((a) => { links[a.getAttribute('data-sec') || ''] = a; });
+      const spy = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) {
+          Object.values(links).forEach((l) => l.classList.remove('on'));
+          links[e.target.id]?.classList.add('on');
+        }
+      }), { rootMargin: '-45% 0px -50% 0px' });
+      observers.push(spy);
+      Object.keys(links).forEach((id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+    }
+
+    // Übersicht: Zahlen hochzählen
+    const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+    const dash = $('#dash');
+    if (dash && hasIO && !reduce) {
+      const dio = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        dash.classList.add('in');
+        $$('.cnt').forEach((el) => {
+          const to = Number(el.getAttribute('data-to'));
+          let t0: number | null = null;
+          const step = (t: number) => {
+            if (t0 === null) t0 = t;
+            const p = Math.min(1, (t - t0) / 1200);
+            el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(to);
+          };
+          el.textContent = fmt(0);
+          requestAnimationFrame(step);
+        });
+        dio.disconnect();
+      }), { threshold: 0.4 });
+      observers.push(dio);
+      dio.observe(dash);
+    }
+
+    // Preis-Demo: einmal ändern, überall aktuell
+    const base = 18.5;
+    let changed = false, busy = false;
+    const demo = $('#demo');
+    const devs = demo ? $$('.dev', demo) : [];
+    const btn = $<HTMLButtonElement>('#priceBtn');
+    const note = $('#priceNote');
+    const apply = (i: number, v: number) => {
+      const d = devs[i]; if (!d) return;
+      $$('[data-px]', d).forEach((el) => { el.textContent = v.toFixed(2); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); });
+      $$('[data-total]', d).forEach((el) => { el.textContent = (v + 46 + 9.5).toFixed(2); });
+      const pill = $('[data-pill]', d); if (pill) { pill.textContent = '✓ aktuell'; pill.classList.remove('busy'); }
+    };
+    const setBusy = (i: number) => { const p = $('[data-pill]', devs[i]); if (p) { p.textContent = 'wird aktualisiert …'; p.classList.add('busy'); } };
+    const run = (toNew: boolean) => {
+      if (busy) return; busy = true; changed = toNew;
+      const v = toNew ? base + 1 : base, gap = reduce ? 0 : 520;
+      devs.forEach((_, i) => {
+        timers.push(window.setTimeout(() => setBusy(i), i * gap));
+        timers.push(window.setTimeout(() => apply(i, v), i * gap + (reduce ? 0 : 420)));
+      });
+      timers.push(window.setTimeout(() => {
+        busy = false;
+        if (changed) $('#einmalCta')?.classList.add('nudge');
+        const lbl = btn?.querySelector('span'); if (lbl) lbl.textContent = changed ? 'Preis zurücksetzen' : 'Preis in der Kasse ändern';
+        if (note) note.textContent = changed ? 'Geändert: Pizza Margherita kostet jetzt 19.50 Franken, überall.' : 'Beispiel: Pizza Margherita von 18.50 auf 19.50 Franken.';
+      }, devs.length * gap + (reduce ? 0 : 520)));
+    };
+    const onPrice = () => run(!changed);
+    btn?.addEventListener('click', onPrice);
+    cleanups.push(() => btn?.removeEventListener('click', onPrice));
+    if (demo && hasIO && !reduce) {
+      const auto = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { auto.disconnect(); timers.push(window.setTimeout(() => { if (!changed) run(true); }, 900)); }
+      }), { threshold: 0.55 });
+      observers.push(auto);
+      auto.observe(demo);
+    }
+
+    // E-Mail-Adresse kopieren
+    const cb = $('#copyBtn');
+    const onCopy = () => {
+      const mail = $('#mailTxt'); if (!mail) return;
+      const lab = cb!.querySelector('span')!;
+      const done = (ok: boolean) => { lab.textContent = ok ? 'Kopiert' : 'Markiert'; timers.push(window.setTimeout(() => { lab.textContent = 'Kopieren'; }, 1800)); };
+      const sel = () => { const r = document.createRange(); r.selectNodeContents(mail); const s = getSelection(); s?.removeAllRanges(); s?.addRange(r); done(false); };
+      try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(mail.textContent || '').then(() => done(true), sel) : sel(); } catch { sel(); }
+    };
+    cb?.addEventListener('click', onCopy);
+    cleanups.push(() => cb?.removeEventListener('click', onCopy));
+
+    // Preise: «Was passt zu Ihrem Betrieb?»
+    const chips = $$('.pick-chip'), prs = $$('.pr'), pout = $('#pickOut'), prow = $('.prices');
+    chips.forEach((c) => {
+      const onPick = () => {
+        const card = prs[Number(c.getAttribute('data-pick'))]; if (!card) return;
+        chips.forEach((o) => o.setAttribute('aria-pressed', o === c ? 'true' : 'false'));
+        prs.forEach((p) => p.classList.toggle('sel', p === card));
+        const amount = (card.querySelector('.price')?.firstChild?.nodeValue || '').trim();
+        if (pout) pout.textContent = `Beispiel für ${c.textContent}: ${card.querySelector('h3')?.textContent}, ${amount}. Den genauen Preis erhalten Sie nach der Analyse.`;
+        if (prow && prow.scrollWidth > prow.clientWidth + 2) {
+          const pad = parseFloat(getComputedStyle(prow).paddingLeft) || 0;
+          const x = card.getBoundingClientRect().left - prow.getBoundingClientRect().left + prow.scrollLeft - pad;
+          prow.scrollTo({ left: x, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      };
+      c.addEventListener('click', onPick);
+      cleanups.push(() => c.removeEventListener('click', onPick));
+    });
+
+    // Wischreihen nur dann per Tastatur erreichbar, wenn sie wirklich scrollen
+    const syncSwipe = () => $$('.swipe').forEach((el) => {
+      if (el.scrollWidth > el.clientWidth + 2) { el.tabIndex = 0; el.setAttribute('role', 'region'); el.setAttribute('aria-label', el.getAttribute('data-label') || ''); }
+      else { el.removeAttribute('tabindex'); el.removeAttribute('role'); el.removeAttribute('aria-label'); }
+    });
+    syncSwipe();
+    on(window, 'resize', syncSwipe);
+
+    // Leistungen: nur eine Detailansicht gleichzeitig offen
+    const sd = $$<HTMLDetailsElement>('.svc-d');
+    sd.forEach((d) => {
+      const onToggle = () => { if (d.open) sd.forEach((o) => { if (o !== d) o.open = false; }); };
+      d.addEventListener('toggle', onToggle);
+      cleanups.push(() => d.removeEventListener('toggle', onToggle));
+    });
+
+    // Direkt auf einen Abschnitt verlinkt (z. B. /#kontakt)
+    if (window.location.hash) timers.push(window.setTimeout(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView(), 60));
+
+    return () => {
+      cleanups.forEach((f) => f());
+      observers.forEach((o) => o.disconnect());
+      timers.forEach((t) => window.clearTimeout(t));
+    };
+  }, [navigate]);
+
   return (
     <>
       <PageMeta
         title="SmartGastro.ai | Kassensystem, Website und KI für Restaurants aus einer Hand"
-        description="Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay und KI-Lösungen aus einer Hand. Von Thomas Ballinari, Koch und zertifiziertem KI-Spezialisten."
+        description="Kasse, Website, digitale Speisekarte und KI aus einer Hand. Eingerichtet von Thomas Ballinari, gelerntem Koch und zertifiziertem KI-Spezialisten, ohne Betriebsunterbruch."
       />
-
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute -top-40 -right-40 w-[42rem] h-[42rem] rounded-full bg-accent/25 blur-3xl" />
-          <div className="absolute top-40 -left-40 w-[30rem] h-[30rem] rounded-full bg-primary/10 blur-3xl" />
-        </div>
-
-        <div className="container-x pt-8 pb-20 md:pt-14 md:pb-28 grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
-          <div>
-            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="chip mb-7">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Ihr Digitalpartner für die Gastronomie
-            </motion.p>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.6rem] font-extrabold"
-            >
-              Mehr Zeit für Ihre Gäste,{' '}
-              <span className="relative whitespace-nowrap text-forest">
-                weniger Hektik
-                <svg aria-hidden="true" viewBox="0 0 300 12" className="absolute left-0 -bottom-1 w-full h-3 text-accent" preserveAspectRatio="none"><path d="M2 9c60-6 150-8 296-3" stroke="currentColor" strokeWidth="6" fill="none" strokeLinecap="round" /></svg>
-              </span>{' '}
-              im Betrieb.
-            </motion.h1>
-
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="lead mt-7 max-w-xl">
-              Kassensystem, Website, digitale Speisekarte und KI aus einer Hand. Umgesetzt von einem gelernten Koch, der selbst jahrelang einen grossen Landgasthof geführt hat. Ohne Betriebsunterbruch.
-            </motion.p>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="mt-9 flex flex-col sm:flex-row gap-3">
-              <Link to={CONTACT_HREF} className="btn-primary text-base">Kostenloses Erstgespräch <ArrowRight size={18} /></Link>
-              <Link to="/leistungen" className="btn-ghost text-base">Leistungen ansehen</Link>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-anthrazit/45 mb-4">Betriebe, die mit SmartGastro arbeiten</p>
-              <ul className="flex flex-wrap gap-x-8 gap-y-3">
-                {REFERENCES.map((r) => (
-                  <li key={r.id}>
-                    <Link to="/referenzen" className="font-display font-semibold text-anthrazit/70 hover:text-forest transition-colors">
-                      {r.name} <span className="font-sans font-normal text-sm text-anthrazit/45">· {r.place}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Portrait */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-full max-w-md lg:max-w-none"
-          >
-            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-[2.5rem] bg-forest" />
-            <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/5] bg-[#8d9298]">
-              <img src="/assets/img/v2/thomas.webp" alt="Thomas Ballinari, Gründer von SmartGastro.ai" fetchPriority="high" className="w-full h-full object-cover object-top" />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
-              <div className="absolute left-6 bottom-6 text-white">
-                <p className="font-display text-xl font-bold">Thomas Ballinari</p>
-                <p className="text-sm text-white/80">Gründer SmartGastro.ai</p>
-              </div>
-            </div>
-            <div className="absolute -left-3 sm:-left-8 top-[60%] chip !py-2.5 !px-4 !text-sm">
-              <ChefHat size={18} className="text-forest" /> Gelernter Koch &amp; Küchenchef
-            </div>
-            <div className="absolute -right-2 sm:-right-6 top-[71%] chip !py-2.5 !px-4 !text-sm">
-              <Sparkles size={18} className="text-forest" /> Zertifizierter KI-Spezialist
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* PROBLEM → VERSPRECHEN */}
-      <section className="py-20 border-y border-linie bg-white">
-        <div className="container-x grid lg:grid-cols-[1fr_1.3fr] gap-12 items-start">
-          <Reveal>
-            <p className="eyebrow mb-4">Warum SmartGastro</p>
-            <h2 className="h-section">Wieder mehr Zeit als Gastgeber.</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <blockquote className="font-display text-2xl md:text-3xl leading-snug text-anthrazit/85">
-              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können, präsent im Gastraum und kreativ in der Küche, und nicht gefangen in Hektik, Excel-Tabellen oder Personalnot.»
-            </blockquote>
-            <p className="mt-5 text-sm font-semibold text-anthrazit/55">Thomas Ballinari, Gründer</p>
-            <div className="mt-10 grid sm:grid-cols-3 gap-4">
-              {[
-                ['Aus der Praxis', 'Als Koch, Küchenchef und langjähriger Pächter kenne ich den Druck am Pass.'],
-                ['Alles aus einer Hand', 'Speisekarte, Kasse, Daten und Schulung, abgestimmt auf Ihren Betrieb.'],
-                ['Ein Ansprechpartner', 'Persönlich und direkt, von der Analyse bis zum Go-Live.'],
-              ].map(([t, d]) => (
-                <div key={t} className="rounded-2xl bg-hellgrau p-5">
-                  <p className="font-display font-bold">{t}</p>
-                  <p className="text-sm text-anthrazit/65 mt-2 leading-relaxed">{d}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* RUNDUM-SERVICE */}
-      <section className="py-24">
-        <div className="container-x">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <SectionHead
-              eyebrow="Rundum-Service"
-              title={<>Alles aus einer Hand, <span className="text-forest">von der Kasse bis zur KI.</span></>}
-              lead="Statt fünf Anbieter zu koordinieren, haben Sie einen Ansprechpartner. Ich kümmere mich um alles, was Ihr Restaurant digital braucht, Schritt für Schritt oder als Komplettpaket."
-            />
-            <Link to="/leistungen" className="btn-ghost self-start md:self-auto">Alle Leistungen <ArrowRight size={16} /></Link>
-          </div>
-          <ServiceGrid />
-
-          {ACADEMY_ENABLED && (
-          <Reveal delay={0.1}>
-            <Link to="/schulung" className="mt-6 group card p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6 hover:border-forest/40 transition-colors">
-              <span className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center shrink-0"><GraduationCap size={24} /></span>
-              <div className="flex-grow">
-                <p className="font-display text-xl font-bold"><SmartGastroText withAcademy /></p>
-                <p className="text-anthrazit/70 mt-1">Lieber selbst umsetzen? Die Masterclass «Digitale Speisekarte» zeigt in 12 Video-Lektionen Schritt für Schritt, wie es geht. Ab CHF 9 pro Lektion.</p>
-              </div>
-              <span className="inline-flex items-center gap-1.5 font-semibold text-forest shrink-0">Zur Academy <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></span>
-            </Link>
-          </Reveal>
-          )}
-        </div>
-      </section>
-
-      {/* REFERENZEN */}
-      <section className="py-24 bg-white border-y border-linie">
-        <div className="container-x">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <SectionHead eyebrow="Referenzen" title="Im Einsatz in der Ostschweiz" lead="Vom Landgasthof bis zur Pizzeria in der Stadt." />
-            <Link to="/referenzen" className="btn-ghost self-start md:self-auto">Alle Referenzen <ArrowRight size={16} /></Link>
-          </div>
-          <ReferenceGrid />
-        </div>
-      </section>
-
-      {/* ABLAUF */}
-      <section className="py-24">
-        <div className="container-x">
-          <SectionHead eyebrow="So arbeiten wir" title="In vier Schritten zum digitalen Betrieb" lead="Klar strukturiert, transparent im Preis und ohne dass Ihr Service darunter leidet." />
-          <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {STEPS.map((s, i) => (
-              <Reveal key={s.n} delay={i * 0.08}>
-                <li className="relative h-full card p-7">
-                  <span className="font-display text-5xl font-extrabold text-accent">{s.n}</span>
-                  <h3 className="text-xl mt-4">{s.title}</h3>
-                  <p className="mt-2 text-anthrazit/65 leading-relaxed">{s.text}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-anthrazit/70">
-            {['Erstgespräch kostenlos', 'Transparente Preise', 'Bezahlung per Karte, TWINT oder Überweisung', 'Datenschutz nach Schweizer Standard'].map((t) => (
-              <span key={t} className="inline-flex items-center gap-2"><Check size={16} className="text-primary" />{t}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <CtaBand />
-      <ContactSection />
+      <div ref={ref} className="sg2" dangerouslySetInnerHTML={{ __html: markup }} />
     </>
   );
 }

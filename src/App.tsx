@@ -37,12 +37,14 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  // Die Startseite bringt ihren eigenen Kopf (Entwurf V2) mit.
+  const isHome = useLocation().pathname === '/';
   return (
     <ShopProvider>
       <div className="flex flex-col min-h-screen">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] btn-accent">Zum Inhalt springen</a>
         <ScrollToTop />
-        <Header />
+        {!isHome && <Header />}
         <main id="main" className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
