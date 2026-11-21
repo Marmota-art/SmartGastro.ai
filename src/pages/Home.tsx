@@ -160,7 +160,7 @@ export default function Home() {
         chips.forEach((o) => o.setAttribute('aria-pressed', o === c ? 'true' : 'false'));
         prs.forEach((p) => p.classList.toggle('sel', p === card));
         const amount = (card.querySelector('.price')?.firstChild?.nodeValue || '').trim();
-        if (pout) pout.textContent = `Für ${c.textContent} passt: ${card.querySelector('h3')?.textContent}, ${amount}.`;
+        if (pout) pout.textContent = `Beispiel für ${c.textContent}: ${card.querySelector('h3')?.textContent}, ${amount}. Den genauen Preis erhalten Sie nach der Analyse.`;
         if (prow && prow.scrollWidth > prow.clientWidth + 2) {
           const pad = parseFloat(getComputedStyle(prow).paddingLeft) || 0;
           const x = card.getBoundingClientRect().left - prow.getBoundingClientRect().left + prow.scrollLeft - pad;

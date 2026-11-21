@@ -1,74 +1,97 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, ArrowRight, Plus, Minus, Calculator } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import {
+  Check, ArrowRight, Plus, Minus, Calculator, MessageCircle, ClipboardCheck, FileSignature,
+  MonitorCog, QrCode, Globe, BrainCircuit, ChefHat, Coffee, UtensilsCrossed, Home as HomeIcon, Building2, Link2,
+} from 'lucide-react';
 import PageMeta from '../components/PageMeta';
 import { PageHero, Reveal, SectionHead, CtaBand } from '../components/Sections';
-import { CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
+import { CONTACT_HREF } from '../constants';
 
-const PACKAGES = [
+/** Vom Erstgespräch zum verbindlichen Preis. */
+const PATH = [
+  { Icon: MessageCircle, title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Sie erzählen, wo es im Betrieb drückt.' },
+  { Icon: ClipboardCheck, title: 'Analyse Ihres Betriebs', text: 'Wir sehen uns Abläufe, Karte und vor allem Ihre Kasse an: Was ist da, was lässt sich anbinden?' },
+  { Icon: FileSignature, title: 'Ihr Angebot', text: 'Sie erhalten ein verbindliches Angebot mit Festpreis, zugeschnitten auf Ihren Betrieb. Ohne versteckte Kosten.' },
+];
+
+/** Was an der Kasse hängt. */
+const KASSE_LINKS = [
+  { Icon: QrCode, title: 'Digitale Speisekarte', text: 'Artikel und Preise kommen direkt aus der Kasse. Einmal ändern, am Tisch sofort aktuell.' },
+  { Icon: ChefHat, title: 'Bestellen am Tisch', text: 'Bestellungen laufen ohne Umweg in die Kasse und auf den Bon in der Küche.' },
+  { Icon: Globe, title: 'Website', text: 'Die Karte auf Ihrer Website zeigt dieselben Gerichte und Preise wie die Kasse.' },
+  { Icon: BrainCircuit, title: 'KI und Prognosen', text: 'Die Kassendaten sind die Grundlage, um Gäste, Umsatz und Einkauf vorauszuplanen.' },
+];
+
+type Betrieb = {
+  id: string;
+  label: string;
+  Icon: typeof Coffee;
+  intro: string;
+  bedarf: string[];
+  kasse: string;
+  analyse: string[];
+  beispiel: { name: string; preis: string; note?: string }[];
+};
+
+/** Beispiele je Betriebsart. Alle Preise sind Richtwerte, der verbindliche Preis folgt nach der Analyse. */
+const BETRIEBE: Betrieb[] = [
   {
-    name: 'QR-Karte Basic',
-    for: 'Für Cafés, Bistros und Bars',
-    price: 'ab CHF 490',
-    features: [
-      'Digitale Speisekarte per QR-Code',
-      'Einrichtung inklusive',
-      'Einfache Einrichtung',
-      'QR-Codes für Ihre Tische',
-      'Hygienisch und unkompliziert',
-    ],
-    highlight: false,
+    id: 'cafe',
+    label: 'Café, Bistro, Bar',
+    Icon: Coffee,
+    intro: 'Kleine Karte, schneller Service, oft wechselnde Angebote.',
+    bedarf: ['QR-Karte für Getränke und Speisen', 'Tagesangebote schnell ändern', 'Allergene und Zutaten auf einen Blick'],
+    kasse: 'Preise und Artikel kommen aus Ihrer Kasse. Wer neu startet, bekommt eine passende Tablet-Kasse vorgeschlagen.',
+    analyse: ['Welche Kasse ist im Einsatz?', 'Wie oft ändert sich die Karte?', 'Braucht es mehrere Sprachen?'],
+    beispiel: [{ name: 'QR-Karte mit Kassenanbindung', preis: 'ab CHF 490' }],
   },
   {
-    name: 'QR-Menu Hero',
-    for: 'Für Restaurants mit vielfältiger Karte',
-    price: 'ab CHF 2’900',
-    features: [
-      'Alles aus «Basic»',
-      'Mehrere Kategorien und Bilder',
-      'Individuell gestaltetes Design',
-      'Mehrsprachige Karte',
-      'Auswertungen und Berichte',
+    id: 'restaurant',
+    label: 'Restaurant',
+    Icon: UtensilsCrossed,
+    intro: 'Vielfältige Karte, Stammgäste und Touristen, Service unter Druck.',
+    bedarf: ['Speisekarte mit Bildern und Kategorien', 'Mehrsprachig für Gäste von auswärts', 'Auf Wunsch bestellen und bezahlen am Tisch'],
+    kasse: 'Die Kasse ist die eine Quelle für Karte, Bestellungen und Website. Bestellungen vom Tisch landen direkt auf dem Küchenbon.',
+    analyse: ['Lässt sich Ihre Kasse anbinden, und wie?', 'Wo verliert der Service heute Zeit?', 'Lohnt sich Bestellen am Tisch für Sie?'],
+    beispiel: [
+      { name: 'Speisekarte mit Bildern, mehrsprachig', preis: 'ab CHF 2’900' },
+      { name: 'Bestellen und bezahlen am Tisch', preis: 'rund CHF 9’800', note: 'inkl. Anbindung an die Kasse und Schulung' },
     ],
-    highlight: true,
   },
   {
-    name: 'Order & Pay',
-    for: 'Für Betriebe mit viel Service-Last',
-    price: 'CHF 9’800',
-    features: [
-      'Direktbestellung am Tisch',
-      'Integrierte Zahlungslösung',
-      'Anbindung an Ihr Kassensystem',
-      'Schulung Ihres Teams',
-      'Spürbare Entlastung im Service',
+    id: 'landgasthof',
+    label: 'Landgasthof',
+    Icon: HomeIcon,
+    intro: 'Grosser Betrieb mit Saal, Bankette, schwankende Gästezahlen.',
+    bedarf: ['Kasse einrichten oder neu aufbauen', 'Speisekarte und Website aus einem Guss', 'Prognosen für Einkauf und Personal'],
+    kasse: 'Wir bereiten Ihre Kassendaten der letzten Jahre auf. Daraus entstehen Karte, Auswertungen und Prognosen, wie im Restaurant Löwenburg.',
+    analyse: ['Welche Daten liefert Ihre Kasse heute?', 'Wie läuft es bei Banketten und im Saal?', 'Wo entstehen Food Waste und Überstunden?'],
+    beispiel: [
+      { name: 'Speisekarte mit Kassenanbindung und Website', preis: 'ab CHF 2’900' },
+      { name: 'Kasse, Daten und KI-Prognosen', preis: 'nach Analyse' },
     ],
-    highlight: false,
   },
   {
-    name: 'Multi-Standort',
-    for: 'Für Gruppen und Hotellerie',
-    price: 'ab CHF 18’000',
-    features: [
-      'Zentrales Management aller Standorte',
-      'PMS- und POS-Integration',
-      'Individuelle Anpassungen',
-      'KI-gestützte Optimierung',
-      'Ein Ansprechpartner für alles',
-    ],
-    highlight: false,
+    id: 'gruppe',
+    label: 'Gruppe, Hotel',
+    Icon: Building2,
+    intro: 'Mehrere Standorte oder Hotel mit Restaurant und Bar.',
+    bedarf: ['Zentrale Verwaltung aller Karten', 'Kasse und Hotelsoftware verbunden', 'Auswertungen über alle Standorte'],
+    kasse: 'Alle Kassen und die Hotelsoftware werden angebunden. Preise und Artikel pflegen Sie zentral, jeder Standort ist sofort aktuell.',
+    analyse: ['Welche Kassen und welche Hotelsoftware laufen?', 'Was soll zentral, was pro Standort gesteuert werden?', 'Welche Zahlen brauchen Sie für Entscheide?'],
+    beispiel: [{ name: 'Mehrere Standorte, zentral verwaltet', preis: 'ab CHF 18’000' }],
   },
 ];
 
-const ALL_FAQ = [
-  { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich. Danach erhalten Sie ein massgeschneidertes Angebot für Ihren Betrieb.' },
-  { q: 'Warum «ab»-Preise?', a: 'Jeder Betrieb ist anders: Umfang der Karte, Anzahl Sprachen, Kassensystem. Den genauen Preis kennen Sie vor dem Start, ohne versteckte Kosten.' },
-  { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung planen wir so, dass der Go-Live ohne Betriebsunterbruch stattfindet.' },
+const FAQ = [
+  { q: 'Warum gibt es keine fixen Paketpreise?', a: 'Weil jeder Betrieb anders ist: Kassensystem, Umfang der Karte, Sprachen, Abläufe. Die Preise auf dieser Seite sind Beispiele zur Orientierung. Ihren verbindlichen Festpreis erhalten Sie nach der Analyse, bevor irgendetwas startet.' },
+  { q: 'Was kostet das Erstgespräch?', a: 'Nichts. Das Erstgespräch ist kostenlos und unverbindlich.' },
+  { q: 'Funktioniert das mit meiner Kasse?', a: 'Das klären wir in der Analyse. Wir prüfen, wie sich Ihre bestehende Kasse anbinden lässt. Wenn sie nicht passt, vergleichen wir mit Ihnen Alternativen und richten die neue Kasse ein.' },
+  { q: 'Muss ich meinen Betrieb dafür schliessen?', a: 'Nein. Einrichtung und Schulung planen wir so, dass der Start ohne Betriebsunterbruch gelingt.' },
   { q: 'Wie kann ich bezahlen?', a: 'Per Kreditkarte, TWINT oder Banküberweisung. Alle Preise verstehen sich exkl. 8.1 % MwSt.' },
-  { q: 'Was ist, wenn ich zuerst selbst lernen möchte?', a: 'Dann ist die SmartGastro Academy ideal: Die Masterclass «Digitale Speisekarte» gibt es ab CHF 9 pro Lektion.' },
 ];
-
-const FAQ = ALL_FAQ.filter((f) => ACADEMY_ENABLED || !f.a.includes('Academy'));
 
 function chf(n: number) {
   return 'CHF ' + Math.round(n).toLocaleString('de-CH');
@@ -111,80 +134,193 @@ function WasteCalculator() {
 
 export default function Pricing() {
   const [open, setOpen] = useState<number | null>(0);
+  const [sel, setSel] = useState(1);
+  const b = BETRIEBE[sel];
 
   return (
     <>
       <PageMeta
-        title="Preise & Pakete"
-        description="Transparente Preise für digitale Speisekarten (ab CHF 490), Order & Pay und Multi-Standort-Lösungen, dazu Kassensystem, Website und KI auf Anfrage. Erstgespräch kostenlos."
+        title="Preise nach Analyse Ihres Betriebs"
+        description="Ihr Preis entsteht aus der Analyse Ihres Betriebs. Beispielpreise für Café, Restaurant, Landgasthof und Hotel, mit Anbindung an Ihre Kasse. Erstgespräch kostenlos."
       />
       <PageHero
-        eyebrow="Preise & Pakete"
-        title={<>Preise und <span className="text-forest">Pakete</span></>}
-        lead="Wählen Sie das Paket, das zu Ihrem Betrieb passt. Alle Preise exkl. 8.1 % MwSt. Das Erstgespräch ist immer kostenlos."
-      />
-
-      <section className="pb-24">
-        <div className="container-x grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
-          {PACKAGES.map((p, i) => (
-            <Reveal key={p.name} delay={i * 0.06}>
-              <div className={`relative h-full rounded-3xl p-7 flex flex-col ${p.highlight ? 'bg-forest text-white shadow-[0_30px_60px_-25px_rgba(11,93,51,0.7)]' : 'card'}`}>
-                {p.highlight && (
-                  <span className="absolute -top-3 left-7 rounded-full bg-accent text-anthrazit text-xs font-bold uppercase tracking-wider px-3 py-1.5">Empfehlung</span>
-                )}
-                <h2 className="text-2xl">{p.name}</h2>
-                <p className={`text-sm mt-1 ${p.highlight ? 'text-white/70' : 'text-anthrazit/55'}`}>{p.for}</p>
-                <p className="font-display text-3xl font-extrabold mt-6">{p.price}</p>
-                <p className={`text-xs mt-1 ${p.highlight ? 'text-white/55' : 'text-anthrazit/45'}`}>exkl. 8.1 % MwSt.</p>
-                <ul className="mt-7 space-y-3 flex-grow">
-                  {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check size={18} className={`shrink-0 ${p.highlight ? 'text-accent' : 'text-primary'}`} />
-                      <span className={p.highlight ? 'text-white/90' : 'text-anthrazit/80'}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link to={CONTACT_HREF} className={`mt-8 ${p.highlight ? 'btn-accent' : 'btn-ghost'}`}>
-                  Angebot anfragen <ArrowRight size={16} />
-                </Link>
-              </div>
-            </Reveal>
-          ))}
+        eyebrow="Preise"
+        title={<>Ihr Preis passt zu <span className="text-forest">Ihrem Betrieb.</span></>}
+        lead="Kein Paket von der Stange. Wir analysieren zuerst Ihren Betrieb und Ihre Kasse, danach erhalten Sie ein verbindliches Angebot mit Festpreis. Die Preise auf dieser Seite sind Beispiele zur Orientierung."
+      >
+        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+          <Link to={CONTACT_HREF} className="btn-primary">Kostenlose Analyse anfragen <ArrowRight size={18} /></Link>
+          <a href="#beispiele" className="btn-ghost">Beispiele ansehen</a>
         </div>
-        <div className="container-x mt-8">
-          <p className="text-sm text-anthrazit/55">
-            Die Pakete oben betreffen Speisekarte und Order &amp; Pay. <Link to="/leistungen" className="text-forest font-semibold hover:underline">Alle Leistungen ansehen</Link>
-          </p>
+      </PageHero>
+
+      {/* Weg zum Preis */}
+      <section className="pb-20">
+        <div className="container-x">
+          <ol className="grid md:grid-cols-3 gap-5">
+            {PATH.map(({ Icon, title, text }, i) => (
+              <Reveal key={title} delay={i * 0.06}>
+                <li className="card h-full p-7 relative">
+                  <div className="flex items-center justify-between">
+                    <span className="w-12 h-12 rounded-2xl bg-forest/[0.08] text-forest flex items-center justify-center"><Icon size={22} /></span>
+                    <span className="font-display text-4xl font-extrabold text-accent">{i + 1}</span>
+                  </div>
+                  <h2 className="text-xl mt-5">{title}</h2>
+                  <p className="mt-2 text-anthrazit/70 leading-relaxed">{text}</p>
+                  {i === 0 && <p className="mt-4 inline-flex rounded-full bg-accent/30 px-3 py-1 text-xs font-bold text-anthrazit">kostenlos</p>}
+                </li>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </section>
 
+      {/* Kassenanbindung */}
       <section className="pb-24">
         <div className="container-x">
-          <div className="rounded-[2rem] bg-forest text-white p-8 md:p-12 grid lg:grid-cols-[1fr_1.3fr] gap-10 relative overflow-hidden grain">
-            <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/50 blur-3xl" />
-            <div className="relative">
-              <p className="eyebrow !text-accent mb-4">Rundum-Service</p>
-              <h2 className="text-3xl md:text-4xl leading-tight">Weitere Leistungen, einzeln oder als Komplettpaket</h2>
-              <p className="mt-4 text-white/75 leading-relaxed">Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Nach dem kostenlosen Erstgespräch erhalten Sie ein verbindliches Angebot ohne versteckte Kosten.</p>
-              <Link to={CONTACT_HREF} className="btn-accent mt-7">Angebot anfragen <ArrowRight size={16} /></Link>
+          <div className="relative overflow-hidden rounded-[2rem] bg-forest text-white p-8 md:p-12 lg:p-14 grain">
+            <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-primary/50 blur-3xl" />
+            <div className="relative grid lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-14 items-center">
+              <div>
+                <p className="eyebrow !text-accent mb-4"><Link2 size={14} /> Kassenanbindung</p>
+                <h2 className="text-3xl md:text-[2.6rem] leading-[1.08]">Ihre Kasse ist das Herzstück. Alles andere hängt daran.</h2>
+                <p className="mt-5 text-white/80 leading-relaxed text-lg">
+                  Speisekarte, Bestellungen, Website und KI holen ihre Daten aus der Kasse. Darum ist die Anbindung bei uns immer Teil des Angebots, nicht ein teures Extra.
+                </p>
+                <ul className="mt-6 space-y-2.5">
+                  {['Einmal ändern, überall aktuell', 'Nichts doppelt erfassen', 'Bestehende Kasse anbinden oder passende neue einrichten'].map((t) => (
+                    <li key={t} className="flex items-start gap-2.5"><Check size={20} className="text-accent shrink-0 mt-0.5" /><span>{t}</span></li>
+                  ))}
+                </ul>
+              </div>
+              <div className="relative">
+                <div className="mx-auto w-fit flex items-center gap-3 rounded-2xl bg-accent text-anthrazit px-5 py-4 shadow-xl">
+                  <MonitorCog size={28} />
+                  <div>
+                    <p className="font-display text-xl font-extrabold leading-none">Ihre Kasse</p>
+                    <p className="text-xs font-semibold mt-1 opacity-75">Artikel · Preise · Umsätze</p>
+                  </div>
+                </div>
+                <div aria-hidden="true" className="mx-auto h-6 w-px bg-white/30" />
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {KASSE_LINKS.map(({ Icon, title, text }) => (
+                    <div key={title} className="rounded-2xl bg-white/[0.07] border border-white/10 p-5">
+                      <p className="flex items-center gap-2 font-display font-bold text-lg"><Icon size={20} className="text-accent" />{title}</p>
+                      <p className="mt-2 text-sm text-white/70 leading-relaxed">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <ul className="relative divide-y divide-white/10 self-center">
-              {[
-                ['Beratung & Analyse', 'Erstgespräch kostenlos'],
-                ['Kassensystem-Auswahl', 'auf Anfrage'],
-                ['Kassensystem-Einrichtung & Programmierung', 'auf Anfrage'],
-                ['Restaurant-Website & Design', 'auf Anfrage'],
-                ['Schnittstellen & Verbindungen', 'auf Anfrage'],
-                ['KI-Lösungen (SmartGastro Engine)', 'auf Anfrage'],
-                ['Komplettpaket aus einer Hand', 'individuelles Angebot'],
-              ].map(([t, p]) => (
-                <li key={t} className="flex justify-between gap-4 py-3.5">
-                  <span className="font-medium">{t}</span>
-                  <span className="text-sm text-accent text-right shrink-0">{p}</span>
-                </li>
-              ))}
-            </ul>
           </div>
+        </div>
+      </section>
+
+      {/* Beispiele je Betrieb */}
+      <section id="beispiele" className="py-24 bg-white border-y border-linie scroll-mt-20">
+        <div className="container-x">
+          <SectionHead
+            eyebrow="Beispiele"
+            title="Was passt zu Ihrem Betrieb?"
+            lead="Wählen Sie Ihre Betriebsart. Sie sehen, was Betriebe wie Ihrer typischerweise brauchen, wie die Kasse eingebunden wird und was es ungefähr kostet."
+          />
+
+          <div role="tablist" aria-label="Betriebsart" className="mt-10 flex flex-wrap gap-2">
+            {BETRIEBE.map((x, i) => (
+              <button
+                key={x.id}
+                role="tab"
+                id={`tab-${x.id}`}
+                aria-selected={sel === i}
+                aria-controls={`panel-${x.id}`}
+                onClick={() => setSel(i)}
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold transition-colors border ${sel === i ? 'bg-forest text-white border-forest' : 'bg-white text-anthrazit border-linie hover:border-forest/40'}`}
+              >
+                <x.Icon size={18} /> {x.label}
+              </button>
+            ))}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={b.id}
+              id={`panel-${b.id}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${b.id}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="mt-8 grid lg:grid-cols-[1.25fr_1fr] gap-5"
+            >
+              <div className="rounded-3xl bg-hellgrau p-7 md:p-9">
+                <p className="text-lg text-anthrazit/80">{b.intro}</p>
+                <div className="mt-7 grid sm:grid-cols-2 gap-7">
+                  <div>
+                    <h3 className="text-sm font-sans font-bold uppercase tracking-[0.14em] text-forest">Typischer Bedarf</h3>
+                    <ul className="mt-3 space-y-2.5">
+                      {b.bedarf.map((t) => <li key={t} className="flex gap-2.5"><Check size={18} className="text-primary shrink-0 mt-0.5" />{t}</li>)}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-sans font-bold uppercase tracking-[0.14em] text-forest">Das klärt die Analyse</h3>
+                    <ul className="mt-3 space-y-2.5">
+                      {b.analyse.map((t) => <li key={t} className="flex gap-2.5"><ClipboardCheck size={18} className="text-primary shrink-0 mt-0.5" />{t}</li>)}
+                    </ul>
+                  </div>
+                </div>
+                <div className="mt-7 rounded-2xl bg-white border-2 border-forest/20 p-5 flex gap-4">
+                  <span className="w-11 h-11 rounded-xl bg-accent flex items-center justify-center shrink-0"><Link2 size={20} /></span>
+                  <div>
+                    <p className="font-display font-bold text-lg">So hängt Ihre Kasse dran</p>
+                    <p className="mt-1 text-anthrazit/75 leading-relaxed">{b.kasse}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-3xl bg-forest text-white p-7 md:p-9 flex flex-col">
+                <p className="inline-flex self-start rounded-full bg-accent text-anthrazit text-xs font-bold uppercase tracking-wider px-3 py-1.5">Beispielpreise</p>
+                <ul className="mt-6 space-y-5 flex-grow">
+                  {b.beispiel.map((e) => (
+                    <li key={e.name} className="border-b border-white/10 pb-5 last:border-0 last:pb-0">
+                      <p className="text-white/80">{e.name}</p>
+                      <p className="font-display text-3xl font-extrabold mt-1">{e.preis}</p>
+                      {e.note && <p className="text-sm text-white/60 mt-1">{e.note}</p>}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 text-xs text-white/55 leading-relaxed">Richtwerte exkl. 8.1 % MwSt. Kassenanbindung inbegriffen, soweit Ihre Kasse eine Schnittstelle hat. Der verbindliche Festpreis folgt nach der Analyse.</p>
+                <Link to={CONTACT_HREF} className="btn-accent mt-6">Analyse für meinen Betrieb <ArrowRight size={16} /></Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Weitere Bausteine */}
+      <section className="py-24">
+        <div className="container-x grid lg:grid-cols-[1fr_1.3fr] gap-10 items-start">
+          <SectionHead
+            eyebrow="Rundum-Service"
+            title="Weitere Bausteine, einzeln oder als Komplettpaket"
+            lead="Kasse, Website und KI hängen stark von Ihrem Betrieb ab. Diese Bausteine kalkulieren wir nach der Analyse in Ihr Angebot ein."
+          />
+          <ul className="card divide-y divide-linie px-6">
+            {[
+              ['Beratung & Analyse', 'Erstgespräch kostenlos'],
+              ['Kassensystem-Auswahl', 'nach Analyse'],
+              ['Kassensystem-Einrichtung & Datenübernahme', 'nach Analyse'],
+              ['Schnittstellen & Kassenanbindung', 'im Angebot inbegriffen'],
+              ['Restaurant-Website & Design', 'nach Analyse'],
+              ['KI-Lösungen (SmartGastro Engine)', 'nach Analyse'],
+              ['Schulung & Betreuung', 'im Angebot inbegriffen'],
+            ].map(([t, p]) => (
+              <li key={t} className="flex justify-between gap-4 py-4">
+                <span className="font-medium">{t}</span>
+                <span className="text-sm text-forest font-semibold text-right shrink-0">{p}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -219,7 +355,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      <CtaBand />
+      <CtaBand title="Was kostet es für Ihren Betrieb?" text="Im kostenlosen Erstgespräch und der Analyse klären wir, wie Ihre Kasse angebunden wird und was Sie wirklich brauchen. Danach erhalten Sie ein verbindliches Angebot." />
     </>
   );
 }

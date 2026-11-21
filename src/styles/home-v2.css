@@ -389,3 +389,12 @@
 .sg2 .sg2-credits a{text-decoration:underline;text-underline-offset:2px}
 /* Schmale Handys: Kopfzeile passt ohne Überstand */
 @media(max-width:420px){.sg2 .nav .wrap{gap:12px}.sg2 .nav-cta{padding:0 1em;gap:.4em;font-size:.95rem;min-height:44px}.sg2 .nav .logo{font-size:1.35rem}}
+/* Preise: Beispiel-Hinweis und hervorgehobene Kassenanbindung */
+.sg2 .pr .ex{margin:0;align-self:flex-start;font:700 .75rem/1 var(--f-body);text-transform:uppercase;letter-spacing:.1em;color:var(--g700);background:#e2f3e8;padding:.45em .8em;border-radius:99px}
+.sg2 .pr.feat .ex{background:rgba(255,255,255,.14);color:var(--yellow)}
+.sg2 .pr li.k{font-weight:700;background:#fff7d1;border-radius:12px;padding:.45em .6em;margin:0 -.6em}
+.sg2 .pr li.k::before{content:"\21C4";color:var(--g700)}
+.sg2 .pr.feat li.k{background:rgba(255,210,30,.16);color:#fff}
+.sg2 .pr.feat li.k::before{color:var(--yellow)}
+.sg2 #preise .lead{max-width:44em}
+.sg2 .fine a{color:var(--g700);font-weight:700;text-decoration:underline;text-underline-offset:3px}
