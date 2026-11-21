@@ -35,7 +35,7 @@ const business = {
   alternateName: 'SmartGastro',
   url: `${BASE}/`,
   logo: { '@type': 'ImageObject', url: `${BASE}/assets/img/logo-512.png`, width: 512, height: 512 },
-  image: `${BASE}/assets/img/v2/og-smartgastro.jpg`,
+  image: `${BASE}/assets/img/og-smartgastro-v3.jpg`,
   description:
     'Kassensystem, Restaurant-Website, digitale Speisekarte, Bestellen am Tisch und KI für die Gastronomie aus einer Hand. Eingerichtet von Thomas Ballinari, gelerntem Koch, ohne Betriebsunterbruch.',
   email: BRAND.email,
