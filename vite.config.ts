@@ -8,6 +8,8 @@ export default defineConfig(({mode}) => {
   return {
     base: '/',
     plugins: [react(), tailwindcss()],
+    // Gehashte Build-Dateien in eigenem Ordner, damit sie lange im Browser zwischengespeichert werden dürfen
+    build: { assetsDir: 'assets/build' },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },

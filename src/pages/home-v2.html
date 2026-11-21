@@ -37,7 +37,28 @@
     <nav class="nav-links" aria-label="Hauptmenü">
       <a href="#leistungen">Leistungen</a><a href="#preise">Preise</a><a href="#referenzen">Referenzen</a><a href="#thomas">Über uns</a>
     </nav>
-    <a class="btn btn-cream nav-cta" href="#kontakt"><span class="long">Erstgespräch buchen</span><span class="short">Erstgespräch</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+    <div class="nav-right">
+      <a class="btn btn-cream nav-cta" href="#kontakt" aria-label="Erstgespräch buchen"><span class="long">Erstgespräch buchen</span><span class="short">Erstgespräch</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+      <button class="nav-burger" id="navBurger" type="button" aria-expanded="false" aria-controls="navSheet" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-sheet" id="navSheet" hidden>
+    <nav aria-label="Menü">
+      <p class="ns-lbl">Auf dieser Seite</p>
+      <a href="#uebersicht">Übersicht</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#referenzen">Referenzen</a>
+      <a href="#ablauf">So läuft es ab</a>
+      <a href="#preise">Preise</a>
+      <a href="#thomas">Über uns</a>
+      <p class="ns-lbl">Mehr erfahren</p>
+      <a href="/leistungen">Alle Leistungen im Detail</a>
+      <a href="/preise">Preise und Kassenanbindung</a>
+      <a href="/referenzen">Referenzen</a>
+      <a href="/so-arbeiten-wir">So arbeiten wir</a>
+      <a href="/ueber">Über Thomas Ballinari</a>
+      <a class="btn btn-yellow" href="#kontakt">Kostenloses Erstgespräch <svg class="ic"><use href="#i-arrow"/></svg></a>
+    </nav>
   </div>
 </header>
 
