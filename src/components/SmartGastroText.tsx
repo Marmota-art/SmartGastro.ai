@@ -5,17 +5,15 @@ interface SmartGastroTextProps {
   withAcademy?: boolean;
   withEngine?: boolean;
   dark?: boolean;
-  /** Weisses "Smart" auf dunklem Bild (Startseiten-Hero). */
-  light?: boolean;
 }
 
-export default function SmartGastroText({ className = "", withAcademy = false, withEngine = false, dark = false, light = false }: SmartGastroTextProps) {
-  const dotAiColor = dark || light ? "text-white/90" : "text-anthrazit";
+export default function SmartGastroText({ className = "", withAcademy = false, withEngine = false, dark = false }: SmartGastroTextProps) {
+  const dotAiColor = dark ? "text-white/90" : "text-anthrazit";
   const suffixColor = dark ? "text-white/90" : "text-anthrazit";
 
   return (
     <span className={`font-display font-bold tracking-tight ${className}`}>
-      <span className={light ? "text-white" : dark ? "text-[#4ADE80]" : "text-primary"}>Smart</span>
+      <span className={dark ? "text-[#4ADE80]" : "text-primary"}>Smart</span>
       <span className="text-accent">Gastro</span>
       {!withAcademy && !withEngine && <span className={dotAiColor}>.ai</span>}
       {withAcademy && <span className={` ml-2 ${suffixColor}`}>Academy</span>}

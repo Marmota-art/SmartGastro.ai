@@ -1,271 +1,209 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, GraduationCap, Check, Home as HomeIcon, Utensils, CalendarDays, BarChart3, Settings, PlayCircle, Globe, Layers, type LucideIcon } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
-import SmartGastroText from '../components/SmartGastroText';
-import { Reveal, SectionHead, ReferenceGrid, CtaBand, ContactSection, ServiceGrid } from '../components/Sections';
-import { CONTACT_HREF, ACADEMY_ENABLED } from '../constants';
+import markup from './home-v2.html?raw';
+import '../styles/home-v2.css';
 
-const STEPS = [
-  { n: '01', title: 'Erstgespräch', text: 'Kostenlos und unverbindlich. Wir klären, wo es im Betrieb hakt.' },
-  { n: '02', title: 'Analyse & Konzept', text: 'Ich schaue mir Abläufe, Karte und Kasse an und mache einen klaren Vorschlag.' },
-  { n: '03', title: 'Einrichtung & Schulung', text: 'Ich richte alles ein, übernehme Ihre Daten und schule Ihr Team.' },
-  { n: '04', title: 'Go-Live & Begleitung', text: 'Start ohne Betriebsunterbruch. Danach bleibe ich Ihr Ansprechpartner.' },
-];
-
-function IconTile({ Icon }: { Icon: LucideIcon }) {
-  return (
-    <span className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary">
-      <Icon size={24} />
-    </span>
-  );
-}
-
+/**
+ * Startseite V2 nach dem Entwurf von schnellstart.ai.
+ * Inhalt und Gestaltung stehen in home-v2.html und styles/home-v2.css,
+ * die kleinen Animationen und die Preis-Demo im Effekt unten.
+ */
 export default function Home() {
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const cleanups: Array<() => void> = [];
+    const timers: number[] = [];
+    const on = <K extends keyof WindowEventMap>(t: Window, ev: K, fn: (e: WindowEventMap[K]) => void, opt?: AddEventListenerOptions) => {
+      t.addEventListener(ev, fn as EventListener, opt);
+      cleanups.push(() => t.removeEventListener(ev, fn as EventListener));
+    };
+    const $ = <T extends Element = HTMLElement>(s: string, c: ParentNode = root) => c.querySelector(s) as T | null;
+    const $$ = <T extends Element = HTMLElement>(s: string, c: ParentNode = root) => Array.from(c.querySelectorAll(s)) as T[];
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const hasIO = 'IntersectionObserver' in window;
+    root.classList.add('js');
+
+    // Interne Links (/impressum usw.) über den Router öffnen, Anker (#…) sanft ansteuern
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as Element).closest('a');
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || a.target) return;
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        const el = document.getElementById(href.slice(1));
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+          history.replaceState(null, '', href);
+        }
+      } else if (href.startsWith('/')) {
+        e.preventDefault();
+        navigate(href);
+      }
+    };
+    root.addEventListener('click', onClick);
+    cleanups.push(() => root.removeEventListener('click', onClick));
+
+    // Navigation: beim Scrollen dunkel hinterlegt
+    const nav = $('#nav');
+    const onScroll = () => nav?.classList.toggle('solid', window.scrollY > 30);
+    on(window, 'scroll', onScroll, { passive: true });
+    onScroll();
+
+    const observers: IntersectionObserver[] = [];
+    // Einblenden (nur Verschiebung, Inhalt bleibt sichtbar)
+    const seen = hasIO && !reduce
+      ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); seen!.unobserve(e.target); } }), { threshold: 0.15 })
+      : null;
+    if (seen) observers.push(seen);
+    $$('[data-reveal]').forEach((el) => (seen ? seen.observe(el) : el.classList.add('in')));
+
+    // Linke Leiste: aktiven Abschnitt markieren
+    if (hasIO) {
+      const links: Record<string, HTMLElement> = {};
+      $$('.rail a').forEach((a) => { links[a.getAttribute('data-sec') || ''] = a; });
+      const spy = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) {
+          Object.values(links).forEach((l) => l.classList.remove('on'));
+          links[e.target.id]?.classList.add('on');
+        }
+      }), { rootMargin: '-45% 0px -50% 0px' });
+      observers.push(spy);
+      Object.keys(links).forEach((id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+    }
+
+    // Übersicht: Zahlen hochzählen
+    const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '’');
+    const dash = $('#dash');
+    if (dash && hasIO && !reduce) {
+      const dio = new IntersectionObserver((es) => es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        dash.classList.add('in');
+        $$('.cnt').forEach((el) => {
+          const to = Number(el.getAttribute('data-to'));
+          let t0: number | null = null;
+          const step = (t: number) => {
+            if (t0 === null) t0 = t;
+            const p = Math.min(1, (t - t0) / 1200);
+            el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(to);
+          };
+          el.textContent = fmt(0);
+          requestAnimationFrame(step);
+        });
+        dio.disconnect();
+      }), { threshold: 0.4 });
+      observers.push(dio);
+      dio.observe(dash);
+    }
+
+    // Preis-Demo: einmal ändern, überall aktuell
+    const base = 18.5;
+    let changed = false, busy = false;
+    const demo = $('#demo');
+    const devs = demo ? $$('.dev', demo) : [];
+    const btn = $<HTMLButtonElement>('#priceBtn');
+    const note = $('#priceNote');
+    const apply = (i: number, v: number) => {
+      const d = devs[i]; if (!d) return;
+      $$('[data-px]', d).forEach((el) => { el.textContent = v.toFixed(2); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); });
+      $$('[data-total]', d).forEach((el) => { el.textContent = (v + 46 + 9.5).toFixed(2); });
+      const pill = $('[data-pill]', d); if (pill) { pill.textContent = '✓ aktuell'; pill.classList.remove('busy'); }
+    };
+    const setBusy = (i: number) => { const p = $('[data-pill]', devs[i]); if (p) { p.textContent = 'wird aktualisiert …'; p.classList.add('busy'); } };
+    const run = (toNew: boolean) => {
+      if (busy) return; busy = true; changed = toNew;
+      const v = toNew ? base + 1 : base, gap = reduce ? 0 : 520;
+      devs.forEach((_, i) => {
+        timers.push(window.setTimeout(() => setBusy(i), i * gap));
+        timers.push(window.setTimeout(() => apply(i, v), i * gap + (reduce ? 0 : 420)));
+      });
+      timers.push(window.setTimeout(() => {
+        busy = false;
+        if (changed) $('#einmalCta')?.classList.add('nudge');
+        const lbl = btn?.querySelector('span'); if (lbl) lbl.textContent = changed ? 'Preis zurücksetzen' : 'Preis in der Kasse ändern';
+        if (note) note.textContent = changed ? 'Geändert: Pizza Margherita kostet jetzt 19.50 Franken, überall.' : 'Beispiel: Pizza Margherita von 18.50 auf 19.50 Franken.';
+      }, devs.length * gap + (reduce ? 0 : 520)));
+    };
+    const onPrice = () => run(!changed);
+    btn?.addEventListener('click', onPrice);
+    cleanups.push(() => btn?.removeEventListener('click', onPrice));
+    if (demo && hasIO && !reduce) {
+      const auto = new IntersectionObserver((es) => es.forEach((e) => {
+        if (e.isIntersecting) { auto.disconnect(); timers.push(window.setTimeout(() => { if (!changed) run(true); }, 900)); }
+      }), { threshold: 0.55 });
+      observers.push(auto);
+      auto.observe(demo);
+    }
+
+    // E-Mail-Adresse kopieren
+    const cb = $('#copyBtn');
+    const onCopy = () => {
+      const mail = $('#mailTxt'); if (!mail) return;
+      const lab = cb!.querySelector('span')!;
+      const done = (ok: boolean) => { lab.textContent = ok ? 'Kopiert' : 'Markiert'; timers.push(window.setTimeout(() => { lab.textContent = 'Kopieren'; }, 1800)); };
+      const sel = () => { const r = document.createRange(); r.selectNodeContents(mail); const s = getSelection(); s?.removeAllRanges(); s?.addRange(r); done(false); };
+      try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(mail.textContent || '').then(() => done(true), sel) : sel(); } catch { sel(); }
+    };
+    cb?.addEventListener('click', onCopy);
+    cleanups.push(() => cb?.removeEventListener('click', onCopy));
+
+    // Preise: «Was passt zu Ihrem Betrieb?»
+    const chips = $$('.pick-chip'), prs = $$('.pr'), pout = $('#pickOut'), prow = $('.prices');
+    chips.forEach((c) => {
+      const onPick = () => {
+        const card = prs[Number(c.getAttribute('data-pick'))]; if (!card) return;
+        chips.forEach((o) => o.setAttribute('aria-pressed', o === c ? 'true' : 'false'));
+        prs.forEach((p) => p.classList.toggle('sel', p === card));
+        const amount = (card.querySelector('.price')?.firstChild?.nodeValue || '').trim();
+        if (pout) pout.textContent = `Für ${c.textContent} passt: ${card.querySelector('h3')?.textContent}, ${amount}.`;
+        if (prow && prow.scrollWidth > prow.clientWidth + 2) {
+          const pad = parseFloat(getComputedStyle(prow).paddingLeft) || 0;
+          const x = card.getBoundingClientRect().left - prow.getBoundingClientRect().left + prow.scrollLeft - pad;
+          prow.scrollTo({ left: x, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      };
+      c.addEventListener('click', onPick);
+      cleanups.push(() => c.removeEventListener('click', onPick));
+    });
+
+    // Wischreihen nur dann per Tastatur erreichbar, wenn sie wirklich scrollen
+    const syncSwipe = () => $$('.swipe').forEach((el) => {
+      if (el.scrollWidth > el.clientWidth + 2) { el.tabIndex = 0; el.setAttribute('role', 'region'); el.setAttribute('aria-label', el.getAttribute('data-label') || ''); }
+      else { el.removeAttribute('tabindex'); el.removeAttribute('role'); el.removeAttribute('aria-label'); }
+    });
+    syncSwipe();
+    on(window, 'resize', syncSwipe);
+
+    // Leistungen: nur eine Detailansicht gleichzeitig offen
+    const sd = $$<HTMLDetailsElement>('.svc-d');
+    sd.forEach((d) => {
+      const onToggle = () => { if (d.open) sd.forEach((o) => { if (o !== d) o.open = false; }); };
+      d.addEventListener('toggle', onToggle);
+      cleanups.push(() => d.removeEventListener('toggle', onToggle));
+    });
+
+    // Direkt auf einen Abschnitt verlinkt (z. B. /#kontakt)
+    if (window.location.hash) timers.push(window.setTimeout(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView(), 60));
+
+    return () => {
+      cleanups.forEach((f) => f());
+      observers.forEach((o) => o.disconnect());
+      timers.forEach((t) => window.clearTimeout(t));
+    };
+  }, [navigate]);
+
   return (
     <>
       <PageMeta
         title="SmartGastro.ai | Kassensystem, Website und KI für Restaurants aus einer Hand"
-        description="Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay und KI-Lösungen aus einer Hand. Von Thomas Ballinari, Koch und zertifiziertem KI-Spezialisten."
+        description="Kasse, Website, digitale Speisekarte und KI aus einer Hand. Eingerichtet von Thomas Ballinari, gelerntem Koch und zertifiziertem KI-Spezialisten, ohne Betriebsunterbruch."
       />
-
-      {/* HERO + SCHALTZENTRALE + KARTEN: dunkelgrüne Bühne */}
-      <div className="relative -mt-[72px] bg-[#0B2618] text-white overflow-hidden">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[38rem] -left-40 w-[40rem] h-[40rem] rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute bottom-0 -right-40 w-[36rem] h-[36rem] rounded-full bg-forest/60 blur-3xl" />
-        </div>
-
-        {/* HERO */}
-        <section className="relative pt-[72px] lg:min-h-[720px] flex items-center">
-          <div className="hidden lg:block absolute inset-0">
-            <img
-              src="/assets/img/v3/hero-qr-phone.webp"
-              alt="QR-Speisekarte auf dem Tisch und Gast mit digitaler Speisekarte auf dem Handy"
-              fetchPriority="high"
-              className="absolute right-0 top-0 h-full w-full lg:w-[66%] object-cover object-[70%_top]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0B2618] via-[#0B2618]/80 to-[#0B2618]/20 lg:from-35% lg:via-[#0B2618]/55 lg:via-45% lg:to-transparent lg:to-62%" />
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0B2618] to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/40 to-transparent" />
-          </div>
-
-          {/* Seitliche Icon-Leiste */}
-          <nav aria-label="Schnellzugriff" className="hidden xl:flex absolute left-7 top-[180px] flex-col items-center gap-5 z-10">
-            {[
-              { to: '/', label: 'Startseite', Icon: HomeIcon, active: true },
-              { to: '/leistungen', label: 'Leistungen', Icon: Utensils },
-              { to: CONTACT_HREF, label: 'Erstgespräch buchen', Icon: CalendarDays },
-              { to: '/referenzen', label: 'Referenzen', Icon: BarChart3 },
-              { to: '/so-arbeiten-wir', label: 'So arbeiten wir', Icon: Settings },
-            ].map(({ to, label, Icon, active }) => (
-              <Link key={label} to={to} aria-label={label} title={label}
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${active ? 'bg-primary/80 text-white shadow-lg shadow-black/30' : 'text-white/85 hover:bg-white/10'}`}>
-                <Icon size={22} />
-              </Link>
-            ))}
-          </nav>
-
-          <div className="container-x relative w-full pt-10 pb-12 lg:py-24">
-            <div className="max-w-xl xl:pl-14">
-              <motion.h1
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-[4.1rem] font-extrabold text-creme drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
-              >
-                Ihre Gastronomie digital, einfach,{' '}
-                <span className="relative inline-block text-accent">
-                  aus einer Hand.
-                  <svg aria-hidden="true" viewBox="0 0 300 14" className="absolute left-1 -bottom-3 w-[92%] h-3.5 text-accent" preserveAspectRatio="none"><path d="M3 10C80 2 190 1 297 6" stroke="currentColor" strokeWidth="6" fill="none" strokeLinecap="round" /></svg>
-                </span>
-              </motion.h1>
-
-              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="mt-9 text-lg sm:text-xl text-white/90 leading-relaxed max-w-md">
-                Website, digitale Speisekarte und ein smartes System für mehr Gäste, Reservierungen und Umsatz.
-              </motion.p>
-
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }} className="mt-10 flex flex-col sm:flex-row gap-4">
-                <Link to={CONTACT_HREF} className="btn-primary !bg-primary hover:!bg-[#0FA84A] text-base !px-8 !py-4">Jetzt starten <ArrowRight size={18} /></Link>
-                <Link to="/so-arbeiten-wir" className="btn-ghost-dark !border-white/70 text-base !px-7 !py-4 backdrop-blur-sm"><PlayCircle size={20} /> In 2 Minuten erklärt</Link>
-              </motion.div>
-            </div>
-            <img
-              src="/assets/img/v3/hero-qr-phone.webp"
-              alt=""
-              aria-hidden="true"
-              className="lg:hidden mt-10 w-full aspect-[4/3] rounded-[2rem] object-cover object-[65%_top] shadow-2xl shadow-black/40"
-            />
-          </div>
-        </section>
-
-        {/* SCHALTZENTRALE */}
-        <section className="relative container-x pb-6">
-          <Reveal>
-            <div className="relative flex flex-col lg:block rounded-[2rem] overflow-hidden bg-[#F6F1E4] text-anthrazit lg:min-h-[360px]">
-              <img
-                src="/assets/img/v3/dashboard-laptop.webp"
-                alt="SmartGastro Übersicht mit Bestellungen, Reservierungen und Umsatz auf dem Laptop"
-                loading="lazy"
-                className="relative lg:absolute lg:right-0 lg:inset-y-0 w-full lg:w-[56%] h-64 sm:h-80 lg:h-full object-cover object-left order-2"
-              />
-              {/* weiche Welle zwischen Text und Bild */}
-              <svg aria-hidden="true" viewBox="0 0 120 400" preserveAspectRatio="none" className="hidden lg:block absolute inset-y-0 left-[44%] -ml-px h-full w-28 text-[#F6F1E4]">
-                <path d="M0 0H60C120 70 20 150 70 220C110 280 40 340 90 400H0Z" fill="currentColor" />
-              </svg>
-              <div className="relative order-1 p-8 sm:p-12 lg:p-14 lg:w-[50%]">
-                <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-forest">Ihre digitale Schaltzentrale</p>
-                <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.12] font-extrabold text-forest-deep">
-                  Alles im Überblick.<br />Weniger Aufwand.<br />
-                  <span className="relative inline-block">
-                    Mehr Zeit für Ihre Gäste.
-                    <svg aria-hidden="true" viewBox="0 0 300 12" className="absolute left-0 -bottom-4 w-[70%] h-3 text-accent" preserveAspectRatio="none"><path d="M3 8C90 3 200 2 297 5" stroke="currentColor" strokeWidth="6" fill="none" strokeLinecap="round" /></svg>
-                  </span>
-                </h2>
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
-        {/* DREI KARTEN */}
-        <section className="relative container-x pt-6 pb-20">
-          <div className="grid lg:grid-cols-3 gap-5">
-            {/* Website */}
-            <Reveal>
-              <Link to="/leistungen#website" className="group relative flex h-full min-h-[270px] rounded-[2rem] overflow-hidden bg-[#F6F1E4] text-anthrazit">
-                <img src="/assets/img/v3/card-website.webp" alt="Restaurant-Website auf dem Laptop" loading="lazy" className="w-[55%] object-cover object-left group-hover:scale-[1.03] transition-transform duration-700" />
-                <div className="flex-1 p-5 pl-3 flex flex-col justify-center">
-                  <IconTile Icon={Globe} />
-                  <h3 className="mt-4 text-[1.35rem] sm:text-2xl leading-[1.05] font-extrabold text-forest-deep hyphens-auto break-words" lang="de">Ihre Website</h3>
-                  <p className="mt-2 text-anthrazit/75 leading-snug">Modern, mobil und auf Ihr Restaurant zugeschnitten.</p>
-                </div>
-              </Link>
-            </Reveal>
-
-            {/* Reservierungen */}
-            <Reveal delay={0.08}>
-              <Link to="/leistungen" className="group relative flex h-full min-h-[270px] rounded-[2rem] overflow-hidden bg-[#F6F1E4] text-anthrazit">
-                <img src="/assets/img/v3/card-reservieren.webp" alt="Online-Reservierung auf dem Handy" loading="lazy" className="w-[45%] object-cover object-center group-hover:scale-[1.03] transition-transform duration-700" />
-                <div className="flex-1 p-5 flex flex-col justify-center">
-                  <IconTile Icon={CalendarDays} />
-                  <h3 className="mt-4 text-[1.35rem] sm:text-2xl leading-[1.05] font-extrabold text-forest-deep hyphens-auto break-words" lang="de">Mehr Reservierungen</h3>
-                  <p className="mt-2 text-anthrazit/75 leading-snug">Einfach online, rund um die Uhr.</p>
-                </div>
-              </Link>
-            </Reveal>
-
-            {/* Alles in einer Lösung */}
-            <Reveal delay={0.16}>
-              <Link to="/leistungen" className="group relative flex h-full min-h-[270px] rounded-[2rem] overflow-hidden bg-[#F6F1E4] text-anthrazit">
-                <div className="flex-1 p-6 pr-2 flex flex-col justify-center relative z-10">
-                  <IconTile Icon={Layers} />
-                  <h3 className="mt-4 text-[1.35rem] sm:text-2xl leading-[1.05] font-extrabold text-forest-deep hyphens-auto break-words" lang="de">Alles in einer Lösung</h3>
-                  <p className="mt-2 text-anthrazit/75 leading-snug">Website, Speisekarte, Reservierungen und smarte Automatisierung.</p>
-                </div>
-                <div className="relative w-[42%] shrink-0">
-                  <img src="/assets/img/v3/card-teller.webp" alt="Angerichteter Teller" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700" />
-                  <svg aria-hidden="true" viewBox="0 0 40 300" preserveAspectRatio="none" className="absolute inset-y-0 -left-px h-full w-8 text-[#F6F1E4]">
-                    <path d="M0 0H22C2 60 34 120 14 180C2 230 30 270 18 300H0Z" fill="currentColor" />
-                  </svg>
-                </div>
-              </Link>
-            </Reveal>
-          </div>
-        </section>
-      </div>
-
-      {/* PROBLEM → VERSPRECHEN */}
-      <section className="py-20 border-y border-linie bg-white">
-        <div className="container-x grid lg:grid-cols-[1fr_1.3fr] gap-12 items-start">
-          <Reveal>
-            <p className="eyebrow mb-4">Warum SmartGastro</p>
-            <h2 className="h-section">Wieder mehr Zeit als Gastgeber.</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <blockquote className="font-display text-2xl md:text-3xl leading-snug text-anthrazit/85">
-              «Ich will, dass Gastronominnen und Gastronomen wieder Gastgeber sein können, präsent im Gastraum und kreativ in der Küche, und nicht gefangen in Hektik, Excel-Tabellen oder Personalnot.»
-            </blockquote>
-            <p className="mt-5 text-sm font-semibold text-anthrazit/55">Thomas Ballinari, Gründer</p>
-            <div className="mt-10 grid sm:grid-cols-3 gap-4">
-              {[
-                ['Aus der Praxis', 'Als Koch, Küchenchef und langjähriger Pächter kenne ich den Druck am Pass.'],
-                ['Alles aus einer Hand', 'Speisekarte, Kasse, Daten und Schulung, abgestimmt auf Ihren Betrieb.'],
-                ['Ein Ansprechpartner', 'Persönlich und direkt, von der Analyse bis zum Go-Live.'],
-              ].map(([t, d]) => (
-                <div key={t} className="rounded-2xl bg-hellgrau p-5">
-                  <p className="font-display font-bold">{t}</p>
-                  <p className="text-sm text-anthrazit/65 mt-2 leading-relaxed">{d}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* RUNDUM-SERVICE */}
-      <section className="py-24">
-        <div className="container-x">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <SectionHead
-              eyebrow="Rundum-Service"
-              title={<>Alles aus einer Hand, <span className="text-forest">von der Kasse bis zur KI.</span></>}
-              lead="Statt fünf Anbieter zu koordinieren, haben Sie einen Ansprechpartner. Ich kümmere mich um alles, was Ihr Restaurant digital braucht, Schritt für Schritt oder als Komplettpaket."
-            />
-            <Link to="/leistungen" className="btn-ghost self-start md:self-auto">Alle Leistungen <ArrowRight size={16} /></Link>
-          </div>
-          <ServiceGrid />
-
-          {ACADEMY_ENABLED && (
-          <Reveal delay={0.1}>
-            <Link to="/schulung" className="mt-6 group card p-7 md:p-8 flex flex-col md:flex-row md:items-center gap-6 hover:border-forest/40 transition-colors">
-              <span className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center shrink-0"><GraduationCap size={24} /></span>
-              <div className="flex-grow">
-                <p className="font-display text-xl font-bold"><SmartGastroText withAcademy /></p>
-                <p className="text-anthrazit/70 mt-1">Lieber selbst umsetzen? Die Masterclass «Digitale Speisekarte» zeigt in 12 Video-Lektionen Schritt für Schritt, wie es geht. Ab CHF 9 pro Lektion.</p>
-              </div>
-              <span className="inline-flex items-center gap-1.5 font-semibold text-forest shrink-0">Zur Academy <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></span>
-            </Link>
-          </Reveal>
-          )}
-        </div>
-      </section>
-
-      {/* REFERENZEN */}
-      <section className="py-24 bg-white border-y border-linie">
-        <div className="container-x">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <SectionHead eyebrow="Referenzen" title="Im Einsatz in der Ostschweiz" lead="Vom Landgasthof bis zur Pizzeria in der Stadt." />
-            <Link to="/referenzen" className="btn-ghost self-start md:self-auto">Alle Referenzen <ArrowRight size={16} /></Link>
-          </div>
-          <ReferenceGrid />
-        </div>
-      </section>
-
-      {/* ABLAUF */}
-      <section className="py-24">
-        <div className="container-x">
-          <SectionHead eyebrow="So arbeiten wir" title="In vier Schritten zum digitalen Betrieb" lead="Klar strukturiert, transparent im Preis und ohne dass Ihr Service darunter leidet." />
-          <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {STEPS.map((s, i) => (
-              <Reveal key={s.n} delay={i * 0.08}>
-                <li className="relative h-full card p-7">
-                  <span className="font-display text-5xl font-extrabold text-accent">{s.n}</span>
-                  <h3 className="text-xl mt-4">{s.title}</h3>
-                  <p className="mt-2 text-anthrazit/65 leading-relaxed">{s.text}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-anthrazit/70">
-            {['Erstgespräch kostenlos', 'Transparente Preise', 'Bezahlung per Karte, TWINT oder Überweisung', 'Datenschutz nach Schweizer Standard'].map((t) => (
-              <span key={t} className="inline-flex items-center gap-2"><Check size={16} className="text-primary" />{t}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <CtaBand />
-      <ContactSection />
+      <div ref={ref} className="sg2" dangerouslySetInnerHTML={{ __html: markup }} />
     </>
   );
 }

@@ -25,14 +25,9 @@ export default function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  // Auf der Startseite liegt der Kopf transparent über dem dunklen Hero-Bild.
-  const overlay = location.pathname === '/' && !scrolled && !isOpen;
-
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
-      overlay
-        ? 'text-white/90 hover:text-white'
-        : isActive ? 'text-forest bg-forest/[0.07]' : 'text-anthrazit/75 hover:text-anthrazit'
+      isActive ? 'text-forest bg-forest/[0.07]' : 'text-anthrazit/75 hover:text-anthrazit'
     }`;
 
   const CartLink = (
@@ -51,7 +46,7 @@ export default function Header() {
       <div className="container-x">
         <div className="flex justify-between items-center h-[72px] gap-4">
           <Link to="/" aria-label="SmartGastro.ai Startseite" className="shrink-0">
-            <SmartGastroText className="text-[22px] lg:text-[26px]" light={overlay} />
+            <SmartGastroText className="text-[22px]" />
           </Link>
 
           <nav aria-label="Hauptnavigation" className="hidden lg:flex items-center gap-1">
@@ -64,7 +59,7 @@ export default function Header() {
 
           <div className="hidden lg:flex items-center gap-2">
             {ACADEMY_ENABLED && cartCount > 0 && CartLink}
-            <Link to={CONTACT_HREF} className={overlay ? 'btn-accent !bg-creme !text-forest hover:!bg-white !py-2.5 !px-5 text-sm' : 'btn-primary !py-2.5 !px-5 text-sm'}>
+            <Link to={CONTACT_HREF} className="btn-primary !py-2.5 !px-5 text-sm">
               Erstgespräch buchen <ArrowRight size={16} />
             </Link>
           </div>
@@ -76,7 +71,7 @@ export default function Header() {
               aria-expanded={isOpen}
               aria-controls="mobile-nav"
               aria-label={isOpen ? 'Menü schliessen' : 'Menü öffnen'}
-              className={`p-2 rounded-full transition-colors ${overlay ? 'text-white hover:bg-white/10' : 'text-anthrazit hover:bg-black/5'}`}
+              className="p-2 rounded-full text-anthrazit hover:bg-black/5 transition-colors"
             >
               {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
