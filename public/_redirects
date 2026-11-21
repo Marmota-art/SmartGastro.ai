@@ -7,31 +7,25 @@
 /projektablauf        /so-arbeiten-wir   301
 /konditionen          /so-arbeiten-wir   301
 /naechste-schritte    /so-arbeiten-wir   301
-/leistungen.html      /leistungen        301
-/preise.html          /preise            301
-/ueber.html           /ueber             301
-/projektablauf.html   /so-arbeiten-wir   301
-/konditionen.html     /so-arbeiten-wir   301
-/naechste-schritte.html /so-arbeiten-wir 301
-/impressum.html       /impressum         301
-/datenschutz.html     /datenschutz       301
-/sicherheit.html      /sicherheit        301
-/thanks.html          /thanks            301
+/leistungen.html      /leistungen        301!
+/preise.html          /preise            301!
+/ueber.html           /ueber             301!
+/projektablauf.html   /so-arbeiten-wir   301!
+/konditionen.html     /so-arbeiten-wir   301!
+/naechste-schritte.html /so-arbeiten-wir 301!
+/impressum.html       /impressum         301!
+/datenschutz.html     /datenschutz       301!
+/sicherheit.html      /sicherheit        301!
+/thanks.html          /thanks            301!
 
-# Seiten der Website: an die App übergeben
-/leistungen       /index.html  200
-/preise           /index.html  200
-/referenzen       /index.html  200
-/so-arbeiten-wir  /index.html  200
-/ueber            /index.html  200
-/impressum        /index.html  200
-/datenschutz      /index.html  200
-/sicherheit       /index.html  200
-/thanks           /index.html  200
-/demo-karte       /index.html  200
-/schulung         /index.html  200
-/warenkorb        /index.html  200
-/checkout         /index.html  200
+# Die Seiten liegen vorgerendert als dist/<seite>.html und werden unter /<seite> direkt ausgeliefert (scripts/prerender.mjs).
+# Die alten .html-Adressen oben sind mit «!» erzwungen, sonst würde die gleichnamige Datei ausgeliefert.
 
-# Alles andere: Seite «Nicht gefunden» mit Status 404
-/*  /index.html  404
+# Academy und Shop sind ausgeblendet (ACADEMY_ENABLED = false): vorübergehend zur Startseite.
+# Beim Einschalten diese drei Zeilen entfernen und die Seiten in scripts/prerender.mjs ergänzen.
+/schulung   /   302
+/warenkorb  /   302
+/checkout   /   302
+
+# Alles andere: vorgerenderte Seite «Nicht gefunden» mit Status 404
+/*  /404.html  404

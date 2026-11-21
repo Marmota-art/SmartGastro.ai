@@ -29,7 +29,7 @@
 
 @layer components {
   .container-x { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
-  .eyebrow { @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary; }
+  .eyebrow { @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-forest; }
   .h-section { @apply text-3xl sm:text-4xl lg:text-5xl leading-[1.05]; }
   .lead { @apply text-lg text-anthrazit/70 leading-relaxed; }
 

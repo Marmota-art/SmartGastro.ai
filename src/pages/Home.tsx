@@ -249,8 +249,8 @@ export default function Home() {
   return (
     <>
       <PageMeta
-        title="SmartGastro.ai | Kassensystem, Website und KI für Restaurants aus einer Hand"
-        description="Kasse, Website, digitale Speisekarte und KI aus einer Hand. Eingerichtet von Thomas Ballinari, gelerntem Koch und zertifiziertem KI-Spezialisten, ohne Betriebsunterbruch."
+        title="SmartGastro.ai | Kasse, Website und KI für Restaurants"
+        description="Kasse, Website, digitale Speisekarte und KI für Restaurants aus einer Hand. Von Thomas Ballinari, gelerntem Koch, St. Gallen. Erstgespräch kostenlos."
       />
       <div ref={ref} className="sg2" dangerouslySetInnerHTML={HTML} />
       {checkRoot && createPortal(<DigitalCheck />, checkRoot)}

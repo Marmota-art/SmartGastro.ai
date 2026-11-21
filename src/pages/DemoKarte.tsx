@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ChevronDown, Leaf, RefreshCw, Sparkles, WheatOff, MilkOff } from 'lucide-react';
 import PageMeta from '../components/PageMeta';
@@ -93,7 +93,9 @@ export default function DemoKarte() {
   const [open, setOpen] = useState<string | null>(null);
   const t = UI[lang];
   const today = ITEMS.find((i) => i.id === TODAY_ID)!;
-  const time = useMemo(() => new Date().toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' }), []);
+  // Uhrzeit erst im Browser setzen, sonst weicht das vorgerenderte HTML ab
+  const [time, setTime] = useState('');
+  useEffect(() => setTime(new Date().toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' })), []);
 
   const list = ITEMS.filter((i) => i.cat === cat && filters.every((f) => i.tags.includes(f)));
   const toggle = (f: Tag) => setFilters((p) => (p.includes(f) ? p.filter((x) => x !== f) : [...p, f]));
@@ -135,7 +137,7 @@ export default function DemoKarte() {
             className="w-full text-left rounded-2xl overflow-hidden bg-white border border-linie shadow-sm flex">
             <img src="/assets/img/v2/ambiente-teller.webp" alt="" className="w-28 object-cover" />
             <div className="p-3.5">
-              <p className="text-[11px] uppercase tracking-[0.14em] font-bold text-primary">{t.today}</p>
+              <p className="text-[11px] uppercase tracking-[0.14em] font-bold text-forest">{t.today}</p>
               <p className="font-display font-bold leading-snug mt-0.5">{today.name[lang]}</p>
               <p className="text-sm font-semibold text-forest mt-1">CHF {chf(today.price)}</p>
             </div>
@@ -164,7 +166,7 @@ export default function DemoKarte() {
 
         {/* Liste */}
         <ul className="px-4 py-3 divide-y divide-linie">
-          {list.length === 0 && <li className="py-8 text-center text-anthrazit/60 text-sm">{t.none}</li>}
+          {list.length === 0 && <li className="py-8 text-center text-anthrazit/70 text-sm">{t.none}</li>}
           {list.map((i) => {
             const isOpen = open === i.id;
             return (
@@ -174,20 +176,20 @@ export default function DemoKarte() {
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold leading-snug">
                       {i.name[lang]}
-                      {i.tags.includes('vegan') ? <span className="ml-2 align-middle text-[10px] font-bold uppercase text-primary">{t.vegan}</span>
-                        : i.tags.includes('veg') ? <span className="ml-2 align-middle text-[10px] font-bold uppercase text-primary">{t.vegShort}</span> : null}
+                      {i.tags.includes('vegan') ? <span className="ml-2 align-middle text-[10px] font-bold uppercase text-forest">{t.vegan}</span>
+                        : i.tags.includes('veg') ? <span className="ml-2 align-middle text-[10px] font-bold uppercase text-forest">{t.vegShort}</span> : null}
                     </p>
-                    <p className="text-sm text-anthrazit/60 mt-0.5">{i.desc[lang]}</p>
+                    <p className="text-sm text-anthrazit/70 mt-0.5">{i.desc[lang]}</p>
                   </div>
                   <span className="font-semibold whitespace-nowrap">CHF {chf(i.price)}</span>
-                  <ChevronDown size={18} className={`mt-0.5 text-anthrazit/40 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={18} className={`mt-0.5 text-anthrazit/70 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isOpen && (
                   <div className="pb-4 -mt-1 text-sm">
-                    <p className="text-xs font-bold uppercase tracking-wider text-anthrazit/50">{t.allergens}</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-anthrazit/70">{t.allergens}</p>
                     <p className="mt-1 flex flex-wrap gap-1.5">
                       {i.allergens.length === 0
-                        ? <span className="text-anthrazit/60">{t.noAllergens}</span>
+                        ? <span className="text-anthrazit/70">{t.noAllergens}</span>
                         : i.allergens.map((a) => <span key={a} className="rounded-full bg-hellgrau px-2.5 py-1 text-xs font-semibold">{ALLERGEN[a][lang]}</span>)}
                     </p>
                   </div>
@@ -200,7 +202,7 @@ export default function DemoKarte() {
         {/* Bestellen (deaktiviert) */}
         <div className="px-4 pb-4">
           <button type="button" disabled className="w-full rounded-full bg-forest/40 text-white font-semibold py-3.5 cursor-not-allowed">{t.order}</button>
-          <p className="text-xs text-anthrazit/55 text-center mt-2">{t.orderNote}</p>
+          <p className="text-xs text-anthrazit/70 text-center mt-2">{t.orderNote}</p>
         </div>
 
         {/* Hinweis SmartGastro */}
@@ -210,7 +212,7 @@ export default function DemoKarte() {
           <Link to="/#kontakt" className="btn-accent mt-4 !py-2.5 text-sm w-full">Kostenloses Erstgespräch <ArrowRight size={16} /></Link>
           <Link to="/#check" className="block text-center text-sm text-white/80 underline underline-offset-2 mt-3">Oder zuerst den Digital-Check machen</Link>
         </div>
-        <p className="text-center text-[11px] text-anthrazit/45 pb-6">Beispielinhalte. Keine Verbindung zu einer echten Kasse.</p>
+        <p className="text-center text-[11px] text-anthrazit/70 pb-6">Beispielinhalte. Keine Verbindung zu einer echten Kasse.</p>
       </div>
     </div>
   );

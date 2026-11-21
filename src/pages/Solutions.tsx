@@ -90,7 +90,7 @@ function WebsiteMockup() {
     <div className="rounded-[1.5rem] bg-white border border-linie shadow-[0_40px_80px_-40px_rgba(0,0,0,0.45)] overflow-hidden">
       <div className="flex items-center gap-1.5 px-4 py-3 border-b border-linie bg-hellgrau">
         <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-        <span className="ml-3 flex-1 rounded-full bg-white border border-linie text-[11px] text-anthrazit/50 px-3 py-1">www.ihr-restaurant.ch</span>
+        <span className="ml-3 flex-1 rounded-full bg-white border border-linie text-[11px] text-anthrazit/70 px-3 py-1">www.ihr-restaurant.ch</span>
       </div>
       <div className="relative h-56 sm:h-64">
         <img src="/assets/img/v2/ambiente-teller.webp" alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
@@ -121,8 +121,8 @@ export default function Solutions() {
   return (
     <>
       <PageMeta
-        title="Leistungen: Kassensystem, Website, Speisekarte und KI aus einer Hand"
-        description="Beratung, Kassensystem-Auswahl und -Einrichtung, Restaurant-Website, digitale Speisekarte, Order & Pay, Schnittstellen und KI-Lösungen aus einer Hand für Schweizer Gastrobetriebe."
+        title="Leistungen: Kasse, Website, Speisekarte, KI"
+        description="Beratung, Kassensystem, Restaurant-Website, digitale Speisekarte, Bestellen am Tisch und KI aus einer Hand für Schweizer Gastrobetriebe."
       />
       <PageHero
         eyebrow="Leistungen"
@@ -137,6 +137,7 @@ export default function Solutions() {
 
       <section className="pb-24">
         <div className="container-x">
+          <h2 className="sr-only">Alle Leistungen im Überblick</h2>
           <ServiceGrid />
         </div>
       </section>
@@ -190,10 +191,10 @@ export default function Solutions() {
               Mehr als ein PDF auf dem Handy: eine interaktive Karte im Look Ihres Betriebs, auf Wunsch mit Bestellen und Bezahlen am Tisch. Die Bestellung geht ohne Umweg an Küche und Kasse.
             </p>
             <Points items={['Zugriff per QR-Code, ohne App', 'Mehrsprachig, mit Bildern und Allergenen', 'Bestellen und Bezahlen am Tisch', 'Preise und Tagesangebote in Echtzeit ändern']} />
-            <p className="mt-6 text-sm text-anthrazit/55">Im Einsatz: Pizzeria Di Grano und Restaurant Café Park, St. Gallen</p>
+            <p className="mt-6 text-sm text-anthrazit/70">Im Einsatz: Pizzeria Di Grano und Restaurant Café Park, St. Gallen</p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link to="/preise" className="btn-primary">Preise ansehen <ArrowRight size={18} /></Link>
-              <span className="font-display text-lg font-bold">ab CHF 490 <span className="font-sans text-sm font-normal text-anthrazit/50">exkl. MwSt.</span></span>
+              <span className="font-display text-lg font-bold">ab CHF 490 <span className="font-sans text-sm font-normal text-anthrazit/70">exkl. MwSt.</span></span>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
@@ -287,7 +288,7 @@ export default function Solutions() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="rounded-[2rem] bg-accent p-8 md:p-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-anthrazit/60">Komplettpaket</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-anthrazit/70">Komplettpaket</p>
               <p className="font-display text-3xl md:text-4xl font-extrabold mt-3 leading-tight">Ein Ansprechpartner für Ihr ganzes Restaurant.</p>
               <p className="mt-4 text-anthrazit/75 leading-relaxed">Beratung, Kasse, Website, Speisekarte, Schnittstellen und KI, geplant als ein Projekt mit einem verbindlichen Angebot nach dem Erstgespräch.</p>
               <Link to={CONTACT_HREF} className="btn-primary mt-7">Komplettpaket anfragen <ArrowRight size={18} /></Link>
