@@ -48,6 +48,25 @@ export default function Home() {
     root.addEventListener('click', onClick);
     cleanups.push(() => root.removeEventListener('click', onClick));
 
+    // Handy-Menü
+    const burger = $<HTMLButtonElement>('#navBurger');
+    const sheet = $('#navSheet');
+    const setMenu = (open: boolean) => {
+      if (!burger || !sheet) return;
+      sheet.hidden = !open;
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Menü schliessen' : 'Menü öffnen');
+      root.classList.toggle('menu-open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    const onBurger = () => setMenu(sheet?.hidden ?? false);
+    const onSheetClick = (e: MouseEvent) => { if ((e.target as Element).closest('a')) setMenu(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    burger?.addEventListener('click', onBurger);
+    sheet?.addEventListener('click', onSheetClick);
+    document.addEventListener('keydown', onKey);
+    cleanups.push(() => { burger?.removeEventListener('click', onBurger); sheet?.removeEventListener('click', onSheetClick); document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; });
+
     // Navigation: beim Scrollen dunkel hinterlegt
     const nav = $('#nav');
     const onScroll = () => nav?.classList.toggle('solid', window.scrollY > 30);
