@@ -1,8 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import DigitalCheck from '../components/DigitalCheck';
 import { useNavigate } from 'react-router-dom';
 import PageMeta from '../components/PageMeta';
 import markup from './home-v2.html?raw';
 import '../styles/home-v2.css';
+
+// Stabiles Objekt: React setzt den Inhalt sonst bei jedem Neu-Rendern neu und verliert Portale und Ereignisse.
+const HTML = { __html: markup };
 
 /**
  * Startseite V2 nach dem Entwurf von schnellstart.ai.
@@ -12,6 +17,7 @@ import '../styles/home-v2.css';
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [checkRoot, setCheckRoot] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const root = ref.current;
@@ -27,6 +33,7 @@ export default function Home() {
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     const hasIO = 'IntersectionObserver' in window;
     root.classList.add('js');
+    setCheckRoot(root.querySelector<HTMLElement>('#digicheck-root'));
 
     // Interne Links (/impressum usw.) über den Router öffnen, Anker (#…) sanft ansteuern
     const onClick = (e: MouseEvent) => {
@@ -245,7 +252,8 @@ export default function Home() {
         title="SmartGastro.ai | Kassensystem, Website und KI für Restaurants aus einer Hand"
         description="Kasse, Website, digitale Speisekarte und KI aus einer Hand. Eingerichtet von Thomas Ballinari, gelerntem Koch und zertifiziertem KI-Spezialisten, ohne Betriebsunterbruch."
       />
-      <div ref={ref} className="sg2" dangerouslySetInnerHTML={{ __html: markup }} />
+      <div ref={ref} className="sg2" dangerouslySetInnerHTML={HTML} />
+      {checkRoot && createPortal(<DigitalCheck />, checkRoot)}
     </>
   );
 }
