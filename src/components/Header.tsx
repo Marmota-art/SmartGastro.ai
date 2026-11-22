@@ -27,11 +27,11 @@ export default function Header() {
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
-      isActive ? 'text-forest bg-forest/[0.07]' : 'text-anthrazit/75 hover:text-anthrazit'
+      isActive ? 'text-accent bg-white/10' : 'text-white/85 hover:text-white'
     }`;
 
   const CartLink = (
-    <Link to="/warenkorb" aria-label={`Warenkorb${cartCount ? `, ${cartCount} Artikel` : ''}`} className="relative p-2 rounded-full text-anthrazit/80 hover:text-anthrazit hover:bg-black/5 transition-colors">
+    <Link to="/warenkorb" aria-label={`Warenkorb${cartCount ? `, ${cartCount} Artikel` : ''}`} className="relative p-2 rounded-full text-white/85 hover:text-white hover:bg-white/10 transition-colors">
       <ShoppingBag size={20} />
       {cartCount > 0 && (
         <span className="absolute -top-0.5 -right-0.5 bg-accent text-anthrazit text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
@@ -42,11 +42,11 @@ export default function Header() {
   );
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled || isOpen ? 'bg-creme/90 backdrop-blur-md border-b border-linie' : 'bg-creme/0 border-b border-transparent'}`}>
+    <header className={`sticky top-0 z-50 transition-all duration-300 bg-forest-deep text-white border-b ${scrolled || isOpen ? 'bg-forest-deep/95 backdrop-blur-md border-white/10' : 'border-transparent'}`}>
       <div className="container-x">
         <div className="flex justify-between items-center h-[72px] gap-4">
           <Link to="/" aria-label="SmartGastro.ai Startseite" className="shrink-0">
-            <SmartGastroText className="text-[22px]" />
+            <SmartGastroText dark className="text-[22px] lg:text-[26px]" />
           </Link>
 
           <nav aria-label="Hauptnavigation" className="hidden lg:flex items-center gap-1">
@@ -59,7 +59,7 @@ export default function Header() {
 
           <div className="hidden lg:flex items-center gap-2">
             {ACADEMY_ENABLED && cartCount > 0 && CartLink}
-            <Link to={CONTACT_HREF} className="btn-primary !py-2.5 !px-5 text-sm">
+            <Link to={CONTACT_HREF} className="btn-accent !bg-creme !text-forest hover:!bg-white !py-2.5 !px-5 text-sm">
               Erstgespräch buchen <ArrowRight size={16} />
             </Link>
           </div>
@@ -71,7 +71,7 @@ export default function Header() {
               aria-expanded={isOpen}
               aria-controls="mobile-nav"
               aria-label={isOpen ? 'Menü schliessen' : 'Menü öffnen'}
-              className="p-2 rounded-full text-anthrazit hover:bg-black/5 transition-colors"
+              className="p-2 rounded-full text-white hover:bg-white/10 transition-colors"
             >
               {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
@@ -80,18 +80,18 @@ export default function Header() {
       </div>
 
       {isOpen && (
-        <div id="mobile-nav" className="lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-creme overflow-y-auto">
+        <div id="mobile-nav" className="lg:hidden fixed inset-x-0 top-[72px] bottom-0 bg-forest-deep overflow-y-auto">
           <nav aria-label="Mobile Navigation" className="container-x pt-4 pb-10 flex flex-col">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.href}
                 to={link.href}
-                className={({ isActive }) => `py-4 border-b border-linie font-display text-2xl font-semibold ${isActive ? 'text-forest' : 'text-anthrazit'}`}
+                className={({ isActive }) => `py-4 border-b border-white/10 font-display text-2xl font-semibold ${isActive ? 'text-accent' : 'text-white'}`}
               >
                 {link.name}
               </NavLink>
             ))}
-            <Link to={CONTACT_HREF} className="btn-primary mt-8 text-base">
+            <Link to={CONTACT_HREF} className="btn-accent mt-8 text-base">
               Kostenloses Erstgespräch <ArrowRight size={18} />
             </Link>
           </nav>

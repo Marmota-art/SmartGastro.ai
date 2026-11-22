@@ -6,6 +6,8 @@
 
   /* Markenfarben (Grün/Gelb aus dem Logo, moderner abgestimmt) */
   --color-primary: #0B8F3E;
+  /* St. Galler Grün im Logo («Smart») auf dunklem Grund */
+  --color-sgreen: #4ADE80;
   --color-forest: #0B5D33;
   --color-forest-deep: #0A2E1D;
   --color-accent: #FFD21E;

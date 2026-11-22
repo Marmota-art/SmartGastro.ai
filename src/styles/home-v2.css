@@ -509,3 +509,7 @@
 /* Fünf Menüpunkte: unter 1140 px ins Menü-Symbol, damit nichts umbricht */
 .sg2 .nav-links a{white-space:nowrap}
 @media(max-width:1140px){.sg2 .nav-links{display:none}.sg2 .nav-burger{display:flex}}
+/* Logo-Farben: Smart = St. Galler Grün, Gastro = Gelb, .ai = Weiss */
+.sg2 .logo,.sg2 .d-logo{color:#fff}
+.sg2 .logo .sm,.sg2 .d-logo .sm{color:#4ade80}
+.sg2 .logo b,.sg2 .d-logo b{color:var(--yellow)}
